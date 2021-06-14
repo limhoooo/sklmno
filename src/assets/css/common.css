@@ -1,0 +1,784 @@
+#app { display: flex; flex-wrap: wrap; min-width: 1600px; margin: 0 auto; height: 100%;}
+#header { width: 100%; height: 100px; border: 1px solid black; }
+#lnb {height: 700px;}
+#footer { width: 100%; height: 100px; }
+
+#lnb .logoBox { border-bottom: 1px solid #ddd; }
+#lnb .logoBox .logo { padding: 16px; text-align: center; font-size: 22px;font-weight: 900;}
+
+/* datePicker CSS */
+#datePicker input[type="text"] { width: 120px; }
+.v-date-picker-table { height: 300px !important; }
+
+/* popup CSS */
+#popup { margin: 200px auto; width: 600px; }
+#popup .title { display: flex; justify-content: space-between; padding: 5px 10px; background-color: #bebebe; }
+#popup .body { background-color: #fff; padding: 10px; }
+#popup .body > div { display: flex; margin: 10px 0; }
+#popup .body p { width: 120px; }
+#addressCont { width: 450px; display: flex; flex-wrap: wrap; }
+#postcode { margin-right: 5px; width: 100px; padding-left: 5px; border: 1px solid #aeaeae; border-radius: 3px; }
+#roadAddress { margin-right: 5px; width: 200px; border: 1px solid #aeaeae; border-radius: 3px; padding-left: 5px; }
+#detailAddress { margin-top: 10px; width: 350px; border: 1px solid #aeaeae; border-radius: 3px; padding-left: 5px; line-height: 26px; }
+#detailedAddress { margin-top: 5px; }
+
+/* BtnCont CSS */
+#BtnCont { display: flex; justify-content: center; }
+#BtnCont button { margin-left: 10px; }
+#BtnCont button:nth-child(1) { margin-left: 0px; }
+
+/* Modal Popup CSS */
+/*.v-btn__content { color: #000 !important; }*/
+.v-application--wrap { min-height: 27px !important; }
+.v-btn:not(.v-btn--round).v-size--default { height: 27px !important; }
+.v-card__title { padding: 10px !important; line-height: 16px !important; }
+.v-card__text { padding: 20px !important; }
+.v-card__text > div { display: flex; margin: 10px 0; }
+.v-card__text p { width: 200px; }
+.v-card__text input[type="radio"] { margin-top: 6px !important; }
+.v-text-field__slot { width: 230px; }
+.col { padding: 0px !important; }
+.v-sheet p { line-height: 30px; color: #000; }
+.labelCont label { line-height: 30px; font-size: 18px; margin-left: 5px; }
+.labelCont input[type="radio"] { margin-left: 10px; }
+.labelCont input[type="radio"]:nth-child(1) { margin-left: 0; }
+
+.tableStyle01 tr:hover{ background-color: #eee; cursor: pointer;}
+.disIN { display: inline-block !important; }
+.disFX {display: flex !important;}
+.disBl {display: block !important;}
+.mr10 { margin-right: 10px; }
+.mr5 { margin-right: 5px; }
+.pt10 { padding-top: 10px; }
+.pd3 { padding: 3px 5px; }
+.pd5 { padding: 5px;}
+.pd10 { padding: 10px; }
+.pdW10 { padding: 0 10px; }
+.pd5TL { padding: 5px 0 !important; }
+.ml10 {margin-left: 10px}
+.ml30 {margin-left: 30px}
+.fs11 {font-size: 11px;}
+.tPC { text-align: center }
+.tPL { text-align: left !important;}
+.w30 {width: 30px}
+.w40 {width: 40px}
+.w60 {width: 60px}
+.w100 {width: 100px !important;}
+.w120 {width: 120px;}
+.w250 {width: 250px;}
+.w320 {width: 320px;}
+.w370 {width: 370px;}
+.w680 {width: 680px;}
+.w10P {width: 10%;}
+.w20P {width: 20%;}
+.w30P {width: 30%;}
+.w40P {width: 40%;}
+.w50P {width: 50%;}
+.w60P {width: 60%;}
+.w70P {width: 70%;}
+.w80P {width: 80%;}
+.w90P {width: 90%;}
+.w100P {width: 100%;}
+.lh20 {line-height: 20px;}
+.lh25 {line-height: 25px;}
+.lh28 {line-height: 28px;}
+.bgWhite {background-color: #fff}
+.bgGray {background-color: #dedede}
+.selectStyle1 { background-color: #fff }
+.selectStyle1:focus {outline: none}
+.orangeTag {background-color: orange; border-radius: 50px; color: #fff}
+.posBtn1 { position: relative; top: -55px; left: 1050px}
+.groupBtnCont1 { position: absolute; top: -40px; left: 230px}
+.groupBannerCont1 { position: absolute; top: 5px; left: 180px;  }
+.groupBannerCont1 p { width: 30px !important;}
+.groupBannerCont1 span { line-height: 32px; padding: 0 20px; background-color: #fff; border-radius: 50px }
+.inputTitle span { color: #7397a4 }
+.underLineInput { border-bottom: 1px solid #c8c8c8;}
+.underLineInput input { padding-left: 5px }
+.underLineInput input:focus { outline: none }
+.btnStyle1 { padding: 3px 0; width: 80px; background-color: #003a53; color: #fff; border-radius: 3px; }
+.btnStyle2 { padding: 3px 0; background-color: #17a5ae; color: #fff; border-radius: 3px; }
+.clearfix {display: table;content: "";clear: both;}
+.font-red { color: red !important;}
+.font-blue { color: blue !important;}
+.font-black { color: black !important;}
+.font-gray { color: gray !important;}
+.font-btn-color { color: #003a53; }
+.font-3D7B27 { color: #3D7B27; }
+.font-gray { color: #9e9e9e; }
+.font-dark-gray { color: #7e7e7e }
+.font-bold { font-weight: bold }
+.fll {float:left;}
+.font-size-12 {font-size: 12px}
+.textRight {text-align: right}
+.deepBlue {color: #003a53}
+.borderGray {border: 1px solid #7e7e7e}
+.mt10 {margin-top: 10px;}
+.mt15 {margin-top: 15px;}
+.mt17 {margin-top: 17px;}
+.mt18 {margin-top: 18px;}
+.mt19 {margin-top: 19px;}
+.mt20 {margin-top: 20px;}
+.mt30 {margin-top: 30px;}
+.mt1 {margin-top: 1px;}
+.mb10 {margin-bottom: 10px;}
+.ml10P {margin-left: 10%}
+.w100P {width: 100% !important;}
+.ht48 {height: 48px !important;}
+.cursorDefault {cursor: context-menu}
+.posRe {position: relative;}
+.posAb {position: absolute;}
+.pdLR65 {padding-left: 65px;padding-right: 65px;}
+.pdLR30 {padding-left: 30px;padding-right: 30px;}
+.cur_p {cursor: pointer}
+.excelBtn { display:inline-block; cursor: pointer; color: #fff !important; font-size: 13px; line-height: 25px; border: 1px solid #003a53; padding: 0 10px; border-radius: 3px; background-color: #003a53; vertical-align: middle; }
+.excelBtn:hover {color: #009a9d !important;}
+.defaultboxShadow {box-shadow: 0 2px 4px -1px rgb(0 0 0 / 20%), 0 4px 5px 0 rgb(0 0 0 / 14%), 0 1px 10px 0 rgb(0 0 0 / 12%)}
+.historyNoti {background-color: #ddd;padding: 3px 7px 3px 5px;border-radius: 15px;}
+/* ListPageNation CSS */
+#ListTablePageNation { display: flex; justify-content: center; margin-top: 20px;}
+#ListTablePageNation button { margin: 0 5px; }
+#ListTablePageNation ul { display: flex; margin: 0 10px; }
+#ListTablePageNation ul li { padding: 5px; cursor: pointer; }
+
+.dim { position: absolute; z-index: 9999; width: 100%; height: 100%; background-color: rgba(0,0,0, 0.6); }
+.fa-times { font-size: 32px;}
+
+.option_sec { display: flex; justify-content: space-between; }
+.option_sec p { width: 300px; }
+.optionTable, .optionTable td, .optionTable th, .optionTable tr { border: 1px solid #aeaeae; }
+.optionTable { width: 100%; }
+
+.td-stock {display: flex; justify-content: space-between; padding: 0 5px; }
+
+/* statusBtn */
+.status_btn button:nth-child(1) { margin-left: 0; }
+.status_btn button { margin-left: 5px; }
+
+/* SignUP CSS */
+header { width: 100%; border-bottom: 1px solid #bebebe; box-shadow: 3px 3px 3px #bebebe; }
+h1 { margin-left: 10px; font-style: italic; font-weight: bold; font-size: 30px; color: #003a53; }
+section { width: 1000px; margin: 0 auto; }
+section .signForm { margin-top: 30px; }
+section .signForm .btnCont { margin-top: 10px; display: flex; justify-content: center; }
+section .signForm > .title { border-bottom: 2px solid #000; }
+section .signForm .title h2 { font-size: 25px; }
+section .spotInfo .title { margin-top: 10px; font-size: 20px; }
+section .signForm table { width: 100%; }
+section .signForm table,
+section .signForm tr,
+section .signForm td,
+section .signForm th { border: 1px solid #bebebe; }
+section .signForm th { background-color: #dedede; width: 300px; }
+section .signForm td { padding: 5px 10px; line-height: 30px; }
+.fileInput .v-input__control { height: 30px !important; }
+.fileInput .v-input__slot { min-height: 30px !important; }
+.fileInput label { font-size: 14px; top: 7px !important; }
+.mdi:before,
+.mdi-set { font-size: 20px; }
+.fileInput .v-input__icon { width: 10px; height: 13px; }
+.spotManagerInfo, .deliveryInfo { margin-top: 10px; }
+
+.tableTopOption { display: flex; justify-content: space-between; }
+
+/* StockMove common*/
+.StockMoveCont {
+    display: block;
+}
+.StockMoveCont .rowArea {
+    display: flex !important;
+    justify-content: center;
+}
+.StockMoveCont .rowArea .btnCont button {
+    padding: 9px 40px;
+    line-height: 22px;
+    background-color: #003a53;
+    color: #fff;
+    border-radius: 0;
+}
+.StockMoveCont .rowArea > div {
+    margin-left: 10px;
+}
+.StockMoveCont .rowArea > div:first-child {
+    margin-left: 0;
+}
+.StockMoveCont .rowArea .selectCont {
+    position: relative;
+}
+.StockMoveCont .rowArea .selectCont:before {
+    position: absolute;
+    display: block;
+    content: url('../../assets/img/downArrow.png');
+    width: 10px;
+    height: 10px;
+    top: 11px;
+    right: 13px;
+}
+.StockMoveCont .rowArea .radioCont {
+    width: 300px;
+}
+.StockMoveCont .rowArea .radioCont p {
+    line-height: 38px;
+}
+.StockMoveCont .rowArea .selectCont select {
+    border: 1px solid #c8c8c8;
+    padding: 8px;
+    line-height: 22px;
+    border-radius: 3px;
+    width: 245px;
+}
+.StockMoveCont .rowArea .inputCont input[type='text'] {
+    border: 1px solid #c8c8c8;
+    padding: 8px;
+    line-height: 22px;
+    border-radius: 3px;
+    width: 300px;
+}
+.StockMoveCont .radioCont label:before {
+    top: 0;
+}
+.StockMoveCont input[type='radio']:checked + label:before {
+    top: 0;
+}
+.searchingCont > .rowArea > .btnCont button {
+    background-color: #17a5ae;
+    color: #fff;
+    padding: 3px 50px;
+    line-height: 21px;
+}
+
+.flexSearchingCont {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 140px;
+}
+.searchingCont .rightCont {
+    margin-left: 10px;
+}
+.searchingCont > .btnCont {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+.SalesMoveBtnCont button {
+    background-color: #17a5ae;
+    color: #fff;
+    padding: 3px 50px;
+    border-radius: 0px;
+}
+.searchingCont .rightCont textarea {
+    border: 1px solid #c8c8c8;
+    border-radius: 3px;
+    resize: none;
+    width: 200px;
+    height: 140px;
+    padding: 10px;
+}
+.searchingCont .leftCont .twoRowArea {
+    display: flex;
+}
+.searchingCont .leftCont .twoRowArea > .rowArea {
+    margin-left: 10px;
+}
+.searchingCont .leftCont .oneRowArea {
+    display: flex;
+}
+.SalesMoveCont .selectCont select {
+    border: 1px solid #c8c8c8;
+    padding: 8px;
+    line-height: 22px;
+    border-radius: 3px;
+    width: 245px;
+}
+.SalesMoveCont .selectCont {
+    position: relative;
+}
+.SalesMoveCont .selectCont:before {
+    position: absolute;
+    display: block;
+    content: url('../../assets/img/downArrow.png');
+    width: 10px;
+    height: 10px;
+    top: 11px;
+    right: 13px;
+}
+.searchingCont .leftCont .oneRowArea input[type='text'] {
+    margin-left: 10px;
+}
+.searchingCont .leftCont .rowArea button {
+    padding: 35px 20px;
+    background-color: #003a53;
+    color: #fff;
+    border-radius: 3px;
+}
+.searchingCont .colArea .rowArea {
+    display: flex;
+    margin-bottom: 10px;
+}
+.searchingCont .colArea .rowArea > div {
+    margin-left: 10px;
+}
+.searchingCont .colArea .rowArea > div:first-child {
+    margin-left: 0;
+}
+.SalesMoveCont .inputCont input[type='text'],
+.SalesMoveCont .inputCont input[type='text'] {
+    border: 1px solid #c8c8c8;
+    padding: 8px;
+    line-height: 22px;
+    border-radius: 3px;
+    width: 300px;
+}
+.searchingCont .oneRowArea .inputCont input[type='text'] {
+    width: 250px;
+}
+.searchingCont .colArea .SalesMoveRadioCont {
+    padding: 4px 0;
+    margin-left: 0;
+    width: 300px;
+}
+.SalesMoveRadioCont label:before {
+    top: 0;
+}
+.SalesMoveRadioCont input[type='radio']:checked + label:before {
+    top: 0;
+}
+
+.StockStatusCont .selectCustom,
+.StockStatusCont .datePickerCustom {
+    margin-left: 10px;
+}
+.StockStatusCont .itemSevenCustom .selectCustom {
+    width: 150px;
+}
+.StockStatusCont .datePickerCustom label {
+    top: 13px;
+    font-size: 14px;
+}
+.StockStatusCont .datePickerCustom .v-label--active {
+    top: 5px;
+    left: 3px !important;
+}
+.SalesMoveCont label:before {
+    top: 0;
+}
+.SalesMoveCont .rowCont {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    margin-top: 10px;
+}
+.SalesMoveCont .rowCont > div {
+    margin-left: 10px;
+}
+.SalesMoveCont .inputCustom2 input[type='text'],
+.SalesMoveCont .inputCustom2 select {
+    width: 200px;
+}
+
+.NormalInStock {
+    display: block;
+}
+.NormalInStock .leftCont {
+    display: flex;
+}
+.NormalInStock .leftCont .selectCustom {
+    margin-left: 10px;
+}
+.NormalInStock .memoArea {
+    border: 1px solid #a4a4a4;
+    border-radius: 3px;
+}
+.NormalInStock .memoArea textarea {
+    resize: none;
+    padding: 10px 5px;
+}
+.NormalInStock .memoArea textarea:focus {
+    outline: none;
+}
+.NormalInStock .textCustom {
+    border: 1px solid #a4a4a4;
+    border-radius: 3px;
+    padding: 12px 10px;
+}
+.NormalInStock .textCustom input[type='text'] {
+    width: 230px;
+}
+.NormalInStock .textCustom input[type='text']:focus {
+    outline: none;
+}
+
+/* postApi Btn style */
+.SalesMoveCont .postCont {
+    position: relative;
+}
+.SalesMoveCont .postCont > div {
+    position: absolute;
+    top: 2px;
+    right: 2px;
+}
+.SalesMoveCont .postCont > div button {
+    padding: 18px 20px !important;
+    background-color: #003a53 !important;
+    font-weight: bold;
+}
+
+.popUpCustomSt2 {
+    padding-bottom: 0;
+}
+
+.labelCustom1 label {
+    font-size: 14px !important;
+}
+
+.detailText1 {
+    position: relative;
+}
+.detailText1 .detailText {
+    position: absolute;
+    top: -35px;
+    left: 210px;
+    width: 400px;
+}
+
+.btnBlue1 {
+    background-color: #17a5ae !important;
+    border-radius: 0 !important;
+    margin-left: 0 !important;
+}
+.btnBorderNone1 {
+    border-radius: 0 !important;
+}
+
+.infoDialogCont2 {
+    width: 100% !important;
+    text-align: center;
+}
+.detailText1 .rowCont {
+    display: block;
+}
+.detailText1 .addressStyle1 {
+    width: 200px;
+    border: 1px solid #c8c8c8;
+    padding: 2px;
+    padding-left: 5px;
+}
+.detailText1 .addressStyle2 {
+    width: 290px;
+    border: 1px solid #c8c8c8;
+    margin-left: 5px;
+    padding: 2px;
+    padding-left: 5px;
+}
+.detailText1 .addressStyle3 {
+    width: 495px;
+    border: 1px solid #c8c8c8;
+    padding: 2px;
+    padding-left: 5px;
+}
+.postCont2 > div {
+    display: inline-block;
+    margin-left: 5px;
+}
+.postCont2 button {
+    width: 100px;
+    background-color: #003a53 !important;
+    font-size: 12px !important;
+}
+
+.selectCont1 {
+    max-width: 234px;
+    height: 40px;
+}
+.selectCont1 .v-input {
+    height: 40px;
+}
+.selectCont1 .v-input .v-label {
+    top: 10px;
+    font-size: 14px;
+}
+.selectCont1 .v-input .v-label--active {
+    top: 15px;
+}
+.selectCont1 .v-input__control {
+    height: 40px;
+}
+.selectCont1 .v-select__slot {
+    height: 40px;
+}
+.selectCont1 .v-input__slot {
+    min-height: 40px !important;
+}
+.selectCont1 .v-input__append-inner {
+    margin-top: 0 !important;
+}
+
+.delBtnCustom {
+    background-color: #003a53 !important;
+    color: #fff !important;
+    padding: 0 30px !important;
+}
+
+.StockStatusCont .firstRow .selectCustom {
+    width: 215px;
+}
+
+.dateLabelCustom1 {
+    height: 47px;
+}
+.dateLabelCustom1 .dateCustom {
+    height: 47px;
+}
+.dateLabelCustom1 .v-input {
+    height: 47px;
+}
+.dateLabelCustom1 .v-input__control {
+    height: 47px !important;
+    margin: 0;
+}
+.dateLabelCustom1 .v-input__slot {
+    margin: 0;
+}
+.dateLabelCustom1 .v-input__slot label {
+    font-size: 16px;
+    top: 14px;
+}
+.dateLabelCustom1 .v-input__slot .v-label--active {
+    top: 3px !important;
+}
+.popUpCustomSt1 .v-input__icon {
+    margin-top: 8px;
+}
+
+.SellStatus .selectCustom {
+    width: 155px;
+}
+
+.dateCustom .v-input {
+    height: 48px;
+}
+.dateCustom .v-input .v-input__control {
+    height: 48px;
+}
+.dateCustom .v-input .v-input__control .v-input__slot {
+    height: 48px !important;
+    min-height: 48px !important;
+}
+
+.contRowStyle2 .selectCustom {
+    width: 155px;
+}
+.searchingBarStyle input {
+    border: 1px solid #9e9e9e;
+    border-radius: 3px;
+    position: relative;
+    padding: 12px 5px;
+    width: 165px;
+}
+
+.dateRadioStyle1 {
+    position: relative;
+}
+.dateRadioStyle1 input[type='radio'] {
+    display: none;
+}
+.dateRadioStyle1 input[type='radio'] + label {
+    padding: 10px 4px;
+    background-color: #17a5ae;
+    border-radius: 5px;
+    color: #fff;
+    margin-left: 2px;
+}
+.dateRadioStyle1 label:first-child {
+    margin-left: 0;
+}
+.dateRadioStyle1 input[type='radio']:checked + label {
+    background-color: #003a53;
+}
+.dateCustom1 {
+    width: 160px;
+}
+.dateContCustom .dateStyle1 {
+    width: 165px;
+}
+.dateContCustom .dateStyle1 .v-input {
+    width: 165px;
+}
+.sideMenuBar h2 {
+    font-size: 18px;
+}
+.groupBtnCont input[type="radio"] {
+    display: none;
+}
+.groupBtnCont input[type="radio"]:checked + label {
+    color: #17a5ae;
+}
+
+.memoArea { height: 213px; overflow: auto }
+.middleSearchBar { height: 371px; overflow: auto }
+.btnPlus { position: relative }
+.btnPlus button { position: absolute; right: 0; top: -5px; background-color: #003a53; color: #fff; padding: 3px 10px; display: inline-block }
+
+.AppFormCont {
+    width: 100%;
+    background-color: #fff;
+    padding: 15px 26px;
+    box-shadow: 0px 0px 5px 1px #bebebe;
+    height: 730px;
+    overflow: auto;
+}
+.AppFormCont h2 {
+    font-size: 20px;
+    color: #003a53;
+    border-bottom: 1px solid #003a53;
+}
+.AppFormCont p {
+    width: 120px;
+    color: #7397a4;
+    line-height: 32px;
+}
+.formCont {
+    margin-top: 10px;
+    justify-content: space-between;
+}
+.formCont1 {
+    margin-top: 10px;
+    justify-content: flex-end;
+}
+.formCont2 {
+    margin-top: 10px;
+}
+.formCont1 input,
+.formCont1 select {
+    background-color: #fff;
+}
+.AppFormCont input[type="text"],
+.AppFormCont select {
+    border: 1px solid #c8c8c8;
+    width: 200px;
+    padding: 0 10px;
+    color: #003a53;
+    font-weight: bold;
+    line-height: 30px;
+}
+.groupBtnCont1 p {
+    width: 50px;
+}
+.groupBtnCont1 select {
+    border: 1px solid #c8c8c8;
+    width: 100px;
+    padding: 0 10px;
+    color: #003a53;
+    font-weight: bold;
+    line-height: 30px;
+    background-color: #fff;
+}
+.AppFormCont input:focus,
+.AppFormCont select:focus {
+    outline: none;
+}
+.normalSelectCont1 { position: relative; line-height: 30px; }
+.normalSelectCont1:before {
+    position: absolute;
+    right: 20px;
+    top: 3px;
+    display: block;
+    content: url('../../assets/img/downArrow.png');
+    width: 1px;
+    height: 1px;
+}
+.postStyle1 {
+    width: 725px !important;
+}
+.postStyle2 {
+    width: 622px !important;
+}
+.postStyle3 {
+    width: 400px !important;
+}
+
+.sideBtnCont1 {
+    position: relative;
+}
+.sideBtn1 {
+    position: absolute;
+    top: 3px;
+    left: 110px;
+    color: #7397a4;
+}
+.w20 {
+    width: 20px !important;
+}
+.radioCont1 {
+    width: 200px;
+    line-height: 32px;
+    color: #7397a4;
+}
+.radioCont2 {
+    line-height: 32px;
+    color: #7397a4;
+}
+
+.btnPlus1 { position: relative }
+.btnPlus1 button { position: absolute; right: 3px; top: 3px; background-color: #003a53; color: #fff; padding: 3px 10px; display: inline-block }
+
+.postCheck1 {
+    line-height: 32px;
+    color: #7397a4;
+}
+.postContAdd2 {
+    margin-left: 330px;
+}
+.postContAdd3 {
+    margin-left: 382px;
+}
+.costStyle1 {
+    position: relative;
+}
+.costStyle1 input {
+    text-align: right;
+    padding-right: 30px !important;
+}
+.costStyle1 span {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    color: #003a53;
+}
+.goodsStyle1 {
+    margin-left: 142px;
+}
+.goodsStyle2 {
+    width: 660px !important;
+}
+.saveBtnCont button:first-child {
+    padding: 5px 50px;
+    background-color: #17a5ae;
+    color: #fff;
+}
+.saveBtnCont button:last-child {
+    padding: 5px 50px;
+    background-color: #9e9e9e;
+    color: #fff;
+    margin-left: 10px;
+}
+
+.hpStyle1 {
+    display: flex;
+    width: 200px;
+    line-height: 32px;
+}
+.hpStyle1 input {
+    width: 64px !important;
+}
+
+.btnPlus1 > div {
+    position: absolute;
+    right: 0;
+    top: -1px;
+}
+.btnPlus1 > div button {
+    background-color: #003a53 !important;
+    border-radius: 0;
+}

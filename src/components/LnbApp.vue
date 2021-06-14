@@ -1,0 +1,213 @@
+<template>
+	<sidebar-menu
+		:menu="menu"
+		showOneChild
+		class="vsm_white-theme"
+		@toggle-collapse="onToggleCollapse"
+	>
+	</sidebar-menu>
+</template>
+
+<script>
+// https://github.com/yaminncco/vue-sidebar-menuㄴㄴㄴ
+// https://yaminncco.github.io/vue-sidebar-menu/#/styling
+import { SidebarMenu } from 'vue-sidebar-menu';
+
+export default {
+	props: {
+		// Sidebar menu (required)
+
+		// Keep only one child opened at a time (first level only)
+		showOneChild: {
+			type: Boolean,
+			default: false,
+		},
+	},
+	data: () => ({
+		menu: [
+			{
+				title: '사업자관리',
+				icon: 'fab fa-black-tie',
+				child: [
+					{
+						href: '/openingstore-mgmt',
+						title: '개통점관리',
+					},
+					{
+						href: '/salestore-mgmt',
+						title: '영업점관리',
+					},
+					{
+						href: '/openingstorebcnc-matching',
+						title: '개통점/영업점매칭',
+					},
+					{
+						href: '/openingstoreuser-matching',
+						title: '개통점/사용자매칭',
+					},
+				],
+			},
+			{
+				title: '조직관리',
+				icon: 'fas fa-sitemap',
+				child: [
+					{
+						href: '/organization-mgmt',
+						title: '조직관리',
+					},
+					{
+						href: '/userrole-mgmt',
+						title: '역할관리',
+					},
+				],
+			},
+			{
+				title: '상품관리',
+				icon: 'fa fa-balance-scale',
+				href: '/goods-mgmt',
+				alias: [
+					'/goods-mgmt/mobilephonelist',
+					'/goods-mgmt/mobilephone-requestlist',
+				],
+			},
+			{
+				title: '요금관리',
+				icon: 'fa fa-calculator',
+				href: '/charge-mgmt',
+				alias: ['/charge-mgmt/chargelist', '/charge-mgmt/chargerequest-list'],
+			},
+			{
+				title: '부가서비스관리',
+				icon: 'fa fa-chart-area',
+				href: '/additionservice-mgmt',
+				alias: [
+					'/additionservicelist/additionservice-list',
+					'/additionservicelist/additionservicerequest-list',
+				],
+			},
+			{
+				title: '기기관리',
+				icon: 'fas fa-tablet-alt',
+				child: [
+					{
+						title: '입고/입고현황',
+						href: '/device',
+						alias: [
+							'/device/normal-in-stock',
+							'/device/open-in-stock',
+							'/device/in-stock-status',
+						],
+					},
+					{
+						title: '반품현황',
+						href: '/move-stock-rtngud',
+					},
+					{
+						title: '기기이동/이관',
+						href: '/stock-move-transfer',
+						alias: [
+							'/stock-move-transfer/sales-move',
+							'/stock-move-transfer/stock-move',
+							'/stock-move-transfer/stock-transfer',
+							'/stock-move-transfer/faulty-transfer',
+							'/stock-move-transfer/sales-transfer',
+						],
+					},
+					{
+						title: '이동/이관현황',
+						href: '/move-status',
+					},
+					{
+						title: '개통이력기기현황',
+						href: '/open-store-device-status',
+					},
+					{
+						title: '기기현황',
+						href: '/device-status',
+					},
+				],
+			},
+			{
+				title: '재고관리',
+				icon: 'fab fa-stack-overflow',
+				child: [
+					{
+						title: '재고현황',
+						href: '/stock-status',
+					},
+					{
+						title: '장기재고',
+						href: '/longtime-stock',
+					},
+					{
+						title: '불량기기현황',
+						href: '/faulty-device-status',
+					},
+				],
+			},
+			{
+				title: '재고 환경 설정',
+				icon: 'fas fa-layer-group',
+				child: [
+					{
+						title: '공급처관리',
+						href: '/provider-mgmt',
+					},
+					{
+						title: '보유처관리',
+						href: '/hold-store-mgmt',
+					},
+				],
+			},
+			{
+				title: '판매관리',
+				icon: 'fas fa-coins',
+				child: [
+					{
+						title: '신청서작성',
+						href: '/application-form-creation',
+					},
+					{
+						title: '판매현황',
+						href: '/sell-status',
+					},
+				],
+			},
+		],
+	}),
+	components: {
+		SidebarMenu,
+	},
+	computed: {
+		roleVal() {
+			return this.$store.state.role;
+		},
+	},
+	methods: {
+		onToggleCollapse(collapsed) {
+			this.$store.state.drawer = collapsed;
+		},
+	},
+	created() {
+		if (this.roleVal) {
+			let data = {
+				title: '공시지원금관리',
+				icon: 'far fa-copyright',
+				child: [
+					{
+						href: '/pnsupportmoney-mgmt',
+						title: '공시지원금관리',
+					},
+					{
+						href: '/pnsupportmoneydata-mgmt',
+						title: '공시지원금데이터관리',
+					},
+				],
+			};
+			this.menu.push(data);
+		}
+	},
+};
+</script>
+
+<style></style>
