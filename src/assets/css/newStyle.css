@@ -1,0 +1,254 @@
+/*wms-style*/
+.new-router-style1 {
+    text-align: center;
+    background-color: #E1EFFC;
+    box-sizing: border-box;
+    display: inline-block;
+    font-size: 16px;
+}
+.new-mainCont {
+    background-color: #fff;
+    padding: 20px 40px;
+    font-size: 13px;
+    border-bottom: 1px solid #eeeeee;
+    border-left: 1px solid #eeeeee;
+    border-right: 1px solid #eeeeee;
+    border-bottom-left-radius: 7px;
+    border-bottom-right-radius: 7px;
+}
+.new-mainRoute {
+    position: relative;
+    height: 45px;
+}
+.inStockRadioCont {
+    right: 540px;
+    top: -35px;
+}
+.inStockLeftCont {
+    width: 65%;
+}
+.filterLeftCont {
+    width: 90%;
+}
+.inStockMemoCont {
+    width: 40%;
+}
+.inStockButtonCont {
+    width: 8%;
+}
+.new-mainCont .v-input__slot {
+    min-height: 40px !important;
+}
+.new-mainCont .v-input, .new-mainCont .v-input__control, .new-mainCont .v-select__selections, .new-mainCont .v-input input {
+    height: 40px;
+}
+.new-mainCont .v-label {
+    top: 11px !important;
+    font-size: 13px;
+}
+.new-mainCont .v-label--active {
+    top: 17px !important;
+}
+.new-mainCont .v-select__selection {
+    font-size: 13px;
+}
+.new-mainCont .v-input__append-inner {
+    margin-top: 8px !important;
+}
+.new-mainCont .v-select__slot > input div {
+    font-size: 13px !important;
+}
+.vuetify_pop1 .v-input__slot {
+    min-height: 40px !important;
+}
+.vuetify_pop1 .v-input, .vuetify_pop1 .v-input__control, .vuetify_pop1 .v-select__selections, .vuetify_pop1 .v-input input {
+    height: 40px;
+}
+.vuetify_pop1 .v-label {
+    top: 11px !important;
+    font-size: 13px;
+}
+.vuetify_pop1 .v-label--active {
+    top: 17px !important;
+}
+.vuetify_pop1 .v-select__selection {
+    font-size: 13px;
+}
+.vuetify_pop1 .v-input__append-inner {
+    margin-top: 8px !important;
+}
+.vuetify_pop1 .v-select__slot > input div {
+    font-size: 13px !important;
+}
+
+.addressTd1 button {
+    width: 65px;
+    height: 30px !important;
+    display: inline-block;
+    background-color: #0037A1 !important;
+    font-weight: bold;
+}
+.inStockMemoCont {
+    width: 25%;
+}
+.inStockBtnCont {
+    font-weight: bold;
+}
+.new-excel-btn {
+    cursor: pointer;
+    text-decoration: underline;
+    color: #0037A1 !important;
+    font-size: 14px;
+    letter-spacing: -1px;
+    transition: color .08s ease ;
+}
+.new-excel-btn:hover {
+    color: #00AAC1 !important;
+}
+.boldBtn {
+    padding: 5px 15px;
+    border: 1px solid #9e9e9e;
+    border-radius: 3px;
+    background-color: #fff;
+}
+.fakeLine1:before {
+    position: absolute;
+    left: 21px;
+    top: 4px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 20px;
+    background-color: #9e9e9e;
+}
+.fakeLine2 {position: relative}
+.fakeLine2:before {
+    position: absolute;
+    right: -16px;
+    top: 6px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #999999;
+}
+
+.fakeLine3 {position: relative}
+.fakeLine3:before {
+    position: absolute;
+    right: 15px;
+    top: 6px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #999999;
+}
+
+.fakeLine4 {position: relative}
+.fakeLine4:before {
+    position: absolute;
+    left: 0px;
+    top: 1px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 20px;
+    background-color: rgba(255,255,255, 0.5);
+}
+
+
+.resetBtnPos1 {position: relative}
+.resetBtnPos1 label {
+    position: absolute;
+    background-image: url("../../assets/img/refresh_black_24dp 1.png");
+    width: 20px;
+    height: 20px;
+    right: 45px;
+    top: 2px;
+    cursor: pointer;
+}
+
+.addressStyle4 button {
+    width: 60px;
+    height: 30px !important;
+    float: left;
+    background-color: #0037A1 !important;
+}
+
+.applStyle1 p {
+    margin: 0 !important;
+    line-height: 30px;
+    color: #666666 !important;
+}
+.datePickerStyle1 table {
+    border: none !important;
+}
+.datePickerStyle1 table, .datePickerStyle1 table tr, .datePickerStyle1 table td, .datePickerStyle1 table th {
+    border: 0;
+    font-size: 12px;
+    padding: 8px 0;
+}
+.datePickerStyle1 {
+
+}
+.datePickerStyle1 .v-input__slot {
+    min-height: 36px !important;
+}
+.datePickerStyle1 .v-input, .datePickerStyle1 .v-input__control, .datePickerStyle1 .v-select__selections, .datePickerStyle1 .v-input input {
+    height: 36px;
+}
+.datePickerStyle1 .v-label {
+    top: 11px !important;
+    font-size: 13px;
+}
+.datePickerStyle1 .v-label--active {
+    top: 17px !important;
+}
+.datePickerStyle1 .v-select__selection {
+    font-size: 13px;
+}
+.datePickerStyle1 .v-input__append-inner {
+    margin-top: 8px !important;
+}
+.datePickerStyle1 .v-select__slot > input div {
+    font-size: 13px !important;
+}
+.new-btnA1 {
+    position: relative;
+}
+.new-btnA1 button {
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 60px;
+    line-height: 73px;
+    background-color: #95A8B8;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    color: #fff;
+}
+.disGray:disabled {
+    background-color: rgba(0,0,0,0.1);
+}
+.v-select.v-text-field--outlined:not(.v-text-field--single-line) .v-select__selections {
+    padding: 0 5px !important;
+}
+
+.tableSticky table thead tr:first-child th {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+}
+
+.tableSticky table thead tr:first-child th:first-child {
+    position: sticky;
+    top: 0;
+}
+
+.tableSticky table tbody tr th:first-child {
+    position: sticky;
+    left: 0;
+    padding: 0 10px;
+    z-index: 1;
+}

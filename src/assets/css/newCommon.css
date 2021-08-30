@@ -1,0 +1,285 @@
+.outLineNone {outline: none}
+
+/*font*/
+.titleFontS {font-size: 20px}
+.mainFontS {font-size: 16px !important}
+.subFontS {font-size: 14px}
+.subFontS11 {font-size: 11px !important;}
+.subFontS12 {font-size: 12px !important;}
+.signFont1 {font-size: 36px !important;}
+.boldWt {font-weight: bold}
+
+/*cursor*/
+.cur_p {cursor: pointer}
+
+/*width*/
+.w20 {width: 20px}
+.w30 {width: 30px}
+.w40 {width: 40px}
+.w50 {width: 50px}
+.w70 {width: 70px}
+.w80 {width: 80px}
+.w120 {width: 120px}
+.w140 {width: 140px}
+.w170 {width: 170px}
+.w180 {width: 180px}
+.w200 {width: 200px}
+.w220 {width: 220px}
+.w230 {width: 230px}
+.w240 {width: 240px !important;}
+.w250 {width: 250px}
+.w280 {width: 280px}
+.w290 {width: 290px}
+.w325 {width: 325px !important;}
+.w330 {width: 330px !important;}
+.w350 {width: 350px !important;}
+.w380 {width: 380px !important;}
+.w420 {width: 420px !important;}
+.w650 {width: 650px !important;}
+.w800 {width: 800px !important;}
+.w950 {width: 950px !important;}
+.w1000 {width: 1000px !important;}
+.w1165 {width: 1165px !important;}
+.w1200 {width: 1200px !important;}
+.w20P {width: 20%}
+.w30P {width: 30%}
+.w40P {width: 40%}
+.w50P {width: 50%}
+.w60P {width: 60%}
+.w70P {width: 70%}
+.w80P {width: 80%}
+
+/*height*/
+.h26 {height: 26px !important}
+.h30 {height: 30px !important;}
+.h34 {height: 34px !important;}
+.h36 {height: 36px !important;}
+.h40 {height: 40px}
+.h45 {height: 45px}
+.h50 {height: 50px}
+.h55 {height: 55px !important;}
+.h60 {height: 60px}
+.h75 {height: 75px}
+.h90 {height: 90px}
+.h200 {height: 200px}
+.h300 {height: 300px}
+.h100P {height: 100%}
+.h50P {height: 50%}
+
+/*padding*/
+.pad0 {padding:0}
+.padW10 {padding: 0 10px !important}
+.padW20 {padding: 0 20px !important}
+.padB20 {padding-bottom: 20px !important;}
+.pad30 {padding: 30px !important;}
+.popPad1 {padding: 15px 30px !important}
+.padBtn1 {padding: 7px 15px !important}
+.textAreaPad {padding: 10px 10px 40px 10px !important;}
+.padRightReset {padding-right: 0 !important}
+
+/*line-height*/
+.lh20 {line-height: 20px}
+.lh26 {line-height: 26px}
+.lh30 {line-height: 30px}
+.lh36 {line-height: 36px}
+.lh40 {line-height: 40px !important}
+.lh45 {line-height: 45px}
+.lh55 {line-height: 55px !important;}
+
+/*text-align*/
+.txAnR {text-align: right}
+.txAnC {text-align: center}
+.txAnL {text-align: left}
+
+/*display*/
+.disIn {display: inline-block}
+.disFx {display: flex}
+
+/*position*/
+.posR {position: relative}
+.posA {position: absolute}
+.posHand1 {left: 14px!important; top: -1px!important}
+.posHand2 {left: 15px !important; top: -8px !important}
+
+/*float*/
+.floatL {float: left;}
+.floatR {float: right;}
+
+/*color*/
+.subBlue1 {color: #007EF2}
+.subBlue2 {color: #288CE9}
+.subOrange1 {color: orange !important;}
+.mainBlue1 {color: #0037A1}
+.mainBlue2 {color: #007EF2 !important;}
+.mainWhite {color: #fff !important;}
+.mainRed {color: #FF2E00 !important;}
+.mainBlack {color: #000 !important}
+.mainBlack2 {color: #333333 !important;}
+.mainBlack3 {color: #666666 !important;}
+.mainMint1 {color: #00AAC1 !important;}
+
+/*background*/
+.backColorBlue1 {background-color: #E1EFFC !important;}
+.backColorBlue2 {background-color: #007EF2 !important;}
+.backColorBlue3 {background-color: #0037A1 !important;}
+.backColorMint1 {background-color: #00AAC1 !important;}
+.backColorGray1 {background-color: #bebebe !important;}
+.backColorGray2 {background-color: #95A8B8 !important;}
+.backColorWhite {background-color: #fff !important;}
+.backColorRed {background-color: #FF2E00 !important;}
+
+/*active-router-background*/
+.fakeRoutesLine1 {height: 2px; width: 100%; background-color: #007EF2; position: absolute; left: 0; top: 43px; z-index: 1}
+.newWrap .router-link-exact-active {position: relative; background-color: #fff !important; border-top: 2px solid #007EF2 !important; border-left: 2px solid #007EF2 !important; border-right: 2px solid #007EF2 !important; font-weight: bold;}
+.newWrap .router-link-exact-active:before {display: block; content: ""; position: absolute; width: 176px; height: 2px; background-color: #fff; left: 0; top: 41px; z-index: 2}
+/*border-box*/
+.boxSizeB {box-sizing: border-box}
+.boxSizeC {box-sizing: content-box}
+
+/*border*/
+.borderReset { border: 0 !important}
+.borderRadiReset {border-radius: 0 !important;}
+.borderContColor1 {border: 1px solid #EEEEEE !important;}
+.borderContColor2 {border: 1px solid #E0E0E0}
+.borderContColor3 {border: 1px solid #999999}
+.borderSubColor1 {border: 1px solid #B3CCE2}
+.borderSubRoute1 {border-top: 1px solid #B3CCE2; border-left: 1px solid #B3CCE2; border-right: 1px solid #B3CCE2}
+.borderBottomColor1 {border-bottom: 1px solid #eeeeee}
+
+/*border-radius*/
+.borderRadi3Px {border-radius: 3px !important}
+.borderRadi5Px {border-radius: 5px !important}
+.borderRadi3PxTop {border-top-left-radius: 3px; border-top-right-radius: 3px; }
+
+/*margin*/
+.mj0 {margin: 0 !important}
+.ml5 {margin-left: 5px}
+.ml10 {margin-left: 10px}
+.ml20 {margin-left: 20px}
+.ml30 {margin-left: 30px}
+.ml40 {margin-left: 40px}
+.mr10 {margin-right: 10px}
+.mr20 {margin-right: 20px}
+.mr30 {margin-right: 30px !important}
+.mb5 {margin-bottom: 5px}
+.mb10 {margin-bottom: 10px}
+.mb20 {margin-bottom: 20px}
+.mb30 {margin-bottom: 30px}
+.mb100 {margin-bottom: 100px}
+.mt5 {margin-top: 5px}
+.mt15 {margin-top: 15px}
+.mt20 {margin-top: 20px}
+.mt40 {margin-top: 40px}
+.mt30 {margin-top: 30px}
+.mW10 {margin: 0 10px}
+
+/*radioStyle*/
+.radioStyle {position: relative}
+.radioStyle input[type='radio'] {display: none}
+.radioStyle input[type='radio']:checked + label {color: #000}
+.radioStyle label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_02.png');width: 8px;height: 8px;top: 4px;left: -20px}
+.radioStyle input[type='radio']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_01.png');width: 8px;height: 8px;top: 4px;left: -20px;}
+.radioStyleTable {position: relative}
+.radioStyleTable input[type='radio'] {display: none}
+.radioStyleTable input[type='radio']:checked + label {color: #000}
+.radioStyleTable label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_02.png');width: 8px;height: 8px;top: 0px;left: -20px}
+.radioStyleTable input[type='radio']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_01.png');width: 8px;height: 8px;top: 0px;left: -20px;}
+.radioStylePop {position: relative}
+.radioStylePop input[type='radio'] {display: none}
+.radioStylePop input[type='radio']:checked + label {color: #000}
+.radioStylePop label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_02.png');width: 8px;height: 8px;top: 4px; left: -20px}
+.radioStylePop input[type='radio']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_01.png');width: 8px;height: 8px;top: 4px;left: -20px;}
+.radioStyleCommon {position: relative}
+.radioStyleCommon input[type='radio'] {display: none}
+.radioStyleCommon input[type='radio']:checked + label {color: #000}
+.radioStyleCommon label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_02.png');width: 8px;height: 8px;top: 9px; left: -20px}
+.radioStyleCommon input[type='radio']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_01.png');width: 8px;height: 8px;top: 9px;left: -20px;}
+
+/*checkStyle*/
+.checkStyleCont1 {position: relative}
+.checkStyle {display: none}
+.checkStyleCont1 input[type='checkbox']:checked + label {color: #000}
+.checkStyleCont1 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: -9px;left: 15px}
+.checkStyleCont1 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: -9px;left: 15px;}
+
+.checkStyleCont2 {position: relative}
+.checkStyle {display: none}
+.checkStyleCont2 input[type='checkbox']:checked + label {color: #000}
+.checkStyleCont2 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 5px;left: -18px}
+.checkStyleCont2 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 5px;left: -18px;}
+
+.checkStyleCont3 {position: relative}
+.checkStyle {display: none}
+.checkStyleCont3 input[type='checkbox']:checked + label {color: #000}
+.checkStyleCont3 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;bottom: 14px;right: 0}
+.checkStyleCont3 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;bottom: 14px;right: 0}
+
+.checkStyleCont4 {position: relative}
+.checkStyle {display: none}
+.checkStyleCont4 input[type='checkbox']:checked + label {color: #000}
+.checkStyleCont4 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 5px;left: -22px}
+.checkStyleCont4 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 5px;left: -22px;}
+
+.checkStyleCont5 {position: relative}
+.checkStyle {display: none}
+.checkStyleCont5 input[type='checkbox']:checked + label {color: #000}
+.checkStyleCont5 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 7px;left: -22px}
+.checkStyleCont5 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 7px;left: -22px;}
+
+/*placeholder*/
+input::-webkit-input-placeholder {font-size: 13px}
+input::-moz-placeholder {font-size: 13px}
+input:-ms-input-placeholder {font-size: 13px}
+input:-moz-placeholder {font-size: 13px}
+input::placeholder {font-size: 13px}
+
+/*input*/
+.newInput1 {border: 1px solid #989898; border-radius: 4px; width: 100%; height: 100%; padding: 0 10px}
+.newMemo {border: 1px solid #989898; border-radius: 4px; resize: none; padding: 10px 10px}
+.phoneStyle1 input[type="text"] {border: 1px solid #989898; border-radius: 4px; width: 100%}
+.phoneStyle1 input[type="text"]:first-child {width: 50%}
+.postStyle1 {position: relative; overflow: hidden}
+.postStyle1 button {position: absolute; right: 0px; top: -40px; width: 65px; padding: 0 20px; height: 40px !important; border-radius: 0 5px 5px 0 !important; background-color: #95A8B8 !important}
+.barcodeBtnStyle1 {position: relative}
+.barcodeBtnStyle1 button {position: absolute; top: 0; right: 0; width: 65px; height: 40px; background-color: #95A8B8; border-bottom-right-radius: 3px; border-top-right-radius: 3px; color: #fff}
+.newBtn1 {background-color: #fff; border: 1px solid #eeeeee; border-radius: 5px; padding: 0 15px}
+.searchBtn1 {right: 0; width: 65px; background-color: #95A8B8 !important; border-top-right-radius: 3px; border-bottom-right-radius: 3px}
+.alarmBtnCont label {left: 28px; top: 5px;position: absolute; background-image: url("../../assets/img/Vector.png"); width: 14px; height: 17px;}
+.alarmBtn1 {background-color: #fff; padding: 2px 15px 2px 30px; border: 1px solid #9e9e9e; border-radius: 3px}
+.newSelectInput1 {width: 100%; padding: 10px; border: 1px solid #9e9e9e; border-radius: 3px; color: #333333}
+.newSelectBtn {position: relative}
+.newSelectBtn label {right: 10px; top: 16px;position: absolute; background-image: url("../../assets/img/down_arrow1.png"); width: 10px; height: 6px;}
+.closeBtn1 {background-image: url("../../assets/img/colose_Btn1.png"); width: 14px; height: 14px; display: inline-block}
+
+/*table*/
+.newTableStyle {font-size: 12px}
+.newTableStyle table th:last-child {border-right: 1px solid #eeeeee !important}
+.newTableStyle table th {border-right: 1px solid rgba(255,255,255,0.2) !important;}
+.newTableStyle table tr { cursor: pointer }
+.newTableStyle table, .newTableStyle table tr, .newTableStyle table td, .newTableStyle table th {border: 1px solid #eeeeee;font-size: 12px;text-align: center;}
+.newTableStyle table th {background-color: #636B7B; color: #fff; font-weight: bold; padding: 9px 0}
+.newTableStyle table td {font-weight: 500 !important}
+.newTableStyle tr:nth-child(odd) {background-color: #fefefe}
+
+.newNotiTableStyle table, .newTableStyle table tr, .newTableStyle table td, .newTableStyle table th {border: 1px solid #eeeeee;font-size: 12px;text-align: center;}
+
+/*papTable*/
+.new_popTable1 {color: #666666}
+.new_popTable1 table, .new_popTable1 table tr, .new_popTable1 table td, .new_popTable1 table th {border: 1px solid #eeeeee;font-size: 12px; padding: 5px 16px}
+.new_popTable1 table td:nth-child(odd) {background-color: #fbfbfb; color: black;}
+/*flex*/
+.flexDColC {flex-direction: column; justify-content: center}
+
+/*select:before*/
+.pagingSelect {border: 1px solid #bebebe;background-color: #fff;padding: 3px 50px 3px 10px;color: #000;font-size:12px;border-radius: 3px;font-weight: bold}
+.pagingSelectCont {position: relative;display: inline-block;}
+
+/*pagination*/
+#new-tablePageNation { display: flex; justify-content: center; margin-top: 20px;}
+#new-tablePageNation button { margin: 0 5px; }
+#new-tablePageNation ul { display: flex; margin: 0 10px; }
+#new-tablePageNation ul li { padding: 1px 5px; cursor: pointer;}
+
+/*filterInit*/
+.new-filterCont {top: -25px;right:0}
+.new-filterCont label {position: absolute; left: -23px; top: -1px; display:inline-block; width: 20px; height: 20px; background-image: url("../../assets/img/refresh_black_24dp 1.png");cursor: pointer }

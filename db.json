@@ -1,0 +1,20 @@
+{
+  "bookmark": [
+    {
+      "bookmarkList": [
+        {
+          "href": "/goods-mgmt/mobilephonelist",
+          "title": "상품관리"
+        },
+        {
+          "href": "/organization-mgmt",
+          "title": "조직관리"
+        },
+        {
+          "href": "/stock-move-transfer/sales-move",
+          "title": "기기이동/이관"
+        }
+      ]
+    }
+  ]
+}
