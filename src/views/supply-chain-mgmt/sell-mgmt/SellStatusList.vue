@@ -74,7 +74,9 @@
 						<th>요금제</th>
 						<th>기기명(용량)<br />색상</th>
 						<th>기기일련번호<br />유심일련번호</th>
+						<th>배송구분</th>
 						<th>물류상태<br />택배사/송장번호</th>
+						<th class="w100">신용조회 상태</th>
 						<th>첨부파일</th>
 						<th>최근 메모(3개)</th>
 					</tr>
@@ -129,12 +131,35 @@
 									:class="statusColorBg(item.openingTaskStatus)"
 								>
 									<span>
-										{{ item.openingTaskStatusMsg }} <br />
+										{{ item.openingTaskStatusMsg
+										}}<span
+											v-if="
+												item.beforeReserveYn === 'Y' &&
+												item.openingTaskStatus != null
+											"
+											><br />(사전<template v-if="item.reserveNum">
+                  :{{item.reserveNum}}
+                  </template>)</span
+										>
+										<br />
 										<span v-if="item.openingTaskStatus === 'OPENING_COMPL'">
 											{{ item.openingDate }}
+											{{ item.openingTime }}
 										</span>
 										<span v-if="item.openingTaskStatus === 'RETRACT_COMPL'">
 											{{ item.cancelDate }}
+											{{ item.cancelTime }}
+										</span>
+										<span v-if="item.openingTaskStatus === 'EXCHANGE_COMPL'">
+											<span class="font-royalblue">
+												{{ item.openingDate }}
+												{{ item.openingTime }}
+											</span>
+											<br />
+											<span class="font-black">
+												{{ item.exchangeDate }}
+												{{ item.exchangeTime }}
+											</span>
 										</span>
 									</span>
 								</div>
@@ -142,7 +167,16 @@
 
 							<td class="pd5TL">
 								<span :class="statusColor(item.consultTaskStatus)">
-									{{ item.consultTaskStatusMsg }}
+									{{ item.consultTaskStatusMsg
+									}}<span
+										v-if="
+											item.beforeReserveYn === 'Y' &&
+											item.consultTaskStatus != null
+										"
+										><br />(사전<template v-if="item.reserveNum">
+                  :{{item.reserveNum}}
+                  </template>)</span
+									>
 								</span>
 								<br />
 								{{ item.consultRegiDateTime | moment('YYYY-MM-DD HH:mm:ss') }}
@@ -176,17 +210,17 @@
 								<br />
 								{{ item.cusPhone1 }}-{{ item.cusPhone2 }}-{{ item.cusPhone3 }}
 								<br />
-								<span v-if="item.cusType !== 'CORP'">
-									{{ item.cusRegiNum1 }}-{{ item.cusRegiNum2 }}
-								</span>
-								<span v-else-if="item.cusType === 'CORP'">
+
+								<span v-if="item.cusType === 'CORP'">
 									<!--									법인번호-->
 									{{ item.bizNum }}
 								</span>
 								<span v-else-if="item.cusType === 'FOREIGN'">
 									<!--                  외국인-->
-									{{ item.licenseNum1 }}-
-									{{ item.licenseNum2 }}
+									{{ item.licenseNum1 }}-{{ item.licenseNum2 }}
+								</span>
+								<span v-else>
+									{{ item.cusRegiNum1 }}-{{ item.cusRegiNum2 }}
 								</span>
 							</td>
 							<td>{{ item.chargeName }}</td>
@@ -203,13 +237,25 @@
 								<br />
 								{{ item.usimRawBarcode }}
 							</td>
+							<td>
+								{{ item.deliveryTypeMsg }}
+							</td>
 							<td onclick="event.cancelBubble=true" style="cursor: unset">
 								<p
 									v-if="item.logisticsTaskStatusMsg"
 									:class="statusColor(item.logisticsTaskStatus)"
 									style="font-size: 12px; line-height: 20px; margin: 0"
 								>
-									{{ item.logisticsTaskStatusMsg }}
+									{{ item.logisticsTaskStatusMsg
+									}}<span
+										v-if="
+											item.beforeReserveYn === 'Y' &&
+											item.logisticsTaskStatus != null
+										"
+										><br />(사전<template v-if="item.reserveNum">
+                  :{{item.reserveNum}}
+                  </template>)</span
+									>
 								</p>
 								<p
 									style="font-size: 12px; line-height: 20px; margin: 0"
@@ -225,6 +271,31 @@
 								>
 									( {{ item.invoiceNum }} )
 								</p>
+							</td>
+
+							<td onclick="event.cancelBubble=true">
+								<!--								v-if="item.creditInquireYn === 'N'"-->
+								<template v-if="!item.creditProcStatus">
+									<span class="boldWt">미진행</span>
+									<br />
+									<button
+										class="backColorWhite borderContColor3 borderRadi3Px padW5 lh20 mt5"
+										@click="mappingCreditInquireId(item.applId)"
+									>
+										신용조회 요청
+									</button>
+								</template>
+								<template v-else>
+									<span class="boldWt mr5">진행</span
+									><span>({{ item.creditProcStatusMsg }})</span>
+									<br />
+									<button
+										class="backColorWhite borderContColor3 borderRadi3Px padW5 lh20 mt5"
+										@click="infoFnc(item)"
+									>
+										이력보기
+									</button>
+								</template>
 							</td>
 
 							<td onclick="event.cancelBubble=true" style="cursor: unset">
@@ -299,6 +370,8 @@
 			@closeDialog="closeDialog"
 		></MemoPop>
 		<div></div>
+
+		<credit-check-info-pop v-if="infoDialog"></credit-check-info-pop>
 	</div>
 </template>
 
@@ -318,6 +391,7 @@ import Vue from 'vue';
 import BlackListPop from '../black-list/popup/BlackListPop.vue';
 import { blackList } from '../../../store/interface/warehouse-mgmt/interface';
 import { compareTime, findCapacity, statusColor } from '../../../common/common';
+import CreditCheckInfoPop from '../../../views/credit-check-mgmt/credit-check/popup/CreditCheckInfoPop.vue';
 
 export default Vue.extend({
 	name: 'SellStatusList',
@@ -329,6 +403,7 @@ export default Vue.extend({
 		QuickOpeningPop,
 		paging,
 		MemoPop,
+		CreditCheckInfoPop,
 	},
 	data() {
 		return {
@@ -403,6 +478,22 @@ export default Vue.extend({
 			},
 			set(newValue: boolean) {
 				this.$store.state.SellStatusModule.memoDialog = newValue;
+			},
+		},
+		infoPopData: {
+			get(): any {
+				return this.$store.state.CreditCheckModule.infoPopData;
+			},
+			set(newValue: any) {
+				this.$store.state.CreditCheckModule.infoPopData = newValue;
+			},
+		},
+		infoDialog: {
+			get(): any {
+				return this.$store.state.CreditCheckModule.infoDialog;
+			},
+			set(newValue: any) {
+				this.$store.state.CreditCheckModule.infoDialog = newValue;
 			},
 		},
 	},
@@ -509,6 +600,9 @@ export default Vue.extend({
 				this.allCheckedBox = true;
 				this.checkListIdArray = checkArr;
 			}
+			if (this.filterData.beforeReserveYn === '전체') {
+				this.filterData.beforeReserveYn = '';
+			}
 			if (this.filterData.goodsName === '전체') {
 				this.filterData.goodsName = '';
 			}
@@ -528,6 +622,9 @@ export default Vue.extend({
 				fileName: '판매현황리스트',
 			};
 			await this.$store.dispatch('commonModule/excelDownload', param);
+			if (this.filterData.beforeReserveYn === '') {
+				this.filterData.beforeReserveYn = '전체';
+			}
 			if (this.filterData.goodsName === '') {
 				this.filterData.goodsName = '전체';
 			}
@@ -536,6 +633,11 @@ export default Vue.extend({
 			}
 			if (this.filterData.colorName === '') {
 				this.filterData.colorName = '전체';
+			}
+			if (this.filterData.applIds) {
+				this.filterData.applIds = [];
+				this.allCheckedBox = false;
+				this.checkListIdArray = [];
 			}
 		},
 		findCapacity(text: string) {
@@ -553,10 +655,42 @@ export default Vue.extend({
 			data.perPageCnt = pagingData.perPageCnt;
 			data.pageNo = pagingData.pageNo;
 			await this.getList(data);
+			// @ts-ignore
+			document.getElementById('mainBox').scrollTo(0, 0);
 			await this.excelBtnResetFnc();
 		},
 		async getList(data?: filterData) {
 			await this.$store.dispatch('SellStatusModule/getSellCurrentPage', data);
+		},
+		async mappingCreditInquireId(item: any) {
+			if (!confirm('요청하시겠습니까?')) return;
+			const filterData: filterData = this.$store.state.SellStatusModule
+				.filterData;
+			let data: any = {
+				applId: item,
+			};
+			const result = await this.$store.dispatch(
+				'SellStatusModule/mappingCreditInquireId',
+				data,
+			);
+			if (result) {
+				alert('요청완료하였습니다.');
+			}
+			await this.getList(filterData);
+		},
+		infoFnc(item: any) {
+			this.infoPopData = item;
+			this.infoDialog = true;
+			let data = {
+				creditInquireId: item.creditInquireId,
+			};
+			this.getCreditInquireHistoryList(data);
+		},
+		getCreditInquireHistoryList(data: any) {
+			this.$store.dispatch(
+				'CreditCheckModule/getCreditInquireHistoryList',
+				data,
+			);
 		},
 	},
 	async created() {

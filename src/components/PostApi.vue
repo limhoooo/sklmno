@@ -1,11 +1,16 @@
 <template>
-	<div>
+	<div class="disFX" style="margin-left: 20px">
 		<v-app id="inspire">
 			<v-dialog v-model.trim="dialog" width="450" id="modal">
 				<template v-slot:activator="{ on, attrs }">
-					<v-btn color=" lighten-2" dark v-bind="attrs" v-on="on"
-						>검색</v-btn
+					<button
+            class="post-Api-Btn"
+						style="width: 64px; padding: 0; line-height: 36px;"
+						v-bind="attrs"
+						v-on="on"
 					>
+						검색
+					</button>
 				</template>
 
 				<v-card>

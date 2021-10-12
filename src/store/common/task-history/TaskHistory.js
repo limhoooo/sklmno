@@ -11,6 +11,7 @@ Vue.use(Vuex);
 const TaskHistoryModule = {
 	namespaced: true,
 	state: {
+		activeAccordion: false,
 		taskHistoryList: [],
 		statusList: [],
 	},

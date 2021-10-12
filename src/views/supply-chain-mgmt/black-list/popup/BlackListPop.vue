@@ -39,7 +39,9 @@
 									</td>
 								</tr>
 								<tr>
-									<td class="w180">블랙리스트 성명<span class="redfont">*</span></td>
+									<td class="w180">
+										블랙리스트 성명<span class="redfont">*</span>
+									</td>
 									<td class="lh40">
 										<InputText
 											title="블랙리스트 성명"
@@ -138,7 +140,11 @@
 											:postDialog="postDialog"
 											@closeDialog="dialogClose"
 											v-if="registerPop || modifyBtn"
-											style="display: inline-block; margin-right: 10px"
+											style="
+												display: inline-block !important;
+												margin-right: 10px;
+											"
+											class="post-api-comp"
 										></post-api>
 										<input
 											type="text"
@@ -253,7 +259,7 @@
 							</div>
 						</div>
 					</v-card-text>
-<!--					<v-card-text>
+					<!--					<v-card-text>
 						<div
 							class="infoCont pdLR30 popUpCustomSt1"
 							style="background-color: #fff; padding-top: 20px"
@@ -583,7 +589,7 @@ export default {
 		modifyBtn: false,
 		postDialog: false,
 		formData: {
-      blackType: '',
+			blackType: '',
 			blackName: '',
 			blackDateBirth: '',
 			blackPhone1: '',
@@ -762,15 +768,15 @@ export default {
 				this.registerPop = true;
 				this.modifyUse = false;
 				// 등록 팝업에 정보 넣을시 ( 빠른개통, 신청서 )
-				if (this.addBlackListInfo){
-          this.formData = this.addBlackListInfo
-          this.formData['blackType'] = '';
-        } ;
+				if (this.addBlackListInfo) {
+					this.formData = this.addBlackListInfo;
+					this.formData['blackType'] = '';
+				}
 			}
 		},
 		async getDetailList(item) {
 			let data = {
-				blackName: item.blackName,
+				blackAddr: item.blackAddr,
 				blackPhone: item.blackPhone1 + item.blackPhone2 + item.blackPhone3,
 			};
 			const result = await this.$store.dispatch(
@@ -834,5 +840,12 @@ export default {
 	padding: 10px;
 	max-height: 300px;
 	overflow-y: scroll;
+}
+.post-api-comp .post-Api-Btn {
+	color: white;
+	background-color: #0037a1 !important;
+}
+.post-api-comp .post-api-Box {
+	display: inline-block !important;
 }
 </style>

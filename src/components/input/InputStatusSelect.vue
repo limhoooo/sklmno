@@ -14,7 +14,20 @@
 				:disabled="disableYN"
 			>
 				<option disabled selected>{{ title }}을 선택하세요</option>
+				<!--  DLVR_PEND : 배송보류      -->
+				<!--  배송보류로 이미 선택되어있는 상태일때만 배송보류 노출      -->
+				<!--  아닐시 배송보류 미노출      -->
 				<option
+					v-if="selected !== 'DLVR_PEND' && option.value !== 'DLVR_PEND'"
+					v-for="(option, index) in optionList"
+					:value="option.value"
+					:key="index"
+				>
+					{{ option.name }}
+				</option>
+				<!--   배송보류 노출     -->
+				<option
+					v-if="selected === 'DLVR_PEND'"
 					v-for="(option, index) in optionList"
 					:value="option.value"
 					:key="index"
@@ -70,8 +83,7 @@ export default {
 					formatValue = formatToNumber(newValue);
 					break;
 			}
-				this.$emit('input', this.data.name, formatValue, this.selected);
-
+			this.$emit('input', this.data.name, formatValue, this.selected);
 		},
 	},
 	created() {

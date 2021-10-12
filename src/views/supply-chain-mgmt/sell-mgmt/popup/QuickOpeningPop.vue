@@ -2,7 +2,7 @@
 	<div class="popUpCustom">
 		<div class="text-center">
 			<v-dialog
-				persistent
+				:persistent="modifyState"
 				v-model.trim="dialog"
 				width="1700"
 				style="overflow-x: hidden; background: #f6f6f6"
@@ -32,7 +32,7 @@
 					>
 						<div
 							class="leftCont1 posRe"
-							style="background: #fff; padding-top: 16px; max-height: 1400px"
+							style="background: #fff; padding-top: 16px"
 						>
 							<div class="pdLR30">
 								<!-- 업무진행상태 -->
@@ -126,17 +126,18 @@
 import QuickOpeningForm from './QuickOpeningPop/QuickOpeningForm';
 import memoBoard from '../../../../components/memoBoard.vue';
 import {
-	alertFor,
-	confirmFor,
-	copyObj,
-	getToday,
-	htmlParse,
-	nullValidation2,
-	setNewDataFnc,
+  alertFor,
+  confirmFor,
+  copyObj,
+  getTime,
+  getToday,
+  htmlParse,
+  nullValidation2,
+  setNewDataFnc,
 } from '../../../../common/common';
 import BlackListPop from '../../black-list/popup/BlackListPop';
 import WorkStatus from '@/views/supply-chain-mgmt/sell-mgmt/popup/QuickOpeningPop/WorkStatus';
-import { KTCB, KTJS, KTMN } from '../../../../common/copyApplication';
+import {KTCB, KTJS, KTMN} from '../../../../common/copyApplication';
 
 export default {
 	props: {
@@ -240,6 +241,14 @@ export default {
 				return (this.$store.state.SellStatusModule.quickOpeningDialog = newValue);
 			},
 		},
+    blackList: {
+      get() {
+        return this.$store.state.QuickOpeningPopModule.blackList;
+      },
+      set(newValue) {
+        this.$store.state.QuickOpeningPopModule.blackList = newValue;
+      },
+    },
 		cancelQuick: {
 			get() {
 				return this.$store.state.SellStatusModule.cancelQuick;
@@ -343,7 +352,6 @@ export default {
 				this.fileData = [];
 				await this.getFormData();
 				await this.getSelectList('noAlert');
-				await this.getBlackDetailListFnc();
 				this.tglModifyState();
 				this.copiedFormData = {};
 				this.cancelQuick = true;
@@ -351,6 +359,15 @@ export default {
 		},
 		// validation
 		validateFormData() {
+			if (this.formData.basic.beforeReserveYn === 'Y') {
+				if (
+					!nullValidation2(this.formData.basic, [
+						'reserveNum', //사전예약번호
+					])
+				) {
+					return;
+				}
+			}
 			if (
 				!nullValidation2(this.formData.basic, [
 					'openingStoreId', //영업점
@@ -473,9 +490,12 @@ export default {
 			if (!nullValidation2(this.formData.join, this.validJoin)) {
 				return;
 			}
-			if (!nullValidation2(this.formData.join, this.validJoin1)) {
-				return;
+			if (this.formData.basic.beforeOpeningType === 'BEFORE_OPENING') {
+				if (!nullValidation2(this.formData.join, this.validJoin1)) {
+					return;
+				}
 			}
+
 			if (!this.beforeAdmin) {
 				if (!nullValidation2(this.formData.join, ['releaseAmt'])) {
 					return;
@@ -654,6 +674,7 @@ export default {
 			// document.body.removeChild(aux);
 		},
 		async getBlackDetailListFnc() {
+			this.blackList = [];
 			await this.$store.dispatch('QuickOpeningPopModule/getBlackDetailList');
 		},
 		async changeWorkStatusFnc(data) {
@@ -671,109 +692,17 @@ export default {
 		},
 		async statusFalseFnc(data) {
 			let formData;
-			/*if (data.name === 'consultTaskStatus') {
-    formData = {
-      applId: this.formData.basic.applId,
-      consultTaskStatus: data.beforeValue,
-      reqConsultTaskStatus: data.value,
-      openingTaskStatus: this.formData.basic.openingTaskStatus,
-      reqOpeningTaskStatus: this.formData.basic.openingTaskStatus,
-      logisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      reqLogisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      task: 'consult',
-    };
-  } else if (data.name === 'openingTaskStatus') {
-    formData = {
-      applId: this.formData.basic.applId,
-      consultTaskStatus: this.formData.basic.consultTaskStatus,
-      reqConsultTaskStatus: this.formData.basic.consultTaskStatus,
-      openingTaskStatus: data.beforeValue,
-      reqOpeningTaskStatus: data.value,
-      logisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      reqLogisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      task: 'opening',
-    };
-  } else if (data.name === 'logisticsTaskStatus') {
-    formData = {
-      applId: this.formData.basic.applId,
-      consultTaskStatus: this.formData.basic.consultTaskStatus,
-      reqConsultTaskStatus: this.formData.basic.consultTaskStatus,
-      openingTaskStatus: this.formData.basic.openingTaskStatus,
-      reqOpeningTaskStatus: this.formData.basic.openingTaskStatus,
-      logisticsTaskStatus: data.beforeValue,
-      reqLogisticsTaskStatus: data.value,
-      task: 'logistics',
-    };
-  }*/
-
-			/*if (this.$store.state.st !== '22f353197e9b0c1cb58a11da8de7776a') {
-				if (data.name === 'consultTaskStatus') {
-					if (data.value === 'RCPT_CANCEL') {
-						alert('현재 접수취소 상태를 사용하실수 없습니다.');
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-				if (data.name === 'logisticsTaskStatus') {
-					if (data.value === 'DLVR_PREV_CANCEL') {
-						alert('현재 배송전취소 상태를 사용하실수 없습니다.');
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-			}*/
-
-			// 상담 : 접수취소 예외값
-			// 운송장 매칭 되어있는 경우 x
-			// 기기매칭 / 유심매칭 되어있는경우 x
-			if (data.name === 'consultTaskStatus') {
-				if (data.value === 'RCPT_CANCEL') {
-					if (this.formData.delivery.couriorMatchingYn === 'Y') {
-						alert('운송장 매칭이 되어있는경우 접수취소 로 돌릴 수 없습니다.');
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-					if (
-						this.formData.join.deviceMatchingType !== null ||
-						this.formData.join.usimMatchingType !== null
-					) {
-						alert(
-							'기기매칭 또는 유심매칭 되어있는경우 접수취소 로 돌릴 수 없습니다.',
-						);
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-			}
-			// 물류 : 배송전취소 예외값
-			// 운송장 매칭 되어있는 경우 x
-			// 기기매칭 / 유심매칭 되어있는경우 x
-			if (data.name === 'logisticsTaskStatus') {
-				if (data.value === 'DLVR_PREV_CANCEL') {
-					if (this.formData.delivery.couriorMatchingYn === 'Y') {
-						alert('운송장 매칭이 되어있는경우 배송전취소 로 돌릴 수 없습니다.');
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-					if (
-						this.formData.join.deviceMatchingType !== null ||
-						this.formData.join.usimMatchingType !== null
-					) {
-						alert(
-							'기기매칭 또는 유심매칭 되어있는경우 배송전취소 로 돌릴 수 없습니다.',
-						);
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-			}
 
 			if (data.name === 'openingTaskStatus') {
 				// 개통
+				// 영업점일시 validation
+				if (this.storeVal === 'StoreGrade_S') {
+					alert('영업점일시 개통상태를 변경할 수 없습니다.');
+					// @ts-ignore
+					this.formData.basic[data.name] = data.beforeValue;
+					return false;
+				}
+
 				formData = {
 					applId: this.formData.basic.applId,
 					consultTaskStatus: this.formData.basic.consultTaskStatus,
@@ -787,6 +716,17 @@ export default {
 				};
 			} else if (data.name === 'logisticsTaskStatus') {
 				// 물류
+
+				// 영업점일시 validation
+				if (this.storeVal === 'StoreGrade_S' && data.value !== 'DLVR_DMND') {
+					alert(
+						'영업점일시 배송상태를 배송요청 이외의 상태로 변경할 수 없습니다.',
+					);
+					// @ts-ignore
+					this.formData.basic[data.name] = data.beforeValue;
+					return false;
+				}
+
 				formData = {
 					applId: this.formData.basic.applId,
 					consultTaskStatus: this.formData.basic.consultTaskStatus,
@@ -798,10 +738,38 @@ export default {
 					invoiceNum: this.formData.delivery.invoiceNum,
 					task: 'logistics',
 				};
-			} else {
-				// 상담일시 return
-				return true;
-			}
+      } else if (data.name === 'consultTaskStatus') {
+        // 상담
+        if (this.storeVal === 'StoreGrade_S' && data.value === 'RCPT_CANCEL') {
+          alert(
+              '영업점일시 상담상태를 접수취소 상태로 변경할 수 없습니다.',
+          );
+          // @ts-ignore
+          this.formData.basic[data.name] = data.beforeValue;
+          return false;
+        }
+        if (data.value === 'RCPT_CANCEL') {
+          if (this.formData.delivery.couriorMatchingYn === 'Y') {
+            alert('송장매칭취소 후 접수취소 상태로 변경 가능합니다.');
+            // @ts-ignore
+            this.formData.basic[data.name] = data.beforeValue;
+            return false;
+          }
+          if (this.formData.join.deviceRawBarcode) {
+            alert('기기매칭취소 후 접수취소 상태로 변경 가능합니다.');
+            // @ts-ignore
+            this.formData.basic[data.name] = data.beforeValue;
+            return false;
+          }
+          if (this.formData.join.usimRawBarcode) {
+            alert('유심매칭취소 후 접수취소 상태로 변경 가능합니다.');
+            // @ts-ignore
+            this.formData.basic[data.name] = data.beforeValue;
+            return false;
+          }
+        }
+        return true;
+      }
 			// api 날리고
 			const result = await this.$store.dispatch(
 				'checkApplicationStatusUpdateFlag',
@@ -826,9 +794,11 @@ export default {
 			if (data === 'OPENING_COMPL' && !this.formData.basic.openingDate) {
 				//개통완료 && 개통일자가 없을시
 				this.formData.basic.openingDate = getToday();
+				this.formData.basic.openingTime = getTime();
 			} else if (data === 'RETRACT_COMPL' && !this.formData.basic.cancelDate) {
 				//철회완료 && 철회일자가 없을시
 				this.formData.basic.cancelDate = getToday();
+				this.formData.basic.cancelTime = getTime();
 			} else if (
 				this.formData.basic.openingDate &&
 				data !== 'OPENING_COMPL' &&
@@ -839,13 +809,22 @@ export default {
 				// 개통상태가 개통완료, 철회요청, 철회완료가 아닐시
 				// 개통일자 초기화
 				this.formData.basic.openingDate = null;
+				this.formData.basic.openingTime = null;
 			}
 			if (this.formData.basic.cancelDate && data !== 'RETRACT_COMPL') {
 				// 철회일자 값이 있는데
 				// 개통상태가 철회완료가 아닐시
 				// 철회일자 초기화
 				this.formData.basic.cancelDate = null;
+				this.formData.basic.cancelTime = null;
 			}
+		},
+		escClose() {
+			if (!this.modifyState) {
+				this.dialog = !this.dialog;
+				console.log('닫기 성공');
+			}
+			console.log('닫기실패');
 		},
 	},
 	async created() {

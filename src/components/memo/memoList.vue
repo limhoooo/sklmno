@@ -1,6 +1,31 @@
 <template>
 	<div>
-		<div class="memoArea mt-1" :style="`max-height:${maxHeight}px;overflow-y: auto;`">
+		<div
+			id="memoArea"
+			class="memoArea invisibleScroll mt-1"
+			:style="`max-height:${maxHeight}px;overflow-y: auto;`"
+			@mouseover="ableToScroll = true"
+			@mouseleave="ableToScroll = false"
+			@scroll="memoScroll"
+		>
+			<div
+				v-if="ableToScroll"
+				style="position: absolute; top: 472px"
+				:class="{ top650: activeAccordion }"
+			>
+				<i
+					v-if="scrollUp"
+					class="fas fa-sort-up arrowUp scrollArrow"
+					aria-hidden="true"
+					style="top: 5px; left: 150px"
+				></i>
+				<i
+					v-if="scrollDown"
+					class="fas fa-sort-down arrowDown scrollArrow"
+					aria-hidden="true"
+					style="top: 238px; left: 150px"
+				></i>
+			</div>
 			<ul class="font-size-12">
 				<li v-if="memoList.length === 0">
 					<div
@@ -17,7 +42,12 @@
 				>
 					<div class="borderBottomColor1 pd5">
 						<div class="disIN w30P">
-							<span class="disIN orangeTag pdW10">{{ item.orgName }}</span>
+							<span
+								class="disIN orangeTag pdW10"
+								:class="tabColor(item.categoryMsg)"
+								v-text="categoryMsg(item.categoryMsg, item.orgName)"
+							>
+							</span>
 						</div>
 						<div class="disIN w70P textRight">
 							<span class="font-gray">
@@ -28,6 +58,7 @@
 					<div>
 						<span
 							class="disBl pd3 lh25 font-black"
+							v-if="item.memoContents"
 							v-html="item.memoContents.replace(/(?:\r\n|\r|\n)/g, '<br />')"
 						></span>
 					</div>
@@ -45,7 +76,7 @@
 </template>
 
 <script>
-import {compareTime} from '../../common/common';
+import { compareTime } from '../../common/common';
 
 export default {
 	props: {
@@ -54,6 +85,11 @@ export default {
 			default: 230,
 		},
 	},
+	data: () => ({
+		ableToScroll: false,
+		scrollUp: false,
+		scrollDown: false,
+	}),
 	computed: {
 		memoList() {
 			return this.$store.state.memoModule.memoList;
@@ -64,8 +100,40 @@ export default {
 		applId() {
 			return this.$store.state.memoModule.applId;
 		},
+		activeAccordion() {
+			return this.$store.state.TaskHistoryModule.activeAccordion;
+		},
 	},
 	methods: {
+		memoScroll() {
+			let memoArea = document.getElementById('memoArea');
+			memoArea.scrollTop > 0 ? (this.scrollUp = true) : (this.scrollUp = false);
+			memoArea.scrollHeight - memoArea.scrollTop - 1 <= memoArea.clientHeight
+				? (this.scrollDown = false)
+				: (this.scrollDown = true);
+		},
+		tabColor(category) {
+			if (category === '전체') {
+				return 'active_blue';
+			}
+			if (category === '그룹') {
+				return 'active_green';
+			}
+			if (category === '개인') {
+				return 'active_orange';
+			}
+		},
+		categoryMsg(category, orgName) {
+			if (category === '전체') {
+				return '전체';
+			}
+			if (category === '그룹') {
+				return orgName;
+			}
+			if (category === '개인') {
+				return '개인';
+			}
+		},
 		dateTime(Time) {
 			return compareTime(Time);
 		},
@@ -83,4 +151,23 @@ export default {
 };
 </script>
 
-<style scoped></style>
+<style scoped>
+.memoArea {
+	max-height: 284px !important;
+}
+.active_blue {
+	background-color: #007ef2;
+	color: #fff;
+}
+.active_green {
+	background-color: #00aac1;
+	color: #fff;
+}
+.active_orange {
+	background-color: #ff7a00;
+	color: #fff;
+}
+.top650 {
+	top: 580px !important;
+}
+</style>

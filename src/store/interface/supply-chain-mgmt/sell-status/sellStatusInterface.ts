@@ -7,6 +7,7 @@ export interface filterData {
 	OpeningTaskStatus?: string; //개통상태;
 	saleStoreId?: string; //영업점리스트;
 	openingStoreId?: string; //개통점리스트;
+	beforeReserveYn?: string; //사전예약
 	업무진행상태?: number;
 	배송상태?: number;
 	JoinType?: string; // 가입유형

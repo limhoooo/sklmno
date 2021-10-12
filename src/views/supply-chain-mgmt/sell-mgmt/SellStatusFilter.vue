@@ -58,6 +58,17 @@
 					<div>
 						<v-select
 							outlined
+							:items="useYn"
+							item-text="name"
+							item-value="value"
+							label="사전예약"
+							v-model.trim="filterData.beforeReserveYn"
+						>
+						</v-select>
+					</div>
+					<div class="ml10">
+						<v-select
+							outlined
 							:items="statusList.JoinType"
 							item-text="name"
 							item-value="value"
@@ -99,8 +110,8 @@
 					<div class="ml10">
 						<v-select
 							outlined
-              v-model.trim="filterData.existTelecom"
-              :items="codeList.exisTelecom"
+							v-model.trim="filterData.existTelecom"
+							:items="exisTelecomData"
 							item-text="codeNm"
 							item-value="codeSeq"
 							label="기존통신사"
@@ -109,8 +120,8 @@
 					</div>
 					<div class="ml10">
 						<v-select
-                v-model.trim="filterData.telecom"
-                :items="codeList.telecom"
+							v-model.trim="filterData.telecom"
+							:items="codeList.telecom"
 							outlined
 							item-text="codeNm"
 							item-value="codeSeq"
@@ -145,6 +156,8 @@
 							v-model.trim="filterData.goodsName"
 							item-text="goodsName"
 							label="기기명"
+							@keypress="deviceFnc($event.target.value)"
+							@keyup.enter="keypressFnc"
 						>
 						</v-autocomplete>
 					</div>
@@ -366,23 +379,41 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import {filterData} from '../../../store/interface/supply-chain-mgmt/sell-status/sellStatusInterface';
+import { filterData } from '../../../store/interface/supply-chain-mgmt/sell-status/sellStatusInterface';
 import DatePicker from '../../../components/DatePicker.vue';
 
 let menu1: boolean = false;
 let menu2: boolean = false;
+
 export default Vue.extend({
 	name: 'SellStatusFilter',
 	data: () => ({
 		menu1: menu1,
 		menu2: menu2,
+		useYn: [
+			{ name: '전체', value: '전체' },
+			{ name: 'Y', value: 'Y' },
+			{ name: 'N', value: 'N' },
+		],
 		telecomList: [],
 		dateFilter: 'consultRegiDateTime',
+		deviceData: '',
 	}),
 	components: {
 		DatePicker,
 	},
 	computed: {
+		exisTelecomData(): any {
+			return this.$store.state.CodeModule.codeList.exisTelecomSellList;
+		},
+		filterInitChk: {
+			get(): any {
+				return this.$store.state.SellStatusModule.filterInitChk;
+			},
+			set(newValue: any) {
+				this.$store.state.SellStatusModule.filterInitChk = newValue;
+			},
+		},
 		checkListIdArray: {
 			get(): any {
 				return this.$store.state.SellStatusModule.checkListIdArray;
@@ -434,6 +465,17 @@ export default Vue.extend({
 		},
 	},
 	methods: {
+		deviceFnc(event: any) {
+			this.deviceData = event;
+		},
+		async keypressFnc() {
+			this.filterData.goodsName = this.deviceData;
+			const data: filterData = this.filterData;
+			data.pageNo = 1;
+			await this.$store.dispatch('SellStatusModule/getSellCurrentPage', data);
+			/*this.codeList.deviceList.push({ goodsName: this.deviceData });
+			this.filterData.goodsName = this.deviceData;*/
+		},
 		async beginningOpeningStoreFnc() {
 			await this.$store.dispatch('SellStatusModule/getOpeningStoreList');
 		},
@@ -558,8 +600,20 @@ export default Vue.extend({
 		async getList(data?: filterData) {
 			await this.$store.dispatch('SellStatusModule/getSellCurrentPage', data);
 		},
+		filterInitCheckFnc() {
+			// 동기처리를 위해 setTimeout 100
+			// filterInitChk 가 false 일때 ( 신청서에서 들어온게 아닐시 ) 에만 필터초기화
+			// sellstatus.vue 에 작업
+			let vm = this;
+			setTimeout(() => {
+				if (!vm.filterInitChk) {
+					vm.filterInit();
+				}
+			}, 100);
+		},
 	},
 	async created() {
+		await this.filterInitCheckFnc();
 		await this.commonFilterInit();
 		await this.getCodeList();
 		await this.deviceCodeData();

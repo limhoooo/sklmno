@@ -18,7 +18,7 @@
 										:value="item.value"
 										v-model.number="deliveryData.deliveryType"
 										@change="resetDeliveryTypeFnc"
-									/><label class="ml-1" :for="`deliveryRadio${index}`">
+									/><label class="ml-1 cur_p" :for="`deliveryRadio${index}`">
 										{{ item.name }}
 									</label>
 								</div>
@@ -256,8 +256,8 @@
 import Vue from 'vue';
 import PostApi from '../../../../components/PostApi.vue';
 import {
-  customerFormData,
-  deliveryFormData,
+	customerFormData,
+	deliveryFormData,
 } from '@/store/interface/supply-chain-mgmt/application-form-creation/AppFormCreationInterface';
 
 interface dataType {

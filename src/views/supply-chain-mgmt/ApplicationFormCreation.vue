@@ -2,11 +2,10 @@
 	<div class="wrapper disFX">
 		<book-mark path="/application-form-creation"></book-mark>
 		<div :class="{ w80P: AppFormCreFlag !== undefined }">
-			<router-link
+			<a
 				class="titleFontS mainBlack2 boldWt"
 				style="color: #003a53; margin-bottom: 15px; display: inline-block"
-				to=""
-				>신청서</router-link
+				>신청서<span v-if="creditInquireId">(신용조회완료)</span></a
 			>
 			<template v-if="AppFlag <= 28177">
 				<a
@@ -59,6 +58,23 @@ export default {
 				this.$store.state.ApplicationFormCreationModule.AppFlag = newValue;
 			},
 		},
+		crData: {
+			get() {
+				return this.$store.state.ApplicationFormCreationModule.crData;
+			},
+			set(newValue) {
+				this.$store.state.ApplicationFormCreationModule.crData = newValue;
+			},
+		},
+		creditInquireId: {
+			get() {
+				return this.$store.state.ApplicationFormCreationModule.formData.basic
+					.creditInquireId;
+			},
+			set(newValue) {
+				this.$store.state.ApplicationFormCreationModule.formData.basic.creditInquireId = newValue;
+			},
+		},
 	},
 	methods: {
 		applIdFnc() {
@@ -67,16 +83,33 @@ export default {
 		applIdFlagFnc() {
 			this.AppFlag = Number(this.$route.query.applId);
 		},
+		/*unLoadEvent(e) {
+			// 브라우저 종료시 컨펌 로직
+			e.preventDefault();
+			e.returnValue = '';
+		},*/
 	},
+	/*mounted() {
+		// 브라우저 종료시 컨펌 로직
+		window.addEventListener('beforeunload', this.unLoadEvent);
+	},
+	beforeUnmount() {
+		// 브라우저 종료시 컨펌 로직
+		window.removeEventListener('beforeunload', this.unLoadEvent);
+	},*/
 	created() {
 		// 판매현황에서 들어온 신청서 번호
 		this.applIdFnc();
 		this.applIdFlagFnc();
 	},
 	watch: {
-		$route(to) {
+		$route(to, from) {
 			if (to.path === '/application-form-creation') {
 				window.location.reload();
+			}
+			if (from.path !== '/sell-status') {
+				this.creditInquireId = '';
+				this.crData = [];
 			}
 		},
 	},

@@ -5,7 +5,7 @@
 		<div class="new_popTable1">
 			<table class="w100P">
 				<tr>
-					<td>고객유형<span class="redfont">*</span></td>
+					<td class="w140">고객유형<span class="redfont">*</span></td>
 					<td colspan="20">
 						<!--						<select
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -35,63 +35,12 @@
 									v-model.trim="customerData.cusType"
 									@change="customerDialogFnc"
 									:checked="item.value"
-								/><label class="ml-1" :for="`radio${item.value}`">{{
+									:disabled="!!basic.creditInquireId"
+								/><label class="ml-1 cur_p" :for="`radio${item.value}`">{{
 									item.name
 								}}</label>
 							</div>
 						</div>
-					</td>
-				</tr>
-				<tr v-if="customerData.cusType === 'MINORS'">
-					<td>법정대리인성명<span class="redfont">*</span></td>
-					<td>
-						<input
-							type="text"
-							class="borderRadi3Px borderContColor2 w220 h36 padW10"
-							v-model.trim="customerData.courtProctorName"
-						/>
-					</td>
-					<td>법정대리인<br />주민등록번호<span class="redfont">*</span></td>
-					<td>
-						<input
-							class="borderRadi3Px borderContColor2 w220 h36 padW10"
-							type="text"
-							@input="
-								regiNumSplitFnc(
-									$event.target.value,
-									'courtProctorRegiNum',
-									'customerData',
-								)
-							"
-							v-model.trim="customerData.courtProctorRegiNumConcat"
-							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
-						/>
-					</td>
-					<td>연락처<span class="redfont">*</span></td>
-					<td>
-						<input
-							class="borderRadi3Px borderContColor2 w220 h36 padW10"
-							type="text"
-							@input="
-								phoneNumSplitFnc(
-									$event.target.value,
-									'courtProctorPhone',
-									'customerData',
-								)
-							"
-							v-model="customerData.courtProctorPhone"
-							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
-						/>
-					</td>
-				</tr>
-				<tr v-if="customerData.cusType === 'MINORS'">
-					<td>관계<span class="redfont">*</span></td>
-					<td colspan="20">
-						<input
-							class="borderRadi3Px borderContColor2 w220 h36 padW10"
-							type="text"
-							v-model.trim="customerData.courtProctorRelation"
-						/>
 					</td>
 				</tr>
 				<!--				<tr v-if="customerDialog === true">
@@ -133,15 +82,16 @@
 					</td>
 				</tr>-->
 				<tr v-if="customerData.cusType === 'CORP'">
-					<td>법인명<span class="redfont">*</span></td>
+					<td class="w140">법인명<span class="redfont">*</span></td>
 					<td>
 						<input
+							:disabled="!!basic.creditInquireId"
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
 							type="text"
 							v-model.trim="customerData.bizName"
 						/>
 					</td>
-					<td>사업자번호<span class="redfont">*</span></td>
+					<td class="w140">사업자번호<span class="redfont">*</span></td>
 					<td>
 						<input
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -151,9 +101,10 @@
 							"
 							v-model="customerData.bizNum"
 							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+							:disabled="!!crData.bizNum1"
 						/>
 					</td>
-					<td>연락처<span class="redfont">*</span></td>
+					<td class="w140">연락처<span class="redfont">*</span></td>
 					<td>
 						<input
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -167,11 +118,12 @@
 							"
 							v-model="customerData.bizPhone"
 							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+							:disabled="!!crData.bizPhone1"
 						/>
 					</td>
 				</tr>
 				<tr v-if="customerData.cusType === 'CORP'">
-					<td>법인등록번호<span class="redfont">*</span></td>
+					<td class="w140">법인등록번호<span class="redfont">*</span></td>
 					<td>
 						<input
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -184,6 +136,7 @@
 								)
 							"
 							v-model="customerData.bizRegiNumConcat"
+							:disabled="!!basic.creditInquireId"
 							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
 						/>
 					</td>
@@ -209,6 +162,7 @@
 							"
 							v-model="customerData.cusRegiNumConcat"
 							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+							:disabled="!!crData.cusRegiNum1"
 						/>
 					</td>
 				</tr>
@@ -222,6 +176,7 @@
 						</td>
 						<td class="w240">
 							<input
+								:disabled="!!basic.creditInquireId"
 								class="borderRadi3Px borderContColor2 w220 h36 padW10"
 								type="text"
 								v-model.trim="customerData.cusName"
@@ -249,11 +204,12 @@
 									"
 									v-model.trim="customerData.cusRegiNumConcat"
 									oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+									:disabled="!!basic.creditInquireId"
 								/>
 							</td>
 						</template>
 						<template v-if="customerData.cusType === 'FOREIGN'">
-							<td>외국인등록번호<span class="redfont">*</span></td>
+							<td class="w140">외국인등록번호<span class="redfont">*</span></td>
 							<td>
 								<!--								<div class="residentStyle1">
 									<input
@@ -284,6 +240,7 @@
 									"
 									v-model.trim="customerData.licenseNumConcat"
 									oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+									:disabled="!!basic.creditInquireId"
 								/>
 							</td>
 						</template>
@@ -305,6 +262,61 @@
 						</select>
 					</td>
 				</tr>
+				<tr v-if="customerData.cusType === 'MINORS'">
+					<td>법정대리인성명<span class="redfont">*</span></td>
+					<td>
+						<input
+							type="text"
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							v-model.trim="customerData.courtProctorName"
+							:disabled="!!basic.creditInquireId"
+						/>
+					</td>
+					<td>법정대리인<br />주민등록번호<span class="redfont">*</span></td>
+					<td>
+						<input
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							type="text"
+							@input="
+								regiNumSplitFnc(
+									$event.target.value,
+									'courtProctorRegiNum',
+									'customerData',
+								)
+							"
+							v-model.trim="customerData.courtProctorRegiNumConcat"
+							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+							:disabled="!!basic.creditInquireId"
+						/>
+					</td>
+					<td>연락처<span class="redfont">*</span></td>
+					<td>
+						<input
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							type="text"
+							@input="
+								phoneNumSplitFnc(
+									$event.target.value,
+									'courtProctorPhone',
+									'customerData',
+								)
+							"
+							v-model="customerData.courtProctorPhone"
+							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
+							:disabled="!!basic.creditInquireId"
+						/>
+					</td>
+				</tr>
+				<tr v-if="customerData.cusType === 'MINORS'">
+					<td>관계<span class="redfont">*</span></td>
+					<td colspan="20">
+						<input
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							type="text"
+							v-model.trim="customerData.courtProctorRelation"
+						/>
+					</td>
+				</tr>
 				<tr>
 					<td>휴대폰번호<span class="redfont">*</span></td>
 					<td>
@@ -320,6 +332,7 @@
 							"
 							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
 							v-model="customerData.cusPhone"
+							:disabled="!!crData.cusPhone1"
 						/>
 					</td>
 					<td>비상연락망</td>
@@ -355,6 +368,9 @@
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
 							v-model.trim="customerData.licenseAuthType"
 							@change="resetLicenseAuthTypeFnc"
+							:disabled="
+								basic.creditInquireId && customerData.cusType === 'FOREIGN'
+							"
 						>
 							<option disabled>신분증 진위를 선택해주세요.</option>
 							<option :value="null">해당없음</option>
@@ -362,6 +378,7 @@
 								v-for="(item, index) in selectItems.licenseAuthTypeItems"
 								:key="index"
 								:value="item.value"
+								:checked="item.value"
 							>
 								{{ item.name }}
 							</option>
@@ -557,6 +574,7 @@
 									v-bind="attrs"
 									v-on="on"
 									append-icon="mdi-calendar"
+									:disabled="!!crData.ntnlCode"
 								></v-text-field>
 							</template>
 							<v-date-picker
@@ -586,6 +604,7 @@
 									v-bind="attrs"
 									v-on="on"
 									append-icon="mdi-calendar"
+									:disabled="!!crData.licenseExpiredDate"
 								></v-text-field>
 							</template>
 							<v-date-picker
@@ -607,6 +626,7 @@
 								outlined
 								:attach="true"
 								placeholder="검색해주세요."
+								:disabled="!!crData.stayCode"
 							></v-autocomplete>
 						</div>
 					</td>
@@ -624,6 +644,7 @@
 								outlined
 								:attach="true"
 								placeholder="검색해주세요."
+								:disabled="!!crData.ntnlCode"
 							></v-autocomplete>
 						</div>
 					</td>
@@ -635,11 +656,11 @@
 							<input
 								type="text"
 								class="borderRadi3Px borderContColor2 w220 h36 padW10 lh36 disGray"
-								v-model.trim="blackList"
+								v-model.trim="blackListMsg"
 								disabled
 							/>
 							<button
-								style="font-size: 14px"
+								style="font-size: 12px"
 								class="backColorBlue3 borderRadi3Px"
 								@click="getBlackListFnc"
 							>
@@ -651,7 +672,7 @@
 				<tr>
 					<td>주소<span class="redfont">*</span></td>
 					<td colspan="20">
-						<div class="btnPlus1 w290 floatL">
+						<div class="btnPlus1 disIN" style="width: 295px">
 							<input
 								class="borderRadi3Px borderContColor2 w220 h36 padW10"
 								type="text"
@@ -668,7 +689,7 @@
 							></post-api>
 						</div>
 						<input
-							class="borderRadi3Px borderContColor2 w325 h36 padW10 ml10"
+							class="borderRadi3Px borderContColor2 w325 h36 padW10 ml-1"
 							type="text"
 							v-model.trim="customerData.cusAddr"
 							@click="postDialog = true"
@@ -676,7 +697,7 @@
 							placeholder="기본주소"
 						/>
 						<input
-							class="borderRadi3Px borderContColor2 w280 h36 padW10 ml10"
+							class="borderRadi3Px borderContColor2 w280 h36 padW10 ml-2"
 							type="text"
 							v-model.trim="customerData.cusAddrDetail"
 							placeholder="상세주소"
@@ -686,6 +707,12 @@
 				</tr>
 			</table>
 		</div>
+		<BlackListTablePop
+			v-if="blackListTablePop"
+			:blackListData="blackListData"
+			@closeDialog="closeDialog"
+			@blackBtnFnc="blackBtnFnc"
+		></BlackListTablePop>
 	</div>
 </template>
 
@@ -698,21 +725,29 @@ import {
 	dialogData,
 } from '../../../../store/interface/supply-chain-mgmt/application-form-creation/AppFormCreationInterface';
 import numberSplit from '../../../../common/numberSplit';
+import BlackListTablePop from '@/views/supply-chain-mgmt/black-list/popup/BlackListTablePop.vue';
+import { logout } from '@/api/member/login';
 
 interface dataType {
 	postDialog: boolean;
 	menu1: boolean;
 	menu2: boolean;
+	blackListTablePop: boolean;
+	blackListMsg: any;
+	blackListData: any;
 }
 
 export default Vue.extend({
 	name: 'CustomerInformation',
 	mixins: [numberSplit],
-	components: { PostApi },
+	components: { BlackListTablePop, PostApi },
 	data: (): dataType => ({
 		postDialog: false,
 		menu1: false,
 		menu2: false,
+		blackListTablePop: false,
+		blackListMsg: '',
+		blackListData: [],
 	}),
 	computed: {
 		customerDialog: {
@@ -755,12 +790,23 @@ export default Vue.extend({
 			return this.$store.state.ApplicationFormCreationModule.codeList
 				.nationalCodeItems;
 		},
-		blackList: {
-			get(): string {
-				return this.$store.state.ApplicationFormCreationModule.blackList;
+		AppFormCreFlag(): string {
+			return this.$store.state.ApplicationFormCreationModule.AppFormCreFlag;
+		},
+		crData: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.crData;
 			},
-			set(newValue: string) {
-				this.$store.state.ApplicationFormCreationModule.blackList = newValue;
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.crData = newValue;
+			},
+		},
+		basic: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.formData.basic;
+			},
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.formData.basic = newValue;
 			},
 		},
 	},
@@ -834,30 +880,57 @@ export default Vue.extend({
 			this.customerData.stayCode = null; // 체류코드
 			this.customerData.ntnlCode = null; // 국가
 		},
+
 		async getBlackListFnc() {
-			if (this.customerData.cusName === null) {
-				return alert('고객명을 입력해주세요.');
+			if (
+				this.customerData.cusPhone1 == null ||
+				this.customerData.cusPhone1 == '' ||
+				this.customerData.cusPhone2 == null ||
+				this.customerData.cusPhone2 == '' ||
+				this.customerData.cusPhone3 == null ||
+				this.customerData.cusPhone3 == ''
+			) {
+				return alert('휴대폰번호를 입력해주세요.');
 			}
 			if (
-				this.customerData.cusPhone1 !== null &&
-				this.customerData.cusPhone2 !== null &&
-				this.customerData.cusPhone3 !== null
+				this.customerData.cusAddr === null ||
+				this.customerData.cusAddr === ''
 			) {
+				return alert('주소를 입력해주세요.');
+			} else {
 				let data = {
-					blackName: this.customerData.cusName,
+					blackAddr: this.customerData.cusAddr,
 					blackPhone:
 						this.customerData.cusPhone1 +
 						this.customerData.cusPhone2 +
 						this.customerData.cusPhone3,
 				};
-				await this.$store.dispatch(
+				const result = await this.$store.dispatch(
 					'ApplicationFormCreationModule/getDetailList',
 					data,
 				);
-			} else {
-				alert('고객 휴대폰번호를 입력해주세요.');
+				if ('0000' === result.data.resultCode) {
+					this.blackListTablePop = true;
+					this.blackListMsg = `${result.data.data.length}건`;
+					this.blackListData = result.data.data;
+				} else {
+					this.blackListMsg = '조회된 결과가 없습니다.';
+				}
 			}
 		},
+		blackBtnFnc(blackTypeMsg: any) {
+			this.blackListMsg = blackTypeMsg;
+		},
+		closeDialog(value: any) {
+			this.blackListTablePop = value;
+		},
+	},
+	async created() {
+		if (this.AppFormCreFlag) {
+			setTimeout(() => {
+				this.getBlackListFnc();
+			}, 500);
+		}
 	},
 });
 </script>

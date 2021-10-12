@@ -34,7 +34,6 @@
 					v-if="
 						deviceChangeChk &&
 						formData.delivery.couriorMatchingYn !== 'Y' &&
-						formData.basic.applType !== 'USIM' &&
 						AppFormCreFlag &&
 						formData.join.deviceMatchingType !== 'MATCHING_TYPE_STOCK' &&
 						macthingStatus
@@ -49,7 +48,6 @@
 					class="matchingBtn"
 					v-if="
 						formData.delivery.couriorMatchingYn !== 'Y' &&
-						formData.basic.applType !== 'USIM' &&
 						AppFormCreFlag &&
 						macthingStatus &&
 						(formData.join.deviceMatchingType === 'MATCHING_TYPE_STOCK' ||
@@ -119,7 +117,6 @@
 								formData.join.usimPaymentType === 'OTHER_POST_PAY')) ||
 						(usimChangeChk &&
 							formData.delivery.couriorMatchingYn !== 'Y' &&
-							formData.basic.applType !== 'DVC' &&
 							AppFormCreFlag &&
 							formData.join.usimMatchingType !== 'MATCHING_TYPE_STOCK' &&
 							macthingStatus)
@@ -134,7 +131,6 @@
 					:disabled="disableYN"
 					v-if="
 						formData.delivery.couriorMatchingYn !== 'Y' &&
-						formData.basic.applType !== 'DVC' &&
 						AppFormCreFlag &&
 						macthingStatus &&
 						(formData.join.usimMatchingType === 'MATCHING_TYPE_STOCK' ||

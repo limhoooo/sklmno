@@ -111,7 +111,7 @@
 								<tr class="tableStyle01">
 									<th style="width: 100px"></th>
 									<th
-										style="width: 150px"
+                      style="padding: 10px"
 										v-for="goodsListData in pnSupportMoneyData.goodsList"
 										v-bind:key="goodsListData.index"
 									>
@@ -146,6 +146,7 @@
 										"
 									>
 										<div
+                        style="width: 80px"
 											v-html="
 												mappingListFnc(
 													chargeListData.chargeId,

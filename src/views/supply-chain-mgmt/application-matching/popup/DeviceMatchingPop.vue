@@ -31,7 +31,7 @@
 											"
 										>
 											<input
-                          class="ml5 mr5"
+												class="ml5 mr5"
 												type="radio"
 												id="deviceStockMatching"
 												name="deviceMatchingType"
@@ -44,7 +44,7 @@
 											>
 										</span>
 										<input
-                        class="ml5 mr5"
+											class="ml5 mr5"
 											type="radio"
 											id="deviceNoneStockMatching"
 											name="deviceMatchingType"
@@ -56,7 +56,7 @@
 											>비재고매칭(수동)</label
 										>
 										<input
-                        class="ml5 mr5"
+											class="ml5 mr5"
 											type="radio"
 											id="deviceNone"
 											name="deviceMatchingType"
@@ -111,7 +111,7 @@
 											"
 										>
 											<input
-                          class="ml5 mr5"
+												class="ml5 mr5"
 												type="radio"
 												id="usimStockMatching"
 												name="usimMatchingType"
@@ -124,7 +124,7 @@
 											>
 										</span>
 										<input
-                        class="ml5 mr5"
+											class="ml5 mr5"
 											type="radio"
 											id="usimNoneStockMatching"
 											name="usimMatchingType"
@@ -136,7 +136,7 @@
 											>비재고매칭(수동)</label
 										>
 										<input
-                        class="ml5 mr5"
+											class="ml5 mr5"
 											type="radio"
 											id="usimNone"
 											name="usimMatchingType"
@@ -221,7 +221,7 @@
 											:key="item.id"
 										>
 											<input
-                          class="ml5 mr5"
+												class="ml5 mr5"
 												type="radio"
 												:id="`delType${index}`"
 												name="delType"
@@ -267,20 +267,20 @@
 										<select
 											class="matchingSelect w150 lh36"
 											style="border: 1px solid #ddd"
-                      v-model="courierData"
-                      :disabled="applMatchingDetailObj.courierId"
+											v-model="courierData"
+											:disabled="applMatchingDetailObj.courierId"
 										>
 											<option :value="item.codeSeq" v-for="item in courierList">
-                        {{item.codeNm}}
+												{{ item.codeNm }}
 											</option>
 										</select>
-                    <button
-                        v-if="!applMatchingDetailObj.courierId"
-                        class="borderRadi3Px padW10 lh36 borderContColor1 backColorBlue2 mainWhite"
-                        @click="courierUpdateFnc()"
-                    >
-                      저장
-                    </button>
+										<button
+											v-if="!applMatchingDetailObj.courierId"
+											class="borderRadi3Px padW10 lh36 borderContColor1 backColorBlue2 mainWhite"
+											@click="courierUpdateFnc()"
+										>
+											저장
+										</button>
 										<button
 											class="borderRadi3Px padW10 lh36 borderContColor1 backColorBlue2 mainWhite"
 											v-if="macthingBtn && macthingStatus"
@@ -828,7 +828,11 @@
 	</div>
 </template>
 <script>
-import {commonCodeEnumListFnc, commonCodeListFnc, epostPrint,} from '../../../../common/common.js';
+import {
+	commonCodeEnumListFnc,
+	commonCodeListFnc,
+	epostPrint,
+} from '../../../../common/common.js';
 import overlapDevicePopup from '../../../../components/device/overlapDevicePopup.vue';
 import DeviceMatchingInfo from './DeviceMatchingInfo';
 
@@ -864,9 +868,9 @@ export default {
 		usimType: 'NANO_USIM',
 		usimDivision: [],
 		deliveryTypeList: [],
-    courierList: [],
+		courierList: [],
 		couriorBtn: false,
-    courierData: '',
+		courierData: '',
 	}),
 	computed: {
 		applMatchingDetailObj() {
@@ -1075,21 +1079,21 @@ export default {
 		// DVC : 기기
 		// USIM : 유심
 		async deviceMatchingCancle(type) {
-      if (
-          'DVC' === type &&
-          this.applMatchingDetailObj.deviceMatchingCancelAuthYn === 'N'
-      ) {
-        return alert(
-            '자신의 영업점에서 매칭한 기기가 아닐시\n매칭취소 할 수 없습니다.',
-        );
-      } else if (
-          'USIM' === type &&
-          this.applMatchingDetailObj.usimMatchingCancelAuthYn === 'N'
-      ) {
-        return alert(
-            '자신의 영업점에서 매칭한 유심이 아닐시\n매칭취소 할 수 없습니다.',
-        );
-      }
+			if (
+				'DVC' === type &&
+				this.applMatchingDetailObj.deviceMatchingCancelAuthYn === 'N'
+			) {
+				return alert(
+					'자신의 영업점에서 매칭한 기기가 아닐시\n매칭취소 할 수 없습니다.',
+				);
+			} else if (
+				'USIM' === type &&
+				this.applMatchingDetailObj.usimMatchingCancelAuthYn === 'N'
+			) {
+				return alert(
+					'자신의 영업점에서 매칭한 유심이 아닐시\n매칭취소 할 수 없습니다.',
+				);
+			}
 			if (this.matchingTypeCheck(type)) {
 				return;
 			}
@@ -1341,7 +1345,7 @@ export default {
 			}
 		},
 		dataSet() {
-		   this.courierData = this.applMatchingDetailObj.courierId
+			this.courierData = this.applMatchingDetailObj.courierId;
 			if ('QUICK' === this.applMatchingDetailObj.deliveryType) {
 				if (this.applMatchingDetailObj.quickPhoneAttribute) {
 					this.quickCharge = this.applMatchingDetailObj.quickCharge;
@@ -1357,18 +1361,28 @@ export default {
 			}
 			this.usimType = this.applMatchingDetailObj.usimType;
 			// 개통종류에 따른 기기 유심 매칭타입 checked
-      if (this.applMatchingDetailObj.applType === 'DVC') {
-        this.deviceMatchingType = this.applMatchingDetailObj.deviceMatchingType || 'MATCHING_TYPE_STOCK';
-        this.usimMatchingType =		this.applMatchingDetailObj.usimMatchingType || 'MATCHING_TYPE_NOT_STOCK';
-      }
-      if (this.applMatchingDetailObj.applType === 'USIM') {
-        this.deviceMatchingType = this.applMatchingDetailObj.deviceMatchingType || 'MATCHING_TYPE_NOT_STOCK';
-        this.usimMatchingType =		this.applMatchingDetailObj.usimMatchingType || 'MATCHING_TYPE_STOCK';
-      }
-      if (this.applMatchingDetailObj.applType === 'DVC_USIM') {
-        this.deviceMatchingType = this.applMatchingDetailObj.deviceMatchingType || 'MATCHING_TYPE_STOCK';
-        this.usimMatchingType =		this.applMatchingDetailObj.usimMatchingType || 'MATCHING_TYPE_STOCK';
-      }
+			if (this.applMatchingDetailObj.applType === 'DVC') {
+				this.deviceMatchingType =
+					this.applMatchingDetailObj.deviceMatchingType ||
+					'MATCHING_TYPE_STOCK';
+				this.usimMatchingType =
+					this.applMatchingDetailObj.usimMatchingType ||
+					'MATCHING_TYPE_NOT_STOCK';
+			}
+			if (this.applMatchingDetailObj.applType === 'USIM') {
+				this.deviceMatchingType =
+					this.applMatchingDetailObj.deviceMatchingType ||
+					'MATCHING_TYPE_NOT_STOCK';
+				this.usimMatchingType =
+					this.applMatchingDetailObj.usimMatchingType || 'MATCHING_TYPE_STOCK';
+			}
+			if (this.applMatchingDetailObj.applType === 'DVC_USIM') {
+				this.deviceMatchingType =
+					this.applMatchingDetailObj.deviceMatchingType ||
+					'MATCHING_TYPE_STOCK';
+				this.usimMatchingType =
+					this.applMatchingDetailObj.usimMatchingType || 'MATCHING_TYPE_STOCK';
+			}
 			// if (this.applMatchingDetailObj.applType !== 'USIM') {
 			// 	this.deviceMatchingType =
 			// 		this.applMatchingDetailObj.deviceMatchingType ||
@@ -1408,27 +1422,27 @@ export default {
 				await this.getList();
 			}
 		},
-    async courierUpdateFnc(){
-      if(!this.courierData){
-        return alert('택배사를 선택해주세요.');
-      }
-      if(!confirm('택배사를 저장하시겠습니까?')){
-        return ;
-      }
-		  let data = {
-		    applId : this.applId,
-        courierId : this.courierData,
-      }
-      const result = await this.$store.dispatch(
-          'ApplicationMatchingModule/changeCourier',
-          data,
-      );
-      if (result) {
-        alert('저장되었습니다.');
-        await this.getDetailList();
-        await this.getList();
-      }
-    },
+		async courierUpdateFnc() {
+			if (!this.courierData) {
+				return alert('택배사를 선택해주세요.');
+			}
+			if (!confirm('택배사를 저장하시겠습니까?')) {
+				return;
+			}
+			let data = {
+				applId: this.applId,
+				courierId: this.courierData,
+			};
+			const result = await this.$store.dispatch(
+				'ApplicationMatchingModule/changeCourier',
+				data,
+			);
+			if (result) {
+				alert('저장되었습니다.');
+				await this.getDetailList();
+				await this.getList();
+			}
+		},
 		async getCommonCodeList() {
 			let data = {
 				initEnumData: ['UsimType', 'deliveryType'],
@@ -1440,14 +1454,13 @@ export default {
 				this.deliveryTypeList.splice(0, 1);
 			}
 		},
-    async getCommonCodeList2() {
-      let data = {
-        code: ['COURIER'],
-      };
-      const result = await commonCodeListFnc(data);
-      this.courierList = result.codeList.COURIER || [];
-    },
-
+		async getCommonCodeList2() {
+			let data = {
+				code: ['COURIER'],
+			};
+			const result = await commonCodeListFnc(data);
+			this.courierList = result.codeList.COURIER || [];
+		},
 	},
 	watch: {
 		dialog: {
@@ -1468,9 +1481,6 @@ export default {
 };
 </script>
 <style scoped>
-.display_in {
-	display: inline-block;
-}
 .matchingInput {
 	width: 150px !important;
 	border: 1px solid #ddd;

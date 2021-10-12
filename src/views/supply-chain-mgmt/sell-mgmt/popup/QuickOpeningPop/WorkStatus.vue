@@ -3,7 +3,7 @@
 		<div class="disFx">
 			<span>상담</span>
 			<InputStatusSelect
-				style="width: 210px"
+				style="width: 180px"
 				title="상담"
 				:data="{
 					name: 'consultTaskStatus',
@@ -18,7 +18,7 @@
 		<div class="disFx ml20">
 			<span style="line-height: 32px">개통</span>
 			<InputStatusSelect
-				style="width: 210px"
+				style="width: 180px"
 				title="개통"
 				:formData="formData"
 				:data="{
@@ -34,7 +34,7 @@
 		<div class="disFx ml20">
 			<span style="line-height: 32px">물류</span>
 			<InputStatusSelect
-				style="width: 210px"
+				style="width: 180px"
 				title="물류"
 				:data="{
 					name: 'logisticsTaskStatus',
@@ -52,6 +52,7 @@
 
 <script>
 import InputStatusSelect from '../../../../../components/input/InputStatusSelect';
+import { nullValidation2 } from '../../../../../common/common';
 
 export default {
 	props: {
@@ -105,6 +106,22 @@ export default {
 				value: value,
 				beforeValue: beforeValue,
 			};
+			if (
+				value === 'OPENING_DMND_CONSULT' ||
+				value === 'OPENING_DMND_OPENING'
+			) {
+				if (
+					!nullValidation2(this.formData.join, [
+						'agreementType', // 약정유형
+						'instlPeriodType', // 할부기간
+						'chargeId', // 요금제
+						'releaseAmt', // 출고가
+					])
+				) {
+					this.formData.basic[name] = beforeValue;
+					return;
+				}
+			}
 			this.$emit('changeWorkStatusFnc', data);
 		},
 	},

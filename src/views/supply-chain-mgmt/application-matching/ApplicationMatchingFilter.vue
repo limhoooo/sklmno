@@ -210,7 +210,18 @@
 					</div>
 				</div>
 				<div class="inStockLeftRowCont disFx h40 mb10">
-					<div class="selectCustom">
+					<div class="w170">
+						<v-select
+							outlined
+							:items="useYn"
+							item-text="name"
+							item-value="value"
+							label="사전예약"
+							v-model.trim="filterData.beforeReserveYn"
+						>
+						</v-select>
+					</div>
+					<div class="selectCustom ml10">
 						<v-select
 							label="배송방법"
 							:items="statusList.DeliveryType"
@@ -258,6 +269,11 @@ export default {
 	data: () => ({
 		menu1: false,
 		menu2: false,
+		useYn: [
+			{ name: '전체', value: '전체' },
+			{ name: 'Y', value: 'Y' },
+			{ name: 'N', value: 'N' },
+		],
 		telecomList: [],
 		dateFilter: 'consultRegiDateTime',
 	}),
@@ -424,9 +440,9 @@ export default {
 			this.codeList.capacityList.unshift({ capacity: '전체' });
 			this.codeList.colorList.unshift({ colorName: '전체' });
 		},
-    async getList(data) {
-      await this.$store.dispatch('ApplicationMatchingModule/getList', data);
-    },
+		async getList(data) {
+			await this.$store.dispatch('ApplicationMatchingModule/getList', data);
+		},
 	},
 	async created() {
 		await this.filterInit();

@@ -119,6 +119,10 @@ const BookmarkModule = {
 				title: '블랙리스트 관리',
 				href: '/black-list',
 			},
+			{
+				title: '신용조회',
+				href: '/credit-check',
+			},
 		],
 	},
 	actions: {

@@ -435,11 +435,27 @@ export const router = new VueRouter({
 		{
 			// 통계현황
 			path: '/stats-mgmt',
-			component: () =>
-				import('../views/supply-chain-mgmt/StatsMgmt.vue'),
+			component: () => import('../views/supply-chain-mgmt/StatsMgmt.vue'),
+		},
+		{
+			// 신용조회
+			path: '/credit-check',
+			component: () => import('../views/credit-check-mgmt/CreditCheck.vue'),
 		},
 	],
 });
+
+// 운영 배포시
+// chunk load error 발생시 reload
+router.onError(error => {
+	if (
+		error.message.indexOf('Loading chunk') >= 0 &&
+		error.message.indexOf('failed') >= 0
+	) {
+		window.location.reload();
+	}
+});
+
 // 라우터 네이게이션 가드
 // // 라우터에 설정해놓은 meta.auth 와 로그인한 정보가 없을시 login page 로 이동
 router.beforeEach((to, from, next) => {

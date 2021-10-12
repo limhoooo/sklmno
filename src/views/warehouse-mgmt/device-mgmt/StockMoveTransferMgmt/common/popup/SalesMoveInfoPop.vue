@@ -306,7 +306,6 @@ export default {
 		},
 		closeFnc() {
 			this.dialog = !this.dialog;
-			this.getList();
 		},
 	},
 	async created() {

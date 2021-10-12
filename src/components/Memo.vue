@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div class="bottomSearchBar mt-3 w100P">
+		<div class="bottomSearchBar mt-5 w100P">
 			<h2 class="disIN w20P mainBlack2">메모</h2>
 			<memo-tab></memo-tab>
 			<memo-input></memo-input>
@@ -18,7 +18,7 @@ export default {
 	props: {
 		applId: Number,
 		// required: true
-    maxHeight: Number,
+		maxHeight: Number,
 	},
 
 	components: {

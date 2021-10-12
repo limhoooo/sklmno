@@ -6,6 +6,7 @@
 			<header-app></header-app>
 			<lnb-app class="defaultboxShadow"></lnb-app>
 			<v-main
+				id="mainBox"
 				style="background-color: #f5f5f5; overflow: scroll"
 				class="drawerOn"
 				:class="{ drawerOff: drawerToggle }"
@@ -20,7 +21,7 @@
 		<template v-else>
 			<router-view></router-view>
 		</template>
-    <WebSocket></WebSocket>
+		<WebSocket></WebSocket>
 	</v-app>
 </template>
 
@@ -38,7 +39,7 @@ export default {
 		LnbApp,
 		FooterApp,
 		ProgressLoadingBar,
-    WebSocket,
+		WebSocket,
 	},
 	data() {
 		return {
@@ -61,6 +62,9 @@ export default {
 			}
 			return result;
 		},
+		applId() {
+			return this.$store.state.ApplicationFormCreationModule.AppFormCreFlag;
+		},
 	},
 	methods: {
 		startSpinner() {
@@ -78,6 +82,13 @@ export default {
 		bus.$off('start:spinner', this.startSpinner);
 		bus.$off('end:spinner', this.endSpinner);
 	},
+	watch: {
+		$route(to, from) {
+			console.log(from.path);
+			console.log(to.path);
+			console.log(this.applId);
+		},
+	},
 };
 </script>
 
@@ -87,4 +98,9 @@ export default {
 @import './assets/css/common.css';
 @import './assets/css/newCommon.css';
 @import './assets/css/newStyle.css';
+@media only screen and (max-width: 800px) {
+	#app {
+		min-width: 0px;
+	}
+}
 </style>

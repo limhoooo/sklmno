@@ -1,8 +1,8 @@
 <template>
-	<div>
+	<div class="mt-1">
 		<select
 			v-model.trim="formData.category"
-			class="w100P cur_p lh36 pl-3 backColorWhite borderRadi5Px borderContColor1"
+			class="w100P cur_p lh32 pl-3 backColorWhite borderRadi5Px borderContColor1"
 		>
 			<option value="ALL">전체</option>
 			<option value="GROUP">그룹</option>
@@ -11,7 +11,7 @@
 		<div class="new-btnA1">
 			<textarea
 				v-model.trim="formData.memoContents"
-				class="w100P mt-1 lh36 pl-3 backColorWhite borderRadi5Px borderContColor1 outLineNone"
+				class="w100P mt-1 lh32 pl-3 backColorWhite borderRadi5Px borderContColor1 outLineNone"
 				placeholder="메모 입력"
 				type="text"
 				style="resize: none"

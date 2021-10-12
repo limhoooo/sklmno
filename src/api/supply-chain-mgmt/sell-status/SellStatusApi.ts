@@ -5,6 +5,7 @@ import { instance } from '../../../api/index';
 const domain = '/SellCurrentManagement/SellCurrentMgmt/';
 
 const getSellCurrentPage = async (data: filterData) => {
+	console.log(data);
 	let param = '';
 	if (data) param = jsonToQueryString(data);
 	const response = await instance.get(`${domain}getSellCurrentPage${param}`);

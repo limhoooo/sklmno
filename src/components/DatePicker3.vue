@@ -2,7 +2,53 @@
 	<span style="padding-left: 12px">
 		<div>
 			<v-row align="center">
-				<div class="w150 new-dateLabel1">
+				<v-col cols="auto">
+					<div class="new-dateRadio ml10">
+						<input
+							type="radio"
+							id="all"
+							name="date"
+							value="0"
+							v-model.trim="setDateBtn"
+							@click="setDate('all')"
+							checked
+						/><label for="all">전체</label>
+						<input
+							type="radio"
+							id="today"
+							name="date"
+							value="1"
+							v-model.trim="setDateBtn"
+							@click="setDate('day')"
+						/><label for="today">오늘</label>
+						<input
+							type="radio"
+							id="week"
+							name="date"
+							value="2"
+							v-model.trim="setDateBtn"
+							@click="setDate('yesterDay')"
+						/><label for="week">어제</label>
+						<input
+							type="radio"
+							id="month"
+							name="date"
+							value="3"
+							v-model.trim="setDateBtn"
+							@click="setDate('month')"
+						/><label for="month">당월</label>
+						<input
+							type="radio"
+							id="halfMonth"
+							name="date"
+							value="4"
+							v-model.trim="setDateBtn"
+							@click="setDate('beforeMonth')"
+						/><label for="halfMonth">전월</label>
+					</div>
+				</v-col>
+
+				<div class="w150 new-dateLabel1 ml5">
 					<v-menu
 						v-model.trim="menu1"
 						:close-on-content-click="false"
@@ -58,56 +104,12 @@
 						></v-date-picker>
 					</v-menu>
 				</v-col>
-				<v-col cols="auto">
-					<div class="new-dateRadio ml10">
-						<button
-							class="backColorBlue3 mainWhite lh36 padW10 borderRadi3Px mr20"
-						>
-							검색
-						</button>
-						<input
-							type="radio"
-							id="all"
-							name="date"
-							value="0"
-							v-model.trim="setDateBtn"
-							@click="setDate('all')"
-							checked
-						/><label for="all">전체</label>
-						<input
-							type="radio"
-							id="today"
-							name="date"
-							value="1"
-							v-model.trim="setDateBtn"
-							@click="setDate('day')"
-						/><label for="today">오늘</label>
-						<input
-							type="radio"
-							id="week"
-							name="date"
-							value="2"
-							v-model.trim="setDateBtn"
-							@click="setDate('yesterDay')"
-						/><label for="week">어제</label>
-						<input
-							type="radio"
-							id="month"
-							name="date"
-							value="3"
-							v-model.trim="setDateBtn"
-							@click="setDate('month')"
-						/><label for="month">당월</label>
-						<input
-							type="radio"
-							id="halfMonth"
-							name="date"
-							value="4"
-							v-model.trim="setDateBtn"
-							@click="setDate('beforeMonth')"
-						/><label for="halfMonth">전월</label>
-					</div>
-				</v-col>
+				<button
+					class="backColorBlue3 mainWhite lh36 padW10 borderRadi3Px ml20 cur_p"
+					@click="getStatisticsList"
+				>
+					검색
+				</button>
 			</v-row>
 		</div>
 	</span>
@@ -124,6 +126,15 @@ export default {
 		setDateBtn: 0,
 	}),
 	computed: {
+		formData: {
+			get() {
+				return this.$store.state.StatsMgmtModule.formData;
+			},
+			set(newValue) {
+				return (this.$store.state.StatsMgmtModule.formData = newValue);
+			},
+		},
+
 		dateResetData() {
 			return this.dateReset;
 		},
@@ -190,6 +201,19 @@ export default {
 			};
 			this.$emit('datePickerData', dateData);
 		},
+
+		getStatisticsList() {
+			let data = {
+				srhStartDate: this.formData.srhStartDate,
+				srhEndDate: this.formData.srhEndDate,
+				telecomId: this.formData.telecomId,
+			};
+			this.$store.dispatch('StatsMgmtModule/getStatisticsList', data);
+		},
+	},
+	created() {
+		this.formData.srhStartDate = '';
+		this.formData.srhEndDate = '';
 	},
 	watch: {
 		dateResetData: {

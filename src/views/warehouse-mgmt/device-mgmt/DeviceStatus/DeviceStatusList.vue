@@ -170,11 +170,7 @@
 </template>
 
 <script>
-import {
-	getExtrrStatusName,
-	getInStockStatusName,
-	getProductFaultyYnName,
-} from '../../../../common/common';
+import {getExtrrStatusName, getInStockStatusName, getProductFaultyYnName,} from '../../../../common/common';
 import paging from '../../../../components/paging.vue';
 import DeviceStatusInfoPop from './popup/DeviceStatusInfoPop.vue';
 import DeviceStatusOpenDevicePop from './popup/DeviceStatusOpenDevicePop.vue';
@@ -308,6 +304,7 @@ export default {
 		},
 	},
 	async created() {
+    this.$store.commit('DeviceStatusModule/filterInit');
 		await this.getList();
 	},
 };

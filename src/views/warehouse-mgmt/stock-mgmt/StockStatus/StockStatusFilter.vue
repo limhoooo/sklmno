@@ -47,29 +47,39 @@
 						@datePickerData="dateData"
 					>
 					</DatePicker2>
+          <div class="w220 ml10">
+            <v-select
+                attach
+                label="공급처"
+                :items="codeList.provList"
+                v-model.trim="filterData.provId"
+                outlined
+                item-text="provName"
+                item-value="provId"
+            ></v-select>
+          </div>
 				</div>
 				<div class="inStockLeftRowCont disFx h40">
-					<div class="w100P">
-						<v-select
-							attach
-							label="공급처"
-							:items="codeList.provList"
-							v-model.trim="filterData.provId"
-							outlined
-							item-text="provName"
-							item-value="provId"
-						></v-select>
-					</div>
+          <div style="width: 80%">
+            <v-select
+                attach
+                label="재고구분"
+                :items="codeList.stockStatStrItems"
+                v-model.trim="filterData.statusStr"
+                outlined
+                item-text="name"
+                item-value="value"
+            ></v-select>
+          </div>
 					<div class="w100P ml10">
-						<v-select
-							attach
-							label="재고구분"
-							:items="codeList.stockStatStrItems"
-							v-model.trim="filterData.statusStr"
-							outlined
-							item-text="name"
-							item-value="value"
-						></v-select>
+            <multi-search-input
+                :items="codeList.deviceMoveStockStatStrItems2"
+                itemText="name"
+                itemValue="value"
+                itemLabel="재고구분상세"
+                @inputValue="stockTypeValue"
+                :multiReset="multiResetData"
+            ></multi-search-input>
 					</div>
 					<div class="w100P ml10">
 						<v-autocomplete
@@ -83,7 +93,7 @@
 						>
 						</v-autocomplete>
 					</div>
-					<div class="w100P ml10">
+					<div class="ml10" style="width: 80%">
 						<v-autocomplete
 							style="font-size: 12px"
 							class="AutoCompleteCustom"
@@ -108,7 +118,7 @@
 						</v-autocomplete>
 					</div>
 
-					<div class="w100P ml10">
+					<div class="w170 ml10">
 						<v-text-field
 							label="일련번호 입력"
 							v-model.trim="filterData.barcode"
@@ -142,15 +152,17 @@
 </template>
 <script>
 import DatePicker2 from '../../../../components/DatePicker2.vue';
+import MultiSearchInput from '../../../../components/MultiSearchInput.vue';
 
 export default {
 	components: {
-		DatePicker2,
+		DatePicker2, MultiSearchInput
 	},
 	data: () => ({
 		menu1: false,
 		menu2: false,
-	}),
+    multiResetData: false,
+  }),
 	computed: {
 		codeList() {
 			return this.$store.state.CodeModule.codeList;
@@ -234,11 +246,16 @@ export default {
 			);
 			await this.$store.dispatch('StockStatusModule/getList', dataObj);
 		},
+    stockTypeValue(item) {
+      this.multiResetData = false;
+      this.filterData.stockTypes = item;
+    },
 		async createFilterInit() {
 			this.$store.commit('StockStatusModule/filterInit');
 			this.stockItemsList();
 		},
 		filterInit() {
+      this.multiResetData = true;
 			this.createFilterInit();
 			this.getCodeList();
 		},

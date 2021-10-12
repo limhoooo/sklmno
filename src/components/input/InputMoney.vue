@@ -1,11 +1,5 @@
 <template>
 	<div class="commonInput disFX">
-		<!--		<div>-->
-		<!--			<span class="disIN" :style="`width: ${titleWidth}px`">-->
-		<!--				{{ title }}-->
-		<!--				<span v-if="necessary"> *</span>-->
-		<!--			</span>-->
-		<!--		</div>-->
 		<div
 			style="flex-grow: 1; width: 100%; display: inline-flex; line-height: 2"
 		>
@@ -31,12 +25,10 @@ export default {
 		// title : 제목
 		// data : {name: ,value: }형태로 내려주세요.
 		// disableYN : true 일 경우 disabled
-		// necessary : 제목 옆에 '*' 를 붙여준다.(*: 필수값을 나타냄)
 		// titleWidth : title 의 width 를 customize 할 수 있습니다.
 		title: { type: String, required: true },
 		data: { type: Object, required: true },
 		disableYN: { type: Boolean },
-		necessary: { type: Boolean },
 		titleWidth: { type: Number, default: 120 },
 	},
 	data: () => ({

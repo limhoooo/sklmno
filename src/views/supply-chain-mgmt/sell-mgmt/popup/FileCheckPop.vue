@@ -106,14 +106,6 @@ export default {
 </script>
 
 <style scoped>
-.uploadBtn {
-	background-color: #003a53;
-	color: #fff;
-	padding: 10px 15px;
-	border-radius: 5px;
-	font-size: 12px;
-	cursor: pointer;
-}
 .ml5 {
 	margin-left: 5px;
 }

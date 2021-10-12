@@ -2,7 +2,6 @@ import Vue from 'vue';
 import Vuex, { ActionContext } from 'vuex';
 
 import {
-	blackListData,
 	quickOpeningCodeListData,
 	quickOpeningFormData,
 } from '../../../../store/interface/supply-chain-mgmt/sell-status/quickOpeningInterface';
@@ -39,12 +38,15 @@ interface State {
 	propsFileList: Array<Object>;
 	addServiceFormData: any;
 	optionList: quickOpeningCodeListData; // select Items
-	blackList: blackListData;
+	blackList: any;
 	deviceChange: boolean;
 	usimChange: boolean;
+	ApplExchangeFlag: boolean;
+	blackListTablePop: boolean;
 }
 
 const state: State = {
+	ApplExchangeFlag: false,
 	modifyState: false,
 	deviceChange: false,
 	usimChange: false,
@@ -58,13 +60,17 @@ const state: State = {
 			applId: null,
 			docTargetYn: '', //서류심사대상
 			openingPriorityTargetYn: '', //우선순위대상
+			beforeReserveYn: 'N', //사전예약여부
+			reserveNum: '', //예약번호
 			consultTaskStatus: '', //상담
 			openingTaskStatus: '', //개통
 			logisticsTaskStatus: '', //물류
 			openingStoreId: null, // 개통점
 			saleStoreId: null, //영업점
 			openingDate: '', //개통일자
+			openingTime: '', //개통시간
 			cancelDate: '', //철회일자
+			cancelTime: '', //철회시간
 		},
 		customer: {
 			applId: null,
@@ -167,28 +173,7 @@ const state: State = {
 			invoiceNum: '', //송장번호
 		},
 	},
-	blackList: {
-		blackAddr: '',
-		blackAddrDetail: '',
-		blackCount: null,
-		blackDateBirth: '',
-		blackId: null,
-		blackName: '',
-		blackPhone: '',
-		blackPhone1: '',
-		blackPhone2: '',
-		blackPhone3: '',
-		blackReason: '',
-		blackType: '',
-		blackTypeMsg: '',
-		blackZipCode: '',
-		regiDateTime: '',
-		regiUserName: '',
-		storeName: '',
-		updDatetime: null,
-		updUserName: null,
-		updateYn: '',
-	},
+	blackList: [],
 	optionList: {
 		goodsItems: [], // 기기리스트
 		capacityItems: [], //용량리스트
@@ -248,6 +233,7 @@ const state: State = {
 	},
 	fileData: [],
 	propsFileList: [],
+	blackListTablePop: false,
 };
 
 const getters = {};
@@ -272,14 +258,21 @@ const mutations = {
 			result.data.data.basic.consultTaskStatus = null;
 		}
 		state.formData = result.data.data;
+		// 교품관련 신청서인지 구분
+		state.ApplExchangeFlag = false; // 초기화
+		if (result.data.data.basic.parentApplId) {
+			state.ApplExchangeFlag = true;
+		}
 	},
 	setBlackList(state: State, result: any) {
 		initData(state.blackList);
 		if (result.data.resultCode == '9000') {
-			state.blackList.blackTypeMsg = '';
+			state.blackList.blackTypeMsg = result.data.resultMsg;
 		}
 		if (result.data.resultCode === '0000') {
-			state.blackList = result.data.data[0];
+			state.blackListTablePop = !state.blackListTablePop;
+			state.blackList = result.data.data;
+			state.blackList.blackTypeMsg = `${result.data.data.length} 건`;
 		}
 	},
 	setCommonCodeList(state: State, result: any) {
@@ -289,12 +282,21 @@ const mutations = {
 	setGoodsSelectList(state: State, result: any) {
 		state.optionList.goodsItems = [];
 		// 모델명 추가
+		// 받아온 기기의 useYn === 'Y' 이거나
+		// useYn === 'N' 이지만 기존에 저장된 goodsId
+		const goodsItems = [];
 		for (let i = 0; i < result.data.data.length; i++) {
-			result.data.data[
-				i
-			].goodsName = `${result.data.data[i].goodsName} [${result.data.data[i].modelName}]`;
+			if (
+				result.data.data[i].useYn === 'Y' ||
+				result.data.data[i].goodsId === state.formData.join.goodsId
+			) {
+				result.data.data[
+					i
+				].goodsName = `${result.data.data[i].goodsName} [${result.data.data[i].modelName}]`;
+				goodsItems.push(result.data.data[i]);
+			}
 		}
-		state.optionList.goodsItems = result.data.data;
+		state.optionList.goodsItems = goodsItems;
 	},
 	setCapacitySelectList(state: State, result: any) {
 		state.optionList.capacityItems = [];
@@ -321,7 +323,12 @@ const mutations = {
 			alert('조회된 결과가 없습니다.');
 		} else {
 			state.optionList.chargeList = [];
-			state.optionList.chargeList = result.data.data;
+			// 받아온 요금제의 useYn === 'Y' 이거나
+			// useYn === 'N' 이지만 기존에 저장된 chargeId
+			state.optionList.chargeList = result.data.data.filter(
+				// @ts-ignore
+				i => i.useYn === 'Y' || i.chargeId === state.formData.join.chargeId,
+			);
 		}
 	},
 	setPubNotiInfo(state: State, result: any) {
@@ -396,7 +403,6 @@ const actions = {
 		}
 	},
 	async getSelectList({ dispatch }: ActionContext<State, State>, data: string) {
-		console.log(data);
 		await dispatch('getSaleStoreSelectList');
 		await dispatch('getOpeningStoreSelectList');
 		await dispatch('getGoodsSelectList');
@@ -448,41 +454,33 @@ const actions = {
 		event: any,
 	) {
 		try {
-			if (state.formData.customer.cusType !== 'CORP') {
-				if (state.modifyState && state.formData.customer.cusName === null) {
-					return alert('블랙리스트 조회 실패.\n고객명을 입력해주세요.');
-				}
-			} else {
-				if (state.modifyState && state.formData.customer.bizName === null) {
-					return alert('블랙리스트 조회 실패.\n법인명을 입력해주세요.');
-				}
-			}
-
 			if (
-				state.formData.customer.cusPhone1.length !== 0 &&
-				state.formData.customer.cusPhone2.length !== 0 &&
-				state.formData.customer.cusPhone3.length !== 0
+				state.formData.customer.cusPhone1 == null ||
+				state.formData.customer.cusPhone1 == '' ||
+				state.formData.customer.cusPhone2 == null ||
+				state.formData.customer.cusPhone2 == '' ||
+				state.formData.customer.cusPhone3 == null ||
+				state.formData.customer.cusPhone3 == ''
 			) {
+				return alert('휴대폰번호를 입력해주세요.');
+			}
+			if (
+				state.formData.customer.cusAddr === null ||
+				state.formData.customer.cusAddr === ''
+			) {
+				return alert('주소를 입력해주세요.');
+			} else {
 				const data = {
+					blackAddr: state.formData.customer.cusAddr,
 					blackPhone:
 						state.formData.customer.cusPhone1 +
 						state.formData.customer.cusPhone2 +
 						state.formData.customer.cusPhone3,
 				};
-				if (state.formData.customer.cusType !== 'CORP') {
-					// @ts-ignore
-					data['blackName'] = state.formData.customer.cusName;
-				} else {
-					// @ts-ignore
-					data['blackName'] = state.formData.customer.bizName;
-				}
-
 				const result = await getBlackDetailList(data);
-				if (result) {
+				if (result && '0000' === result.data.resultCode) {
 					commit('setBlackList', result);
 				}
-			} else {
-				alert('블랙리스트 조회 실패.\n개통 휴대폰번호를 입력해주세요.');
 			}
 		} catch (e) {
 			console.log(e);

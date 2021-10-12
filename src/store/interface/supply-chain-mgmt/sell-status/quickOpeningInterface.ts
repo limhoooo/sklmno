@@ -20,8 +20,12 @@ export interface commonBasicFormData {
 	logisticsTaskStatus: string; // 물류업무상태
 	saleStoreId: null | number; // 영업점
 	openingStoreId: null | number; // 개통점
+	beforeReserveYn: null | string; //사전예약여부
+	reserveNum: null | string; //예약번호
 	openingDate: string; //개통일자
+	openingTime: string; //개통시간
 	cancelDate: string; //철회일자
+	cancelTime: string; //철회시간
 }
 
 // export interface basicFormData extends commonBasicFormData {

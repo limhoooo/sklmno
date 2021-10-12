@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {commonCodeEnumListFnc} from '@/common/common';
+import { commonCodeEnumListFnc } from '@/common/common';
 import {
 	getOpeningStoreList,
 	getSaleStoreList,
@@ -15,7 +15,7 @@ import {
 	deviceMatching,
 	getCourierInfo,
 	getDetailList,
-	getList
+	getList,
 } from '../../../../api/supply-chain-mgmt/application-matching/ApplicationMatchingApi';
 
 Vue.use(Vuex);
@@ -39,6 +39,7 @@ const ApplicationMatchingModule = {
 			searchStoreId: '',
 			openingStoreId: '',
 			usimPaymentType: '',
+			beforeReserveYn: '전체',
 			deliveryType: '',
 			JoinType: '',
 			telecom: '',
@@ -77,6 +78,7 @@ const ApplicationMatchingModule = {
 			state.filterData.goodsName = '전체';
 			state.filterData.capacity = '전체';
 			state.filterData.colorName = '전체';
+			state.filterData.beforeReserveYn = '전체';
 			state.dateResetData = !state.dateResetData;
 			state.openingStoreList = [];
 		},
@@ -94,12 +96,18 @@ const ApplicationMatchingModule = {
 		},
 		setOpeningStoreList(state, result) {
 			state.openingStoreList = result || [];
-			state.openingStoreList.unshift({ openStoreName: '전체', openStoreId: '' });
+			state.openingStoreList.unshift({
+				openStoreName: '전체',
+				openStoreId: '',
+			});
 		},
 	},
 	actions: {
 		async getList({ commit }, data) {
 			try {
+				if (data && data.beforeReserveYn === '전체') {
+					data.beforeReserveYn = '';
+				}
 				if (data && data.goodsName === '전체') {
 					data.goodsName = '';
 				}
@@ -110,21 +118,24 @@ const ApplicationMatchingModule = {
 					data.colorName = '';
 				}
 				const result = await getList(data);
+				if (data && data.beforeReserveYn === '') {
+					data.beforeReserveYn = '전체';
+				}
+				if (data && data.goodsName === '') {
+					data.goodsName = '전체';
+				}
+				if (data && data.capacity === '') {
+					data.capacity = '전체';
+				}
+				if (data && data.colorName === '') {
+					data.colorName = '전체';
+				}
 				if (200 === result.data.status) {
 					if ('0000' !== result.data.resultCode) {
 						return false;
 						//alert(result.data.resultMsg);
 					} else {
 						commit('setList', result.data.data);
-						if (data && data.goodsName === '') {
-							data.goodsName = '전체';
-						}
-						if (data && data.capacity === '') {
-							data.capacity = '전체';
-						}
-						if (data && data.colorName === '') {
-							data.colorName = '전체';
-						}
 						return true;
 					}
 				}
@@ -326,9 +337,6 @@ const ApplicationMatchingModule = {
 				console.log(e);
 			}
 		},
-
-
-
 	},
 };
 

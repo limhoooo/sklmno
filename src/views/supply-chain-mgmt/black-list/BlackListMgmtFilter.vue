@@ -27,6 +27,14 @@
 						v-model.trim="filterData.blackPhone"
 					/>
 				</div>
+        <div class="ml10">
+          <input
+              class="newInput1"
+              type="text"
+              placeholder="주소"
+              v-model.trim="filterData.blackAddr"
+          />
+        </div>
 			</div>
 		</div>
 		<!--		<div class="boxRow" style="width: 110%">
@@ -62,7 +70,7 @@
 
 <script lang="ts">
 import Vue from 'vue';
-import { filterData } from '../../../store/interface/supply-chain-mgmt/sell-status/sellStatusInterface';
+import {filterData} from '../../../store/interface/supply-chain-mgmt/sell-status/sellStatusInterface';
 import filterCodeListMixin from '../../../common/filterCodeListMixin';
 import DatePicker2 from '../../../components/DatePicker2.vue';
 

@@ -18,10 +18,10 @@
 			>
 			</i>
 		</button>
-		<div class="header" :class="process === 'production' || process === 'development' ? '' : 'localBgColor'">
+		<div class="header" :class="process === 'production'? '' : 'localBgColor'">
 			<div class="left">
 				<router-link
-					v-if="process === 'production' || process === 'development'"
+					v-if="process === 'production'"
 					class="logoWhite mainWhite"
 					to="/dashboard"
 				></router-link>

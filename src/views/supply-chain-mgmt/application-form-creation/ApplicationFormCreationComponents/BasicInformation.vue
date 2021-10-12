@@ -4,75 +4,83 @@
 
 		<div class="new_popTable1">
 			<table class="w100P">
-				<td class="w140">영업점<span class="redfont">*</span></td>
+				<td class="w140 lh36">영업점<span class="redfont">*</span></td>
 				<td class="w240">
-					<select
-						class="borderRadi3Px borderContColor2 h36 padW10 disGray"
-						v-model.number="basic.saleStoreId"
-						@change="openingStoreFnc"
-						:disabled="AppFormCreFlag"
-						v-if="!AppFormCreFlag"
-					>
-						<option disabled>영업점을 선택해주세요.</option>
-						<option
-							v-for="(item, index) in saleStoreItems"
-							:key="index"
-							:value="item.storeId"
+					<template>
+						<select
+							class="borderRadi3Px borderContColor2 h36 padW10"
+							v-model.number="basic.saleStoreId"
+							@change="openingStoreFnc"
+							:disabled="AppFormCreFlag || crData.saleStoreId"
+							v-if="!AppFormCreFlag"
 						>
-							{{ item.storeName }}
-						</option>
-					</select>
-					<!--수정페이지일시 내려준값으로 -->
-					<span v-if="AppFormCreFlag">
-						{{ formData.basic.saleStoreIdString }}
-					</span>
+							<option disabled>영업점을 선택해주세요.</option>
+							<option
+								v-for="(item, index) in saleStoreItems"
+								:key="index"
+								:value="item.storeId"
+							>
+								{{ item.storeName }}
+							</option>
+						</select>
+						<!--수정페이지일시 내려준값으로 -->
+						<span v-if="AppFormCreFlag">
+							{{ formData.basic.saleStoreIdString }}
+						</span>
+					</template>
 				</td>
 				<td class="w140" style="font-size: 14px; font-weight: bold">
 					개통점<span class="redfont">*</span>
 				</td>
 				<td class="w240">
-					<select
-						class="borderRadi3Px borderContColor2 h36 padW10 w200"
-						v-model.trim="basic.openingStoreId"
-						@change="customerDialogFnc()"
-						@click="alertFnc"
-					>
-						<option disabled>개통점을 선택해주세요.</option>
-						<option
-							v-for="(item, index) in openingStoreItems"
-							:key="index"
-							:value="{
-								openStoreCode: item.openStoreId,
-								openStoreTelecom: item.telecomName,
-								openStoreTelecomId: item.telecom,
-								parentHierarchy: item.parentHierarchy,
-								parentSaleStoreId: item.parentSaleStoreId,
-							}"
+					<template>
+						<select
+							class="borderRadi3Px borderContColor2 h36 padW10 w200"
+							v-model.trim="basic.openingStoreId"
+							@change="customerDialogFnc()"
+							@click="alertFnc"
+							:disabled="!!basic.creditInquireId"
 						>
-							<span v-if="item.parentSaleStoreName === ''">{{
-								item.openStoreName
-							}}</span>
-							<span v-else>
-								{{ item.openStoreName }} ( {{ item.parentSaleStoreName }} )
-							</span>
-						</option>
-					</select>
+							<option disabled>개통점을 선택해주세요.</option>
+							<option
+								v-for="(item, index) in openingStoreItems"
+								:key="index"
+								:value="{
+									openStoreCode: item.openStoreId,
+									openStoreTelecom: item.telecomName,
+									openStoreTelecomId: item.telecom,
+									parentHierarchy: item.parentHierarchy,
+									parentSaleStoreId: item.parentSaleStoreId,
+								}"
+							>
+								<span v-if="item.parentSaleStoreName === ''">{{
+									item.openStoreName
+								}}</span>
+								<span v-else>
+									{{ item.openStoreName }} ( {{ item.parentSaleStoreName }} )
+								</span>
+							</option>
+						</select>
+					</template>
 				</td>
 				<td class="w140">등록자<span class="redfont">*</span></td>
 				<td class="w240">
-					<select
-						class="borderRadi3Px borderContColor2 w220 h36 padW10"
-						v-model.number="basic.applRegiUserId"
-					>
-						<option disabled>등록자를 선택해주세요.</option>
-						<option
-							v-for="(item, index) in storeMemberItems"
-							:key="index"
-							:value="item.seq"
+					<template>
+						<select
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							v-model.number="basic.applRegiUserId"
+							:disabled="!!basic.creditInquireId"
 						>
-							{{ item.name }}
-						</option>
-					</select>
+							<option disabled>등록자를 선택해주세요.</option>
+							<option
+								v-for="(item, index) in storeMemberItems"
+								:key="index"
+								:value="item.seq"
+							>
+								{{ item.name }}
+							</option>
+						</select>
+					</template>
 				</td>
 			</table>
 		</div>
@@ -145,13 +153,14 @@
 <script lang="ts">
 import Vue from 'vue';
 import {
-  basicFormData,
-  joinFormData,
+	basicFormData,
+	joinFormData,
 } from '../../../../store/interface/supply-chain-mgmt/application-form-creation/AppFormCreationInterface';
 import deviceEnumMixin from '@/common/deviceEnumMixin';
 
 interface dataType {
 	openStoreObject: any;
+	openingStoreTelecomCopy: any;
 }
 
 export default Vue.extend({
@@ -278,22 +287,62 @@ export default Vue.extend({
 				this.$store.state.ApplicationFormCreationModule.codeList.storeMemberItems = newValue;
 			},
 		},
+		crData: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.crData;
+			},
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.crData = newValue;
+			},
+		},
 	},
 	mixins: [deviceEnumMixin],
 	data: (): dataType => ({
 		openStoreObject: {},
+		openingStoreTelecomCopy: '',
 	}),
 	methods: {
 		// 상담원 조회
 		async retrieveMemberListByRole() {
-			let data = {
+			let data;
+			if (this.AppFormCreFlag) {
+				if (this.crData.saleStoreId) {
+					data = { storeId: this.crData.saleStoreId, roleType: 'CONSULT' };
+					await this.$store.dispatch(
+						'ApplicationFormCreationModule/retrieveMemberListByRole',
+						data,
+					);
+				} else {
+					data = { storeId: this.basic.saleStoreId, roleType: 'CONSULT' };
+					await this.$store.dispatch(
+						'ApplicationFormCreationModule/retrieveMemberListByRole',
+						data,
+					);
+				}
+			} /*else {
+				data = { storeId: this.basic.saleStoreId, roleType: 'CONSULT' };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/retrieveMemberListByRole',
+					data,
+				);
+			}
+			if (this.AppFormCreFlag) {
+				data = { storeId: this.basic.saleStoreId, roleType: 'CONSULT' };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/retrieveMemberListByRole',
+					data,
+				);
+			} else {
+				data = { storeId: this.crData.saleStoreId, roleType: 'CONSULT' };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/retrieveMemberListByRole',
+					data,
+				);
+			}*/
+			/*						let data = {
 				storeId: this.formData.basic.saleStoreId,
 				roleType: 'CONSULT',
-			};
-			await this.$store.dispatch(
-				'ApplicationFormCreationModule/retrieveMemberListByRole',
-				data,
-			);
+			};*/
 		},
 		alertFnc() {
 			if (this.basic.saleStoreId === 0) {
@@ -309,18 +358,50 @@ export default Vue.extend({
 			this.joinData.openingTelecomCodeId = null;
 			this.joinData.openingTelecomName = null;
 			this.joinData.goodsId = null;
+			this.joinData.chargeId = null;
 			this.joinData.capacity = null;
 			this.joinData.color = null;
-			this.joinData.chargeId = null;
 			this.joinData.addServiceList = [];
 		},
+		// 개통통신사에 따라 요금제 '선택없음'을 default로 박아주는 로직
+		chargeIdReset() {
+			switch (this.joinData.openingTelecomCodeId) {
+				case 5:
+					this.joinData.chargeId = 1474;
+					break;
+				case 6:
+					this.joinData.chargeId = 1472;
+					break;
+				case 7:
+					this.joinData.chargeId = 1473;
+					break;
+			}
+		},
 		customerDialogFnc() {
-			this.resetOpeningStoreChainFnc();
+			// 개통점 변경시 같은 통신사일때 no reset
+			if (
+				this.openingStoreTelecomCopy !==
+				this.basic.openingStoreId.openStoreTelecomId
+			) {
+				// data reset
+				this.basic.reserveNum = ''; // 사전예약번호 초기화
+				this.resetOpeningStoreChainFnc();
+			}
+			// data set
 			this.joinData.openingTelecomName = this.basic.openingStoreId.openStoreTelecom;
 			this.joinData.openingTelecomCodeId = this.basic.openingStoreId.openStoreTelecomId;
 			this.openingStoreTelecom = this.basic.openingStoreId.openStoreTelecomId;
 			this.basic.parentHierarchy = this.basic.openingStoreId.parentHierarchy;
 			this.basic.parentSaleStoreId = this.basic.openingStoreId.parentSaleStoreId;
+			// 개통점 변경시 같은 통신사일때 no reset
+			if (
+				this.openingStoreTelecomCopy ===
+				this.basic.openingStoreId.openStoreTelecomId
+			)
+				return;
+			// 개통점 변경시 이전 개통점과 바뀐 개통점 비교하기위한 copy data
+			this.openingStoreTelecomCopy = this.basic.openingStoreId.openStoreTelecomId;
+			this.joinData.networkId = null;
 			let openingStore = false;
 			if (
 				this.joinData.openingTelecomCodeId === 5 ||
@@ -350,11 +431,15 @@ export default Vue.extend({
 			}
 		},
 		async openingStoreFnc() {
+			this.joinData.networkId = null;
 			this.basic.openingStoreId = 0;
 			this.basic.applRegiUserId = 0;
 			this.openStoreObject = {};
 			this.openingStoreItems = [];
 			this.storeMemberItems = [];
+			/*			if (this.crData.openStoreId) {
+				this.basic.openingStoreId = this.crData.openStoreId;
+			}*/
 			await this.getOpeningStoreList();
 			await this.resetOpeningStoreChainFnc();
 			await this.getSaleStoreMemberList();
@@ -363,6 +448,9 @@ export default Vue.extend({
       // 개통점 등록자 0번지 삽입 관련
       // 기존 개통점 온체인지
 			if (!this.AppFormCreFlag) {
+				if (this.basic.creditInquireId && !this.AppFormCreFlag) {
+					await this.test1231132();
+				}
 				await this.customerDialogFnc();
 			}
 		},
@@ -370,11 +458,32 @@ export default Vue.extend({
 			if (this.basic.saleStoreId === null) {
 				alert('영업점을 선택해 주세요.');
 			}
-			let data = { storeId: this.basic.saleStoreId };
-			await this.$store.dispatch(
-				'ApplicationFormCreationModule/getOpeningStoreList',
-				data,
-			);
+			let data;
+			if (!this.AppFormCreFlag) {
+				if (this.crData.saleStoreId) {
+					console.log(1111);
+					data = { storeId: this.crData.saleStoreId };
+					await this.$store.dispatch(
+						'ApplicationFormCreationModule/getOpeningStoreList',
+						data,
+					);
+				} else {
+					console.log(2222);
+					data = { storeId: this.basic.saleStoreId };
+					await this.$store.dispatch(
+						'ApplicationFormCreationModule/getOpeningStoreList',
+						data,
+					);
+				}
+			}
+			if (this.AppFormCreFlag) {
+				console.log(3333);
+				data = { storeId: this.updateFormData.basic.saleStoreId };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/getOpeningStoreList',
+					data,
+				);
+			}
 		},
 		async getCapacityListFnc() {
 			this.colorItems = [];
@@ -412,14 +521,6 @@ export default Vue.extend({
 			await this.$store.dispatch(
 				'ApplicationFormCreationModule/getTelecomAddServiceList',
 				this.joinData.openingTelecomCodeId,
-			);
-		},
-		// 영업점 소속 사용자 조회
-		async getSaleStoreMemberList() {
-			const data = { storeId: this.basic.saleStoreId };
-			await this.$store.dispatch(
-				'ApplicationFormCreationModule/getSaleStoreMemberList',
-				data,
 			);
 		},
 		createdEnumFnc() {
@@ -465,12 +566,74 @@ export default Vue.extend({
 				};
 			}
 		},
+		async renderingCrFnc() {
+			await this.openingStoreFnc();
+		},
+
+		test1231132() {
+			// 개통점 selected
+			for (let i = 0; i < this.openingStoreItems.length; i++) {
+				if (this.openingStoreItems[i].openStoreId === this.crData.openStoreId) {
+					this.basic.openingStoreId = {
+						openStoreCode: this.crData.openStoreId,
+						openStoreTelecom: this.openingStoreItems[i].telecomName,
+						openStoreTelecomId: this.openingStoreItems[i].telecom,
+						parentHierarchy: this.openingStoreItems[i].parentHierarchy,
+						parentSaleStoreId: this.openingStoreItems[i].parentSaleStoreId,
+					};
+					break;
+				}
+			}
+			this.basic.applRegiUserId = this.crData.regiUserId;
+			this.formData.join.openingTelecomName = this.basic.openingStoreId.openStoreTelecom;
+			this.formData.join.openingTelecomName = this.crData.telecomName;
+		},
+
+		// 영업점 소속 사용자 조회
+		async getSaleStoreMemberList() {
+			let data;
+			if (this.basic.creditInquireId) {
+				if (this.crData === []) {
+					data = { storeId: this.crData.saleStoreId };
+					await this.$store.dispatch(
+						'ApplicationFormCreationModule/getSaleStoreMemberList',
+						data,
+					);
+				}
+				data = { storeId: this.basic.saleStoreId };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/getSaleStoreMemberList',
+					data,
+				);
+			} else {
+				data = { storeId: this.basic.saleStoreId };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/getSaleStoreMemberList',
+					data,
+				);
+			}
+			if (this.AppFormCreFlag) {
+				data = { storeId: this.basic.saleStoreId };
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/getSaleStoreMemberList',
+					data,
+				);
+			}
+		},
 	},
 	async created() {
 		await this.getApplicationDetail();
 		await this.createdEnumFnc();
-		await this.formDataRecallFnc();
+		if (this.basic.creditInquireId && !this.AppFormCreFlag) {
+			await this.renderingCrFnc();
+		} else {
+			await this.formDataRecallFnc();
+		}
 		await this.setOpeningStoreFnc();
+		// 개통점 변경시 이전 개통점과 바뀐 개통점 비교하기위한 copy data
+		if (this.basic.openingStoreId) {
+			this.openingStoreTelecomCopy = this.basic.openingStoreId.openStoreTelecomId;
+		}
 	},
 });
 </script>

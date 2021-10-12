@@ -8,7 +8,6 @@
 				class="vsm_white-theme"
 				@toggle-collapse="onToggleCollapse"
 			>
-
 			</sidebar-menu>
 		</div>
 	</div>
@@ -17,7 +16,7 @@
 <script>
 // https://github.com/yaminncco/vue-sidebar-menu
 // https://yaminncco.github.io/vue-sidebar-menu/#/styling
-import {SidebarMenu} from 'vue-sidebar-menu';
+import { SidebarMenu } from 'vue-sidebar-menu';
 import LnbBookmark from '@/components/LnbBookmark';
 import lnb from '../common/lnb';
 
@@ -39,10 +38,10 @@ export default {
 		SidebarMenu,
 	},
 	computed: {
-    drawer() {
-      return this.$store.state.drawer;
-    },
-	  roleVal() {
+		drawer() {
+			return this.$store.state.drawer;
+		},
+		roleVal() {
 			return this.$store.state.role === 'A';
 		},
 		sct() {

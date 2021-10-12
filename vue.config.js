@@ -22,5 +22,16 @@ module.exports = {
 	},
 	transpileDependencies: ['vuetify'],
 	runtimeCompiler: true,
-	// publicPath: process.env.NODE_ENV === 'production' ? './' : '/',
+	// cache busting
+	// 배포시 js 이름변환
+	// configureWebpack: config => {
+	// 	if (
+	// 		process.env.NODE_ENV === 'production' ||
+	// 		process.env.NODE_ENV === 'development'
+	// 	) {
+	// 		config.output.filename = 'js/[name].[hash].js';
+	// 		config.output.chunkFilename = 'js/[name].[hash].js';
+	// 	}
+	// },
+	 publicPath: '/',
 };

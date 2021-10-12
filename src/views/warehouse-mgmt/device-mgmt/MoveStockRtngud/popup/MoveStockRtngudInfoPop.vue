@@ -242,29 +242,29 @@
 							</div>
 
 							<h2 class="mainFontS mainBlack2 boldWt mt20 mb10">이력조회</h2>
-							<div class="rowItem w100P">
-								<p
-									style="width: 100%; border-bottom: 1px solid #eeeeee; margin-top: 10px; line-height: 30px"
-									v-for="item in deviceHistory"
-									:key="item.index"
-								>
-									<span>{{ item.storeName }}</span>
-									| <span class="mr5">{{ item.regiUserName }}</span>
-									<span class="historyNoti backColorBlue1 mainBlue2">
-										{{ item.stockTypeMsg }}
-									</span>
-									<!--									<br /><span style="color: #333" class="countingCutsom">
-										{{ item.memo }}
-									</span>-->
-									<span
-										style="font-size: 15px"
-										class="mr5 floatR subFontS12 mainBlack3"
-										>{{
-											item.regiDateTime | moment('YYYY-MM-DD HH:mm:ss')
-										}}</span
-									>
-								</p>
-							</div>
+              <div class="newNotiTableStyle">
+                <table class="w100P">
+                  <tr v-for="item in deviceHistory" :key="item.id">
+                    <td class="padW10 lh40 borderBottomColor1">
+										<span style="font-size: 14px" class="mr5 floatL">{{
+                        item.regiDateTime | moment('YYYY-MM-DD HH:mm:ss')
+                      }}</span>
+                      <span style="color: #333" class="countingCutsom">
+											{{ item.memo }}
+										</span>
+                      <span class="floatR">
+											<span class="subFontS12">{{ item.storeName }}</span> |
+											<span class="mr5 subFontS12">{{
+                          item.regiUserName
+                        }}</span>
+											<span class="historyNoti backColorBlue1 mainBlue2">
+												{{ item.stockTypeMsg }}
+											</span>
+										</span>
+                    </td>
+                  </tr>
+                </table>
+              </div>
 							<div class="disFx justify-end mt10">
 								<v-btn
 									class="backColorGray1 mainWhite boldWt borderReset w80 ml10"
@@ -283,7 +283,7 @@
 </template>
 
 <script>
-import { getTelecomName } from '../../../../../common/common';
+import {getTelecomName} from '../../../../../common/common';
 
 export default {
 	props: ['infoDialogData'],

@@ -73,6 +73,8 @@ export default {
 			const serverURL = `${this.url}new-skl-mno/notification`;
 			let socket = new SockJS(serverURL);
 			this.stompClient = Stomp.over(socket);
+			// debug (콘솔로그) off
+			this.stompClient.debug = () => {};
 			//console.log(`소켓 연결을 시도합니다. 서버 주소: ${serverURL}`);
 			this.stompClient.connect(
 				{},
@@ -104,6 +106,7 @@ export default {
 				},
 				error => {
 					// 소켓 연결 실패
+					console.log(this.url);
 					console.log('소켓 연결 실패', error);
 					this.connected = false;
 				},

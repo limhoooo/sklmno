@@ -1,19 +1,14 @@
 <template>
 	<div class="disFX">
-		<!--		<div>-->
-		<!--			<span class="disIN" :style="`width: ${titleWidth}px`">-->
-		<!--				{{ title }}-->
-		<!--				<span v-if="necessary"> *</span>-->
-		<!--			</span>-->
-		<!--		</div>-->
 		<input
+			style="margin-right: 4px"
 			:placeholder="placeholder || `${title} 을(를) 입력해주세요.`"
-			class="lh36 w100P borderRadi3Px borderContColor1 padW10"
+			class="lh32 borderRadi4Px borderContColor1 padW10"
 			v-model.trim="inputValue"
 			:type="type"
 			:disabled="disableYN"
 			@input="setNewData($event.target.value)"
-			:maxlength="maxlength"
+			:style="maxWidth"
 		/>
 		<slot
 			name="slot"
@@ -34,16 +29,14 @@ export default {
 		// type: input 의 타입을 지정해줄 수 있습니다. ('text', 'number', 'password'...)
 		// placeholder : placeholder customize 가능.
 		// disableYN : true 일 경우 disabled
-		// necessary : 제목 옆에 '*' 를 붙여준다.(*: 필수값을 나타냄)
 		// titleWidth : title 의 width 를 customize 할 수 있습니다.
 		title: { type: String, required: true },
 		data: { type: Object, required: true },
 		formatType: { type: String, default: 'String' },
 		type: { type: String, default: 'text' },
 		placeholder: { type: String },
-		maxlength: { type: String },
+		width: { type: String },
 		disableYN: { type: Boolean },
-		necessary: { type: Boolean },
 		titleWidth: { type: Number, default: 120 },
 		customerData: { type: Object },
 	},
@@ -56,6 +49,11 @@ export default {
 			handler(newData) {
 				this.inputValue = newData.value;
 			},
+		},
+	},
+	computed: {
+		maxWidth() {
+			return `width: ${this.width}px`;
 		},
 	},
 	methods: {
@@ -106,6 +104,7 @@ button {
 button:disabled {
 	background: #c8c8c8;
 	cursor: default;
+	color: #fff !important;
 }
 input[type='number']::-webkit-outer-spin-button,
 input[type='number']::-webkit-inner-spin-button {

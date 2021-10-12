@@ -1,21 +1,21 @@
 <template>
 	<div class="disIN textRight w80P groupBtnCont lh28">
 		<button
-			:class="{ active: tabValue === 'ALL' }"
+			:class="{ active_blue: tabValue === 'ALL' }"
 			class="ml-5 disIN font-size-12"
 			@click="getMemoList('ALL')"
 		>
 			전체
 		</button>
 		<button
-			:class="{ active: tabValue === 'GROUP' }"
+			:class="{ active_green: tabValue === 'GROUP' }"
 			class="ml-5 disIN font-size-12"
 			@click="getMemoList('GROUP')"
 		>
 			그룹
 		</button>
 		<button
-			:class="{ active: tabValue === 'INDV' }"
+			:class="{ active_orange: tabValue === 'INDV' }"
 			class="ml-5 disIN font-size-12"
 			@click="getMemoList('INDV')"
 		>
@@ -58,7 +58,13 @@ export default {
 };
 </script>
 <style>
-.active {
-	color: #17a5ae;
+.active_blue {
+	color: #007ef2;
+}
+.active_green {
+	color: #00aac1;
+}
+.active_orange {
+	color: #ff7a00;
 }
 </style>

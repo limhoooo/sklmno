@@ -160,6 +160,11 @@ function lnb(data, st) {
 			title: '판매관리',
 			icon: 'fas fa-coins',
 			child: [
+				// 상용 배포시 주석처리
+				{
+					title: '신용조회',
+					href: '/credit-check',
+				},
 				{
 					title: '신청서작성',
 					href: '/application-form-creation',
@@ -175,7 +180,7 @@ function lnb(data, st) {
 			],
 		});
 	}
-	if (st === '22f353197e9b0c1cb58a11da8de7776a') {
+	if (st === '3b14c9d61a1ce5782698616844edc9ee') {
 		menu.push({
 			title: '통계관리',
 			icon: 'fas fa-chart-line',

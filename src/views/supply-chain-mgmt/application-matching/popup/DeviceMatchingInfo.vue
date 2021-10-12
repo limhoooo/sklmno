@@ -4,9 +4,10 @@
 		<div class="new_popTable1 mt10">
 			<table class="w100P">
 				<tr>
-					<td class="w140">개통점</td>
+					<td class="w140">개통점(가입유형)</td>
 					<td class="w220">
-						<span>{{ applMatchingDetailObj.openStoreName }}</span>
+						<span>{{ applMatchingDetailObj.openStoreName }} </span>
+						<span>({{ applMatchingDetailObj.joinTypeMsg }})</span>
 						<!--						<input-->
 						<!--							class="w90P padW10 borderRadi3Px borderContColor3 lh36"-->
 						<!--							type="text"-->

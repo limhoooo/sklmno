@@ -1,14 +1,9 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import {
-	getDeviceStatusList,
-	insertOpening,
-} from '../../../../api/warehouse-mgmt/device-mgmt/DeviceStatusApi.js';
-import {
-	getRetrieveDeviceHistory
-} from '../../../../api/common/common';
-import { excelDownLoad } from '../../../../api/common/common.js';
-import { commonCodeEnumList } from '@/api/warehouse-mgmt/device-mgmt/NormalInStockApi';
+import {getDeviceStatusList, insertOpening,} from '../../../../api/warehouse-mgmt/device-mgmt/DeviceStatusApi.js';
+import {getRetrieveDeviceHistory} from '../../../../api/common/common';
+import {excelDownLoad} from '../../../../api/common/common.js';
+import {commonCodeEnumList} from '@/api/warehouse-mgmt/device-mgmt/NormalInStockApi';
 
 Vue.use(Vuex);
 
@@ -67,6 +62,7 @@ const DeviceStatusModule = {
 			for (let data in state.filterData) {
 				state.filterData[data] = '';
 			}
+			state.filterData.pageNo = 1;
 			state.filterData.perPageCnt = 20;
 			state.filterData.goodsName = '전체';
 			state.filterData.capacity = '전체';

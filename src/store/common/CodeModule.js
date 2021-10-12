@@ -6,9 +6,9 @@ import {
 	getDeviceList,
 	getGoodsNameList,
 	getSessOpeningStoreList,
-	selectCodeList
+	selectCodeList,
 } from '../../api/common/common';
-import {commonCodeListFnc} from '../../common/common';
+import { commonCodeListFnc } from '../../common/common';
 
 Vue.use(Vuex);
 
@@ -63,6 +63,13 @@ const CodeModule = {
 				{ name: '매장재고(반품)', value: 'RETURN_STOCK' },
 				{ name: '반품이관', value: 'RETURN_TRNS' },
 			],
+			// 재고현황 재고구분상제
+			deviceMoveStockStatStrItems2: [
+				{ name: '입고', value: 'IN_STOCK' },
+				{ name: '이동재고', value: 'STOCK_MOVE' },
+				{ name: '판매이동', value: 'SELL_MOVE' },
+				{ name: '반품', value: 'RETURN_STOCK' },
+			],
 			// 제품 상태
 			productFaultyYnItems: [
 				{ name: '정상', value: 'N' },
@@ -100,6 +107,16 @@ const CodeModule = {
 				{ name: '전체', value: '' },
 				{ name: '유', value: 'Y' },
 				{ name: '무', value: 'N' },
+			],
+			// 판매현황 기존통신사
+			exisTelecomSellList: [
+				{ codeNm: '전체', codeSeq: '' },
+				{ codeNm: '신규가입', codeSeq: 45 },
+				{ codeNm: 'SKT', codeSeq: 42 },
+				{ codeNm: 'KT', codeSeq: 43 },
+				{ codeNm: 'LGU', codeSeq: 44 },
+				{ codeNm: 'UNKNOWN', codeSeq: 41 },
+				{ codeNm: '알뜰폰', codeSeq: 9999 },
 			],
 		},
 	},

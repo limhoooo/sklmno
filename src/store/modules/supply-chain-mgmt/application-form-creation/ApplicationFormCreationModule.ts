@@ -43,6 +43,7 @@ interface State {
 	dialogData: dialogData; // dialog Array
 	openingStoreTelecom: number | null; // 개통점통신사
 	AppFormCreFlag: undefined | number; // 신청서 구별 분기
+	ApplExchangeFlag: any; // 교품신청서 구별 분기
 	updateFormData: any; // 저장소 데이터 (변경값만 보내기위함)
 	blackList: string;
 	thriftyPhone: number;
@@ -51,13 +52,16 @@ interface State {
 	deviceChange: boolean;
 	usimChange: boolean;
 	AppFlag: any;
+	crData: any;
 }
 
 const state: State = {
+	crData: [],
 	AppFlag: null,
 	paymentCheckType: false,
 	thriftyPhone: 0,
 	AppFormCreFlag: undefined,
+	ApplExchangeFlag: false,
 	openingStoreTelecom: 0,
 	customerDialog: false,
 	openingStoreDialog: false,
@@ -72,9 +76,17 @@ const state: State = {
 	updateFormData: {},
 	formData: {
 		basic: {
+			creditInquireYn: null,
+			creditInquireId: null,
 			applType: 'DVC_USIM', // 기기유심타입
-			openingDate: null, // 개통일자
-			cancelDate: null, // 철회일자
+			beforeReserveYn: 'N', //사전예약여부
+			reserveNum: '', //예약번호
+			openingDate: '', // 개통일자
+			openingTime: '', // 개통시간
+			cancelDate: '', // 철회일자
+			cancelTime: '', // 철회시간
+			exchangeDate: '', // 교품일자
+			exchangeTime: '00:00', // 교품시간
 			beforeOpeningType: 'N', // 선개통유무
 			saleStoreId: 0, // 영업점
 			openingStoreId: {
@@ -149,6 +161,7 @@ const state: State = {
 			ntnlCode: null, // 국가
 		},
 		payment: {
+			paymentIdentifiedYn: 'N',
 			paymentType: null, // 납부방법
 			billType: '', // 청구서종류
 			bankCode: null, // 은행정보
@@ -214,6 +227,7 @@ const state: State = {
 			usimMatchingType: null, // 유심 매칭타입
 			openingDate: null, // 개통일자
 			cancelDate: null, // 철회일자
+			networkId: null, // 통신망
 		},
 		delivery: {
 			deliveryType: null, // 배송구분
@@ -263,12 +277,14 @@ const state: State = {
 		installmentsPeriodTypeItems: [], // 할부기간
 		courierCodeItems: [], // 택배사코드
 		goodsItems: [], // 기기명
+		goodsItemsCopy: [], // 기기명
 		capacityItems: [], // 용량
 		colorItems: [], // 색상
 		saleStoreItems: [], // 영업점
 		openingStoreItems: [], // 개통점
 		telecomAddServiceItems: [], // 부가서비스
 		telecomChargeItems: [], // 요금제
+		telecomChargeItemsCopy: [], // 요금제
 		existTelecomItems: [], // 기존통신사
 		thriftyPhoneItems: [], // 알뜰폰리스트
 		storeMemberItems: [], // 등록자
@@ -280,6 +296,7 @@ const state: State = {
 		detailList: [], // 블랙리스트
 		counselorItems: [], // 상담원
 		DeliveryType: [], // 상담원
+		networkCodeItems: [], // 통신망
 	},
 };
 
@@ -292,6 +309,7 @@ const mutations = {
 		state.codeList.existTelecomItems = [];
 		state.codeList.thriftyPhoneItems = [];
 		state.codeList.courierCodeItems = result.codeList.COURIER || [];
+		state.codeList.networkCodeItems = result.codeList.NETWORK || [];
 		state.codeList.existTelecomItems =
 			result.codeList.EXISTELECOM.splice(0, 4) || [];
 		state.codeList.thriftyPhoneItems = result.codeList.EXISTELECOM;
@@ -324,13 +342,24 @@ const mutations = {
 	},
 	setGoodsSelectList(state: State, result: any) {
 		state.codeList.goodsItems = [];
+		state.codeList.goodsItemsCopy = [];
 		// 모델명 추가
+		// 받아온 기기의 useYn === 'Y' 이거나
+		// useYn === 'N' 이지만 기존에 저장된 goodsId
+		const goodsItems = [];
 		for (let i = 0; i < result.data.data.length; i++) {
-			result.data.data[
-				i
-			].goodsName = `${result.data.data[i].goodsName} [${result.data.data[i].modelName}]`;
+			if (
+				result.data.data[i].useYn === 'Y' ||
+				result.data.data[i].goodsId === state.formData.join.goodsId
+			) {
+				result.data.data[
+					i
+				].goodsName = `${result.data.data[i].goodsName} [${result.data.data[i].modelName}]`;
+				goodsItems.push(result.data.data[i]);
+			}
 		}
-		state.codeList.goodsItems = result.data.data;
+		state.codeList.goodsItems = goodsItems;
+		state.codeList.goodsItemsCopy = goodsItems;
 	},
 	setCapacitySelectList(state: State, result: any) {
 		state.codeList.capacityItems = [];
@@ -349,14 +378,17 @@ const mutations = {
 		state.codeList.openingStoreItems = [];
 		state.codeList.openingStoreItems = result.data.data;
 		if (!state.AppFlag) {
-			state.formData.basic.openingStoreId = {
-				openStoreCode: result.data.data[0].openStoreId,
-				openStoreTelecom: result.data.data[0].telecomName,
-				openStoreTelecomId: result.data.data[0].telecom,
-				parentHierarchy: result.data.data[0].parentHierarchy,
-				parentSaleStoreId: result.data.data[0].parentSaleStoreId,
-			};
-			state.formData.join.openingTelecomName = result.data.data[0].telecomName;
+			if (!state.crData.creditInquireYn) {
+				state.formData.basic.openingStoreId = {
+					openStoreCode: result.data.data[0].openStoreId,
+					openStoreTelecom: result.data.data[0].telecomName,
+					openStoreTelecomId: result.data.data[0].telecom,
+					parentHierarchy: result.data.data[0].parentHierarchy,
+					parentSaleStoreId: result.data.data[0].parentSaleStoreId,
+				};
+				state.formData.join.openingTelecomName =
+					result.data.data[0].telecomName;
+			}
 		}
 	},
 	setTelecomAddServiceList(state: State, result: any) {
@@ -365,7 +397,16 @@ const mutations = {
 	},
 	setTelecomChargeList(state: State, result: any) {
 		state.codeList.telecomChargeItems = [];
-		state.codeList.telecomChargeItems = result.data.data;
+		// 받아온 요금제의 useYn === 'Y' 이거나
+		// useYn === 'N' 이지만 기존에 저장된 chargeId
+		state.codeList.telecomChargeItems = result.data.data.filter(
+			// @ts-ignore
+			i => i.useYn === 'Y' || i.chargeId === state.formData.join.chargeId,
+		);
+		state.codeList.telecomChargeItemsCopy = result.data.data.filter(
+			// @ts-ignore
+			i => i.useYn === 'Y' || i.chargeId === state.formData.join.chargeId,
+		);
 	},
 	setSaleStoreMemberList(state: State, result: any) {
 		state.codeList.storeMemberItems = [];
@@ -486,6 +527,12 @@ const mutations = {
 		state.updateFormData = copyObj(result.data.data);
 		//state.updateFormData.join.addServiceList = [{consultUserId:0}];
 		state.formData = result.data.data;
+
+		// 교품관련 신청서인지 구분
+		state.ApplExchangeFlag = false; // 초기화
+		if (result.data.data.basic.parentApplId) {
+			state.ApplExchangeFlag = true;
+		}
 	},
 };
 
@@ -521,7 +568,7 @@ const actions = {
 				commit('setCommonCodeNewList', result.data.data);
 			}
 			/* 택배사 코드데이터 */
-			const Enum = { code: ['COURIER', 'existelecom'] };
+			const Enum = { code: ['COURIER', 'existelecom', 'NETWORK'] };
 			const EnumResult = await commonCodeList(Enum);
 			if (EnumResult) {
 				commit('setCommonCodeList', EnumResult.data.data);
@@ -551,7 +598,7 @@ const actions = {
 		try {
 			const result = await getCapacityList(data);
 			if (result) {
-				if (result.data.resultMsg === '조회된 결과가 없습니다') {
+				if (result.data.resultMsg === '조회된 결과가 없습니다.') {
 					if (state.AppFlag >= 28177 || !state.AppFlag) {
 						alert(
 							'기기검색 결과, 용량 데이터가 없습니다. 관리자를 통해 해당 기기옵션 용량을 등록 해 주세요.',
@@ -759,7 +806,8 @@ const actions = {
 	async getDetailList({ commit }: ActionContext<State, State>, data: any) {
 		const result = await getBlackDetailList(data);
 		if (result) {
-			commit('setBlackList', result);
+			//commit('setBlackList', result);
+			return result;
 		}
 	},
 	// 상담원 조회

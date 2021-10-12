@@ -16,10 +16,12 @@ import {
 	getOpeningStoreList,
 	getSaleStoreList,
 } from '../../../../api/supply-chain-mgmt/application-form-creation/ApplicationFromApi';
+import { mappingCreditInquireId } from '../../../../api/credit-check-mgmt/credit-check/CreditCheckApi.js';
 
 Vue.use(Vuex);
 
 interface State {
+	filterInitChk: boolean;
 	quickOpeningDialog: boolean;
 	cancelQuick: boolean;
 	memoDialog: boolean;
@@ -36,6 +38,7 @@ interface State {
 }
 
 const state: State = {
+	filterInitChk: false,
 	allCheckedBox: '',
 	checkListIdArray: [],
 	quickOpeningDialog: false,
@@ -54,6 +57,7 @@ const state: State = {
 		LogisticsTaskStatus: '',
 		saleStoreId: '',
 		openingStoreId: '',
+		beforeReserveYn: '',
 		JoinType: '',
 		telecom: '',
 		existTelecom: '',
@@ -82,6 +86,8 @@ const mutations = {
 		state.filterData.goodsName = '전체';
 		state.filterData.capacity = '전체';
 		state.filterData.colorName = '전체';
+		state.filterData.beforeReserveYn = '전체';
+		state.filterData.pageNo = 1;
 		state.dateResetData = !state.dateResetData;
 		state.openingStoreList = [];
 	},
@@ -111,6 +117,9 @@ const actions = {
 		data: filterData,
 	) {
 		try {
+			if (data && data.beforeReserveYn === '전체') {
+				data.beforeReserveYn = '';
+			}
 			if (data && data.goodsName === '전체') {
 				data.goodsName = '';
 			}
@@ -121,17 +130,20 @@ const actions = {
 				data.colorName = '';
 			}
 			const result = await getSellCurrentPage(data);
+			if (data && data.beforeReserveYn === '') {
+				data.beforeReserveYn = '전체';
+			}
+			if (data && data.goodsName === '') {
+				data.goodsName = '전체';
+			}
+			if (data && data.capacity === '') {
+				data.capacity = '전체';
+			}
+			if (data && data.colorName === '') {
+				data.colorName = '전체';
+			}
 			if (result) {
 				commit('setList', result.data.data);
-				if (data && data.goodsName === '') {
-					data.goodsName = '전체';
-				}
-				if (data && data.capacity === '') {
-					data.capacity = '전체';
-				}
-				if (data && data.colorName === '') {
-					data.colorName = '전체';
-				}
 			}
 		} catch (e) {
 			console.log(e);
@@ -185,6 +197,19 @@ const actions = {
 				} else {
 					return true;
 				}
+			}
+		} catch (e) {
+			console.log(e);
+		}
+	},
+	async mappingCreditInquireId(
+		{ commit }: ActionContext<State, State>,
+		data: any,
+	) {
+		try {
+			const result = await mappingCreditInquireId(data);
+			if (result) {
+				alert('요청완료하였습니다.');
 			}
 		} catch (e) {
 			console.log(e);

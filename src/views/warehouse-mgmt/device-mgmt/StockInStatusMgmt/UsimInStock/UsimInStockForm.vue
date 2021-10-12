@@ -159,6 +159,17 @@ export default {
 		async insertList() {
 			let conText = '입고 하시겠습니까?';
 			if (confirm(conText) === true) {
+				let chk = false;
+				for (let i = 0; i < this.listData.length; i++) {
+					if (this.listData[i].rawBarcode.length > 20) {
+						alert(
+							'입고목록의 일련번호를 확인해주세요.\n(일련번호가 20자이상인 기기가 있습니다.)',
+						);
+						chk = true;
+						return;
+					}
+				}
+				if (chk) return;
 				if (this.listData.length >= 1) {
 					await this.$store.dispatch(
 						'UsimInStockModule/insertList',

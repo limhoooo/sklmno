@@ -16,7 +16,7 @@
 									value="Y"
 									v-model.trim="etcData.giftEnclosedYn"
 									@change="giftFnc"
-								/><label class="ml-1" for="radio16">예</label>
+								/><label class="ml-1 cur_p" for="radio16">예</label>
 							</div>
 							<div class="radioStylePop ml30 lh36">
 								<input
@@ -27,7 +27,7 @@
 									value="N"
 									v-model.trim="etcData.giftEnclosedYn"
 									@change="giftFnc"
-								/><label class="ml-1" for="radio17">아니오</label>
+								/><label class="ml-1 cur_p" for="radio17">아니오</label>
 							</div>
 						</div>
 					</td>
@@ -54,7 +54,7 @@
 									value="Y"
 									v-model.trim="etcData.usedDvcReclaimYn"
 									@change="usedFnc"
-								/><label class="ml-1" for="radio18">예</label>
+								/><label class="ml-1 cur_p" for="radio18">예</label>
 							</div>
 							<div class="radioStylePop ml30 lh36">
 								<input
@@ -65,7 +65,7 @@
 									value="N"
 									v-model.trim="etcData.usedDvcReclaimYn"
 									@change="usedFnc"
-								/><label class="ml-1" for="radio19">아니오</label>
+								/><label class="ml-1 cur_p" for="radio19">아니오</label>
 							</div>
 						</div>
 					</td>
@@ -137,14 +137,12 @@
 				<tr>
 					<td>첨부파일</td>
 					<td colspan="5">
-						<div class="disIN w100P mt10">
-							<FileUpload
-								:propsFileList="etcData.attachList"
-								:applId="Number(applId)"
-								:modifyState="true"
-								@fileValueFnc="fileValueFnc"
-							></FileUpload>
-						</div>
+						<FileUpload
+							:propsFileList="etcData.attachList"
+							:applId="Number(applId)"
+							:modifyState="true"
+							@fileValueFnc="fileValueFnc"
+						></FileUpload>
 					</td>
 				</tr>
 				<tr v-if="!this.applId">
@@ -181,7 +179,7 @@
 						value="Y"
 						v-model.trim="etcData.giftEnclosedYn"
 						@change="giftFnc"
-					/><label class="ml-1" for="radio16">예</label>
+					/><label class="ml-1 cur_p" for="radio16">예</label>
 					<input
 						type="radio"
 						id="radio17"
@@ -190,7 +188,7 @@
 						value="N"
 						v-model.trim="etcData.giftEnclosedYn"
 						@change="giftFnc"
-					/><label class="ml-1" for="radio17">아니오</label>
+					/><label class="ml-1 cur_p" for="radio17">아니오</label>
 				</div>
 			</div>
 			<div class="disFX goodsStyle1">
@@ -217,7 +215,7 @@
 						value="Y"
 						v-model.trim="etcData.usedDvcReclaimYn"
 						@change="usedFnc"
-					/><label class="ml-1" for="radio18">예</label>
+					/><label class="ml-1 cur_p" for="radio18">예</label>
 					<input
 						type="radio"
 						id="radio19"
@@ -226,7 +224,7 @@
 						value="N"
 						v-model.trim="etcData.usedDvcReclaimYn"
 						@change="usedFnc"
-					/><label class="ml-1" for="radio19">아니오</label>
+					/><label class="ml-1 cur_p" for="radio19">아니오</label>
 				</div>
 			</div>
 			<div class="disFX">

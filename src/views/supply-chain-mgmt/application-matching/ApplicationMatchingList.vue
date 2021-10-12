@@ -38,7 +38,7 @@
 						<th>물류상태</th>
 						<th>영업점</th>
 						<th>관리점</th>
-						<th>개통점</th>
+						<th>개통점<br />가입유형</th>
 						<th>기기명(용량)<br />(모델명)</th>
 						<th>색상</th>
 						<th>유심타입</th>
@@ -73,13 +73,33 @@
 							</td>
 							<td>
 								<span :class="statusColor(item.openingTaskStatus)">
-									{{ item.openingTaskStatusMsg }}
+									{{ item.openingTaskStatusMsg
+									}}<span
+										v-if="
+											item.beforeReserveYn === 'Y' &&
+											item.openingTaskStatus != null
+										"
+										><br />(사전
+                  <template v-if="item.reserveNum">
+                  :{{item.reserveNum}}
+                  </template>
+                  )</span
+									>
 								</span>
 							</td>
 							<td class="pd5TL">
 								<span :class="statusColor(item.consultTaskStatus)">
-									{{ item.consultTaskStatusMsg }}
-								</span>
+									{{ item.consultTaskStatusMsg
+									}}<span
+										v-if="
+											item.beforeReserveYn === 'Y' &&
+											item.consultTaskStatus != null
+										"
+										><br />(사전<template v-if="item.reserveNum">
+                  :{{item.reserveNum}}
+                  </template>)</span
+									></span
+								>
 								<br />
 								{{ item.consultRegiDateTime | moment('YYYY-MM-DD HH:mm:ss') }}
 								<br />
@@ -87,8 +107,17 @@
 							</td>
 							<td>
 								<span :class="statusColor(item.logisticsTaskStatus)">
-									{{ item.logisticsTaskStatusMsg }}
-								</span>
+									{{ item.logisticsTaskStatusMsg
+									}}<span
+										v-if="
+											item.beforeReserveYn === 'Y' &&
+											item.logisticsTaskStatus != null
+										"
+										><br />(사전<template v-if="item.reserveNum">
+                  :{{item.reserveNum}}
+                  </template>)</span
+									></span
+								>
 							</td>
 							<td>
 								{{ item.saleStoreName }}
@@ -98,6 +127,8 @@
 							</td>
 							<td>
 								{{ item.openStoreName }}
+								<br />
+								{{ item.joinTypeMsg }}
 							</td>
 							<td>
 								{{ item.goodsName }}
@@ -171,8 +202,8 @@
 <script>
 import paging from '../../../components/paging.vue';
 import deviceMatchingPop from './popup/DeviceMatchingPop.vue';
-import { getTrack } from '../../../common/postApi';
-import { compareTime, findCapacity, statusColor } from '../../../common/common';
+import {getTrack} from '../../../common/postApi';
+import {compareTime, findCapacity, statusColor} from '../../../common/common';
 
 export default {
 	name: 'ApplicationMatchingList',
@@ -252,6 +283,9 @@ export default {
 				alert('다운로드 할 데이터가 없습니다.');
 				return;
 			}
+      if (this.filterData.beforeReserveYn === '전체') {
+        this.filterData.beforeReserveYn = '';
+      }
 			if (this.filterData.goodsName === '전체') {
 				this.filterData.goodsName = '';
 			}
@@ -270,6 +304,9 @@ export default {
 				fileName: '신청서매칭',
 			};
 			await this.$store.dispatch('commonModule/excelDownload', param);
+      if (this.filterData.beforeReserveYn === '') {
+        this.filterData.beforeReserveYn = '전체';
+      }
 			if (this.filterData.goodsName === '') {
 				this.filterData.goodsName = '전체';
 			}

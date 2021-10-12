@@ -70,6 +70,8 @@ const mutations = {
 				result.filterData.srhStartDate === '') &&
 				!result.filterData.blackType) ||
 			((result.filterData.srhEndDate || result.filterData.srhEndDate === '') &&
+				!result.filterData.blackType) ||
+			((result.filterData.blackAddr || result.filterData.blackAddr === '') &&
 				!result.filterData.blackType)
 		) {
 			// 카운트 리프레쉬
@@ -111,7 +113,7 @@ const actions = {
 			const result = await getBlackDetailList(data);
 			if (result.data.status === 200) {
 				if (result.data.resultCode !== '0000') {
-					alert(result.data.resultMsg);
+					console.log('블랙리스트 조회 오류.');
 				} else {
 					return result.data.data;
 				}

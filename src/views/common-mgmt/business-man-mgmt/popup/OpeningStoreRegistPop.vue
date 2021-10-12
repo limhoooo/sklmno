@@ -141,6 +141,7 @@
 												@postapi="addressData"
 												:postDialog="postDialog"
 												@closeDialog="dialogClose"
+                        class="post-api-comp"
 											></post-api>
 											<input
 												type="text"
@@ -181,8 +182,8 @@
 
 <script>
 import PostApi from '../../../../components/PostApi';
-import { nullValidation } from '../../../../common/common';
-import { insertStore } from '../../../../api/common-mgmt/businessman-mgmt/OpeningStoreMgmtApi.js';
+import {nullValidation} from '../../../../common/common';
+import {insertStore} from '../../../../api/common-mgmt/businessman-mgmt/OpeningStoreMgmtApi.js';
 
 export default {
 	props: ['infoDialogData', 'storeIdData'],
@@ -273,5 +274,9 @@ export default {
 <style>
 .input_custom2 {
 	width: 120px;
+}
+.post-api-comp .post-Api-Btn {
+  color: white;
+  line-height: 32px !important;
 }
 </style>

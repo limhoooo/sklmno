@@ -7,6 +7,32 @@
 			@changeWorkStatusFnc="changeWorkStatusFnc"
 		></work-status>
 		<div>
+			<div class="titleBtn checkStyleCont4 lh30">
+				<input
+					type="checkbox"
+					id="preOrder"
+					class="checkStyle"
+					v-model.trim="formData.basic.beforeReserveYn"
+					:true-value="'Y'"
+					:false-value="'N'"
+					@click="validateReserveYN($event)"
+				/><label class="ml-1 mainBlack2 boldWt cur_p" for="preOrder"
+					>사전예약</label
+				>
+				<input
+					type="text"
+					ref="preOrderNumInput"
+					class="preOrderInput"
+					placeholder="예약번호 ex)1234"
+					autocomplete="off"
+					:disabled="
+						formData.basic.beforeReserveYn === 'N' ||
+						formData.basic.beforeReserveYn === ''
+					"
+					v-model.trim="formData.basic.reserveNum"
+					@input="regExpReserveNum($event.target.value)"
+				/>
+			</div>
 			<div class="titleBtn1 checkStyleCont4 lh30">
 				<input
 					type="checkbox"
@@ -15,7 +41,7 @@
 					v-model.trim="formData.basic.priorityTargetYn"
 					:true-value="'Y'"
 					:false-value="'N'"
-				/><label class="ml-1 mainBlack2 boldWt" for="ranking1"
+				/><label class="ml-1 mainBlack2 boldWt cur_p" for="ranking1"
 					>우선순위대상</label
 				>
 			</div>
@@ -63,6 +89,13 @@
 
 		<div class="disFx justify-end mt10" v-if="AppFormCreFlag === undefined">
 			<button
+				class="backColorBlue3 mainWhite boldWt borderRadi3Px padW10 lh40 mr10"
+				@click="crRequestFnc"
+				v-if="!formData.basic.creditInquireId"
+			>
+				신용조회 요청 후 저장
+			</button>
+			<button
 				class="backColorBlue2 mainWhite boldWt borderRadi3Px w120 lh40"
 				@click="finalSubmit"
 			>
@@ -76,6 +109,13 @@
 			</button>-->
 		</div>
 		<div class="disFx justify-end mt10" v-else>
+			<button
+				class="backColorBlue3 mainWhite boldWt borderRadi3Px padW10 lh40 mr10"
+				@click="crRequestFnc"
+				v-if="!formData.basic.creditInquireId"
+			>
+				신용조회 요청 후 저장
+			</button>
 			<button
 				class="backColorMint1 mainWhite boldWt borderRadi3Px w120 lh40"
 				@click="openBlackListPop"
@@ -111,10 +151,16 @@ import PaymentInformation from './ApplicationFormCreationComponents/PaymentInfor
 import JoinInformation from './ApplicationFormCreationComponents/JoinInformation.vue';
 import DeliveryInformation from './ApplicationFormCreationComponents/DeliveryInformation.vue';
 import EtcInformation from './ApplicationFormCreationComponents/EtcInformation.vue';
-import {confirmFor, getToday, htmlParse, nullValidation2,} from '../../../common/common.js';
 import {
-  appCommonFormData,
-  memoFormData,
+	confirmFor,
+	getTime,
+	getToday,
+	htmlParse,
+	nullValidation2,
+} from '../../../common/common.js';
+import {
+	appCommonFormData,
+	memoFormData,
 } from '@/store/interface/supply-chain-mgmt/application-form-creation/AppFormCreationInterface';
 import WorkStatus from '../../../views/supply-chain-mgmt/sell-mgmt/popup/QuickOpeningPop/WorkStatus.vue';
 import BlackListPop from '../../../views/supply-chain-mgmt/black-list/popup/BlackListPop.vue';
@@ -151,6 +197,9 @@ export default Vue.extend({
 		addBlackListInfo: {},
 	}),
 	computed: {
+		storeVal(): string {
+			return this.$store.state.sg;
+		},
 		AppFlag: {
 			get(): any {
 				return this.$store.state.ApplicationFormCreationModule.AppFlag;
@@ -220,8 +269,99 @@ export default Vue.extend({
 				this.$store.state.ApplicationFormCreationModule.codeList = newValue;
 			},
 		},
+		crData: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.crData;
+			},
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.crData = newValue;
+			},
+		},
+		ApplExchangeFlag(): Object {
+			return this.$store.state.ApplicationFormCreationModule.ApplExchangeFlag;
+		},
 	},
 	methods: {
+		regExpReserveNum(value: string) {
+			this.formData.join.openingTelecomCodeId === 7
+				? (this.formData.basic.reserveNum = value.replace(/[^a-zA-Z0-9]/gi, ''))
+				: (this.formData.basic.reserveNum = value.replace(/[^0-9]/g, ''));
+		},
+		validateReserveYN(e: any) {
+			if (!this.formData.join.openingTelecomCodeId) {
+				alert('개통점을 먼저 선택해주세요.');
+				e.preventDefault();
+			} else {
+				this.toggleReserveNum();
+			}
+		},
+		toggleReserveNum() {
+			// @ts-ignore
+			if (this.formData.basic.beforeReserveYn === 'Y') {
+				this.formData.basic.reserveNum = '';
+			} else {
+				this.formData.basic.beforeReserveYn = 'Y';
+				// @ts-ignore
+				this.$nextTick(() => this.$refs.preOrderNumInput.focus());
+			}
+		},
+		async crRequestFnc() {
+			this.formData.basic.creditInquireYn = 'Y';
+			this.formData.basic.creditInquireId = null;
+			await this.finalSubmit();
+			/*let data: any = [];
+			data = {
+				inquireBasicDto: {
+					openingStoreId: this.formData.basic.openingStoreId.openStoreCode,
+					joinType: this.formData.join.joinType,
+					cusType: this.formData.customer.cusType,
+					parentHierarchy: this.formData.basic.openingStoreId.parentHierarchy,
+					creditReqType: 'ITEMS',
+				},
+				inquireRequestDto: {
+					creditInquireYn: 'Y',
+					creditInquireId: null,
+					bizName: this.formData.customer.bizName,
+					bizNum: this.formData.customer.bizNum,
+					bizPhone: this.formData.customer.bizPhone,
+					bizPhone1: this.formData.customer.bizPhone1,
+					bizPhone2: this.formData.customer.bizPhone2,
+					bizPhone3: this.formData.customer.bizPhone3,
+					bizRegiNum1: this.formData.customer.bizRegiNum1,
+					bizRegiNum2: this.formData.customer.bizRegiNum2,
+					courtProctorName: this.formData.customer.courtProctorName,
+					courtProctorPhone: this.formData.customer.courtProctorPhone,
+					courtProctorPhone1: this.formData.customer.courtProctorPhone1,
+					courtProctorPhone2: this.formData.customer.courtProctorPhone2,
+					courtProctorPhone3: this.formData.customer.courtProctorPhone3,
+					courtProctorRegiNum1: this.formData.customer.courtProctorRegiNum1,
+					courtProctorRegiNum2: this.formData.customer.courtProctorRegiNum2,
+					courtProctorRegiNumConcat: this.formData.customer
+						.courtProctorRegiNumConcat,
+					courtProctorRelation: this.formData.customer.courtProctorRelation,
+					cusName: this.formData.customer.cusName,
+					cusPhone: this.formData.customer.cusPhone,
+					cusPhone1: this.formData.customer.cusPhone1,
+					cusPhone2: this.formData.customer.cusPhone2,
+					cusPhone3: this.formData.customer.cusPhone3,
+					cusRegiNum1: this.formData.customer.cusRegiNum1,
+					cusRegiNum2: this.formData.customer.cusRegiNum2,
+					cusRegiNumConcat: this.formData.customer.cusRegiNumConcat,
+					licenseAuthType: this.formData.customer.licenseAuthType,
+					licenseExpiredDate: this.formData.customer.licenseExpiredDate,
+					licenseIssueArea: this.formData.customer.licenseIssueArea,
+					licenseIssueDate: this.formData.customer.licenseIssueDate,
+					licenseNum1: this.formData.customer.licenseNum1,
+					licenseNum2: this.formData.customer.licenseNum2,
+					licenseNum3: this.formData.customer.licenseNum3,
+					licenseNumConcat: this.formData.customer.licenseNumConcat,
+					ntnlCode: this.formData.customer.ntnlCode,
+					stayCode: this.formData.customer.stayCode,
+				},
+				inquireResponseDto: {},
+			};
+			await this.$store.dispatch('CreditCheckModule/insertCreditInquire', data);*/
+		},
 		insertCancelFnc() {
 			if (confirmFor('return')) {
 				this.formDataResetFnc();
@@ -339,7 +479,9 @@ export default Vue.extend({
 		},
 		async insertFinalSubmit() {
 			if (this.formData.payment.paymentType === 'EXIST_SAME') {
+				// @ts-ignore
 				this.formData.payment = {};
+				// @ts-ignore
 				this.formData.payment = { paymentType: 'EXIST_SAME' };
 			}
 			// 신청서 최초작성 일련번호 있을시 매칭타입 추가
@@ -370,6 +512,12 @@ export default Vue.extend({
 				(this.memoData.memoContents !== null, this.memoData.category !== '')
 			) {
 				Object.assign(formData, memoData);
+			}
+			if (this.formData.basic.beforeOpeningType === 'AFTER_OPENING') {
+				this.formData.payment.billType = null;
+				this.formData.payment.bankCode = null;
+				this.formData.join.agreementPeriodType = null;
+				this.formData.join.instlPeriodType = null;
 			}
 			const result = await this.$store.dispatch(
 				'ApplicationFormCreationModule/insertList',
@@ -405,7 +553,9 @@ export default Vue.extend({
 						this.formData.customer.bizNum3;
 				}
 				if (this.formData.payment.paymentType === 'EXIST_SAME') {
+					// @ts-ignore
 					this.formData.payment = {};
+					// @ts-ignore
 					this.formData.payment = { paymentType: 'EXIST_SAME' };
 				}
 				if (this.formData.join.existTelecomCodeId === 1) {
@@ -442,6 +592,14 @@ export default Vue.extend({
 				await this.$store.dispatch(
 					'ApplicationFormCreationModule/getApplicationDetail',
 					applId,
+				);
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/getGoodsSelectList',
+					this.formData.join.openingTelecomCodeId,
+				);
+				await this.$store.dispatch(
+					'ApplicationFormCreationModule/getTelecomChargeList',
+					this.formData.join.openingTelecomCodeId,
 				);
 				this.formData.basic.openingStoreId = returnOpeningStoreId;
 				await this.setOpeningStoreFnc();
@@ -487,7 +645,10 @@ export default Vue.extend({
 			if (this.customerValidationFnc()) return true; // 고객정보 필수값
 			if (this.customerAuthValidationFnc()) return true; // 고객정보 - 신분증진위 필수값
 			if (this.joinValidationFnc()) return true; // 가입정보 필수값
-			if (this.AppFlag > 28177 || !this.AppFlag) {
+			if (
+				this.formData.basic.beforeOpeningType === 'BEFORE_OPENING' &&
+				(this.AppFlag > 28177 || !this.AppFlag)
+			) {
 				if (this.paymentValidationFnc()) return true; // 납부정보 필수값
 			}
 			if (this.deliveryValidationFnc()) return true; // 배송정보 필수값
@@ -495,6 +656,17 @@ export default Vue.extend({
 		},
 		// 기본정보 필수값
 		basicValidationFnc() {
+			// 사전예약 필수값
+			// @ts-ignore
+			if (this.formData.basic.beforeReserveYn === 'Y') {
+				if (
+					!nullValidation2(this.formData.basic, [
+						'reserveNum', //사전예약번호
+					])
+				) {
+					return true;
+				}
+			}
 			if (
 				!nullValidation2(this.formData.basic, [
 					'saleStoreId', // 영업점
@@ -873,12 +1045,16 @@ export default Vue.extend({
 					'capacity', // 용량
 					'color', // 색상
 					'usimPaymentType', // 유심
-					'agreementType', // 약정유형
-					'agreementPeriodType', // 약정기간
-					'instlPeriodType', // 할부기간
-					'chargeId', // 요금제
-					'releaseAmt', // 출고가
 				);
+				if (this.formData.basic.beforeOpeningType === 'BEFORE_OPENING') {
+					this.joinVal.push(
+						'agreementType', // 약정유형
+						'agreementPeriodType', // 약정기간
+						'instlPeriodType', // 할부기간
+						'chargeId', // 요금제
+						'releaseAmt', // 출고가
+					);
+				}
 			}
 			if (this.AppFlag <= 28177) {
 				this.joinVal.push(
@@ -891,10 +1067,14 @@ export default Vue.extend({
 					'goodsId', // 기기명
 					'usimPaymentType', // 유심
 					'agreementType', // 약정유형
-					'agreementPeriodType', // 약정기간
-					'instlPeriodType', // 할부기간
-					'chargeId', // 요금제
 				);
+				if (this.formData.basic.beforeOpeningType === 'BEFORE_OPENING') {
+					this.joinVal.push(
+						'agreementPeriodType', // 약정기간
+						'instlPeriodType', // 할부기간
+						'chargeId', // 요금제
+					);
+				}
 			}
 			if (this.formData.join.joinType === 'NEW') {
 				this.joinVal.splice(0, 3, 'openingHopeNum');
@@ -1151,7 +1331,7 @@ export default Vue.extend({
 			this.$set(this, dialogName, data);
 		},
 		async changeWorkStatusFnc(data: any) {
-			// 상태 변경 불가시 fasle
+			// 상태 변경 불가시 false
 			const check = await this.statusFalseFnc(data);
 			if (!check) {
 				return;
@@ -1165,110 +1345,17 @@ export default Vue.extend({
 		},
 		async statusFalseFnc(data: any) {
 			let formData;
-			/*if (data.name === 'consultTaskStatus') {
-    formData = {
-      applId: this.formData.basic.applId,
-      consultTaskStatus: data.beforeValue,
-      reqConsultTaskStatus: data.value,
-      openingTaskStatus: this.formData.basic.openingTaskStatus,
-      reqOpeningTaskStatus: this.formData.basic.openingTaskStatus,
-      logisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      reqLogisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      task: 'consult',
-    };
-  } else if (data.name === 'openingTaskStatus') {
-    formData = {
-      applId: this.formData.basic.applId,
-      consultTaskStatus: this.formData.basic.consultTaskStatus,
-      reqConsultTaskStatus: this.formData.basic.consultTaskStatus,
-      openingTaskStatus: data.beforeValue,
-      reqOpeningTaskStatus: data.value,
-      logisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      reqLogisticsTaskStatus: this.formData.basic.logisticsTaskStatus,
-      task: 'opening',
-    };
-  } else if (data.name === 'logisticsTaskStatus') {
-    formData = {
-      applId: this.formData.basic.applId,
-      consultTaskStatus: this.formData.basic.consultTaskStatus,
-      reqConsultTaskStatus: this.formData.basic.consultTaskStatus,
-      openingTaskStatus: this.formData.basic.openingTaskStatus,
-      reqOpeningTaskStatus: this.formData.basic.openingTaskStatus,
-      logisticsTaskStatus: data.beforeValue,
-      reqLogisticsTaskStatus: data.value,
-      task: 'logistics',
-    };
-  }*/
-			/*if (this.$store.state.st !== '22f353197e9b0c1cb58a11da8de7776a') {
-				if (data.name === 'consultTaskStatus') {
-					if (data.value === 'RCPT_CANCEL') {
-						alert('현재 접수취소 상태를 사용하실수 없습니다.');
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-				if (data.name === 'logisticsTaskStatus') {
-					if (data.value === 'DLVR_PREV_CANCEL') {
-						alert('현재 배송전취소 상태를 사용하실수 없습니다.');
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-			}*/
-
-      // 상담 : 접수취소 예외값
-      // 운송장 매칭 되어있는 경우 x
-      // 기기매칭 / 유심매칭 되어있는경우 x
-			if (data.name === 'consultTaskStatus') { // 상담
-				if (data.value === 'RCPT_CANCEL') { // 접수취소
-					if (this.formData.delivery.couriorMatchingYn === 'Y') {
-						alert('운송장 매칭이 되어있는경우 접수취소 로 돌릴 수 없습니다.');
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-					if (
-						this.formData.join.deviceMatchingType !== null ||
-						this.formData.join.usimMatchingType !== null
-					) {
-						alert(
-							'기기매칭 또는 유심매칭 되어있는경우 접수취소 로 돌릴 수 없습니다.',
-						);
-						// @ts-ignore
-						this.formData.basic[data.name] = data.beforeValue;
-						return false;
-					}
-				}
-			}
-      // 물류 : 배송전취소 예외값
-      // 운송장 매칭 되어있는 경우 x
-      // 기기매칭 / 유심매칭 되어있는경우 x
-			if (data.name === 'logisticsTaskStatus') {
-				if (data.value === 'DLVR_PREV_CANCEL') {
-          if (this.formData.delivery.couriorMatchingYn === 'Y') {
-            alert('운송장 매칭이 되어있는경우 배송전취소 로 돌릴 수 없습니다.');
-            // @ts-ignore
-            this.formData.basic[data.name] = data.beforeValue;
-            return false;
-          }
-          if (
-              this.formData.join.deviceMatchingType !== null ||
-              this.formData.join.usimMatchingType !== null
-          ) {
-            alert(
-                '기기매칭 또는 유심매칭 되어있는경우 배송전취소 로 돌릴 수 없습니다.',
-            );
-            // @ts-ignore
-            this.formData.basic[data.name] = data.beforeValue;
-            return false;
-          }
-				}
-			}
-
 			if (data.name === 'openingTaskStatus') {
 				// 개통
+
+				// 영업점일시 validation
+				if (this.storeVal === 'StoreGrade_S') {
+					alert('영업점일시 개통상태를 변경할 수 없습니다.');
+					// @ts-ignore
+					this.formData.basic[data.name] = data.beforeValue;
+					return false;
+				}
+
 				formData = {
 					applId: this.formData.basic.applId,
 					consultTaskStatus: this.formData.basic.consultTaskStatus,
@@ -1282,6 +1369,17 @@ export default Vue.extend({
 				};
 			} else if (data.name === 'logisticsTaskStatus') {
 				// 물류
+
+				// 영업점일시 validation
+				if (this.storeVal === 'StoreGrade_S' && data.value !== 'DLVR_DMND') {
+					alert(
+						'영업점일시 배송상태를 배송요청 이외의 상태로 변경할 수 없습니다.',
+					);
+					// @ts-ignore
+					this.formData.basic[data.name] = data.beforeValue;
+					return false;
+				}
+
 				formData = {
 					applId: this.formData.basic.applId,
 					consultTaskStatus: this.formData.basic.consultTaskStatus,
@@ -1293,8 +1391,34 @@ export default Vue.extend({
 					invoiceNum: this.formData.delivery.invoiceNum,
 					task: 'logistics',
 				};
-			} else {
-				// 상담일시 return
+			} else if (data.name === 'consultTaskStatus') {
+				// 상담
+				if (this.storeVal === 'StoreGrade_S' && data.value === 'RCPT_CANCEL') {
+					alert('영업점일시 상담상태를 접수취소 상태로 변경할 수 없습니다.');
+					// @ts-ignore
+					this.formData.basic[data.name] = data.beforeValue;
+					return false;
+				}
+				if (data.value === 'RCPT_CANCEL') {
+					if (this.formData.delivery.couriorMatchingYn === 'Y') {
+						alert('송장매칭취소 후 접수취소 상태로 변경 가능합니다.');
+						// @ts-ignore
+						this.formData.basic[data.name] = data.beforeValue;
+						return false;
+					}
+					if (this.formData.join.deviceRawBarcode) {
+						alert('기기매칭취소 후 접수취소 상태로 변경 가능합니다.');
+						// @ts-ignore
+						this.formData.basic[data.name] = data.beforeValue;
+						return false;
+					}
+					if (this.formData.join.usimRawBarcode) {
+						alert('유심매칭취소 후 접수취소 상태로 변경 가능합니다.');
+						// @ts-ignore
+						this.formData.basic[data.name] = data.beforeValue;
+						return false;
+					}
+				}
 				return true;
 			}
 			// api 날리고
@@ -1310,6 +1434,11 @@ export default Vue.extend({
 			return true;
 		},
 		async updateFalseFnc(data: any) {
+			if (this.validationRuleFnc()) {
+				// @ts-ignore
+				this.formData.basic[data.name] = data.beforeValue;
+				return;
+			} // 필수값처리
 			if (await this.updateApplicationSubmit()) {
 				// 저장 취소시 예전값으로 변경
 				// @ts-ignore
@@ -1320,42 +1449,123 @@ export default Vue.extend({
 			if (data === 'OPENING_COMPL' && !this.formData.basic.openingDate) {
 				//개통완료 && 개통일자가 없을시
 				this.formData.basic.openingDate = getToday();
+				this.formData.basic.openingTime = getTime();
 			} else if (data === 'RETRACT_COMPL' && !this.formData.basic.cancelDate) {
 				//철회완료 && 철회일자가 없을시
 				this.formData.basic.cancelDate = getToday();
+				this.formData.basic.cancelTime = getTime();
 			} else if (
 				this.formData.basic.openingDate &&
 				data !== 'OPENING_COMPL' &&
 				data !== 'RETRACT_DMND' &&
-				data !== 'RETRACT_COMPL'
+				data !== 'RETRACT_COMPL' &&
+				!this.ApplExchangeFlag
 			) {
 				// 개통일자 값이 있는데
 				// 개통상태가 개통완료, 철회요청, 철회완료가 아닐시
+				// 교품관련 신청서가 아닐시
 				// 개통일자 초기화
 				this.formData.basic.openingDate = null;
+				this.formData.basic.openingTime = null;
 			}
-			if (this.formData.basic.cancelDate && data !== 'RETRACT_COMPL') {
+			if (
+				this.formData.basic.cancelDate &&
+				data !== 'RETRACT_COMPL' &&
+				!this.ApplExchangeFlag
+			) {
 				// 철회일자 값이 있는데
 				// 개통상태가 철회완료가 아닐시
+				// 교품관련 신청서가 아닐시
 				// 철회일자 초기화
 				this.formData.basic.cancelDate = null;
+				this.formData.basic.cancelTime = null;
 			}
 		},
+		crRenderingFnc() {
+			if (this.crData !== []) {
+				this.formData.join.openingTelecomName = this.crData.telecomName;
+				this.formData.basic.saleStoreId = this.crData.saleStoreId;
+				this.formData.basic.applRegiUserId = this.crData.regiUserId;
+				this.formData.join.joinType = this.crData.joinType;
+				this.formData.customer.cusType = this.crData.cusType;
+				this.formData.basic.creditInquireId = this.crData.creditInquireId;
+				this.formData.customer.bizNum = this.crData.bizNum;
+				this.formData.customer.bizName = this.crData.bizName;
+				this.formData.customer.bizPhone = this.crData.bizPhone;
+				this.formData.customer.bizPhone1 = this.crData.bizPhone1;
+				this.formData.customer.bizPhone2 = this.crData.bizPhone2;
+				this.formData.customer.bizPhone3 = this.crData.bizPhone3;
+				this.formData.customer.bizRegiNum1 = this.crData.bizRegiNum1;
+				this.formData.customer.bizRegiNum2 = this.crData.bizRegiNum2;
+				this.formData.customer.bizRegiNumConcat = this.crData.bizRegiNumConcat;
+				this.formData.customer.courtProctorName = this.crData.courtProctorName;
+				this.formData.customer.courtProctorPhone = this.crData.courtProctorPhone;
+				this.formData.customer.courtProctorPhone1 = this.crData.courtProctorPhone1;
+				this.formData.customer.courtProctorPhone2 = this.crData.courtProctorPhone2;
+				this.formData.customer.courtProctorPhone3 = this.crData.courtProctorPhone3;
+				this.formData.customer.courtProctorRegiNum1 = this.crData.courtProctorRegiNum1;
+				this.formData.customer.courtProctorRegiNum2 = this.crData.courtProctorRegiNum2;
+				this.formData.customer.courtProctorRegiNumConcat = this.crData.courtProctorRegiNumConcat;
+				this.formData.customer.courtProctorRelation = this.crData.courtProctorRelation;
+				this.formData.customer.cusName = this.crData.cusName;
+				this.formData.customer.cusPhone = this.crData.cusPhone;
+				this.formData.customer.cusPhone1 = this.crData.cusPhone1;
+				this.formData.customer.cusPhone2 = this.crData.cusPhone2;
+				this.formData.customer.cusPhone3 = this.crData.cusPhone3;
+				this.formData.customer.cusRegiNumConcat = this.crData.cusRegiNumConcat;
+				this.formData.customer.cusRegiNum1 = this.crData.cusRegiNum1;
+				this.formData.customer.cusRegiNum2 = this.crData.cusRegiNum2;
+				if (this.crData.cusType === 'FOREIGN') {
+					this.formData.customer.licenseAuthType = 'FOREIGN_RGSTR_CARD';
+					this.formData.customer.licenseExpiredDate = this.crData.licenseExpiredDate;
+					this.formData.customer.licenseIssueArea = this.crData.licenseIssueArea;
+					this.formData.customer.licenseIssueDate = this.crData.licenseIssueDate;
+					this.formData.customer.licenseNumConcat =
+						this.crData.licenseNum1 + this.crData.licenseNum2;
+					this.formData.customer.ntnlCode = this.crData.ntnlCode;
+					this.formData.customer.stayCode = this.crData.stayCode;
+				}
+			}
+		},
+	},
+	mounted() {
+		// @ts-ignore
+		document.getElementById('mainBox').scrollTo(0, 0);
 	},
 	async created() {
 		if (!this.AppFormCreFlag) {
 			await this.formDataResetFnc();
 		}
+		if (this.crData !== []) {
+			await this.crRenderingFnc();
+		}
 		await this.resetValidation();
 		await this.totalEnumFnc();
+	},
+	beforeDestroy() {
+		this.crData = [];
 	},
 });
 </script>
 
 <style scoped>
+.titleBtn {
+	position: absolute;
+	left: 820px;
+	top: 30px;
+}
 .titleBtn1 {
 	position: absolute;
 	left: 1075px;
-	top: 40px;
+	top: 30px;
+}
+.preOrderInput {
+	position: absolute;
+	left: 60px;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+	width: 140px;
+	margin-left: 8px;
+	padding: 2px 10px;
 }
 </style>

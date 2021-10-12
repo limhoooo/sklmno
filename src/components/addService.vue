@@ -19,12 +19,13 @@
 			></button>
 		</div>
 		<div
-			class="addServiceCont w800 backColorWhite posA"
+			class="addServiceCont backColorWhite posA"
+			:style="inputWidth"
 			v-if="Dialog"
 			v-click-outside="closeDialog"
 		>
 			<!-- 기본 생성되어 있는 태그들 -->
-<!--			<div class="tagCont disFX" v-for="(tag, index) in tagList" :key="index">
+			<!--			<div class="tagCont disFX" v-for="(tag, index) in tagList" :key="index">
 				<button
 					class="backColorBlue2 boldWt"
 					:value="tag"
@@ -35,7 +36,7 @@
 			</div>-->
 
 			<!--조회되는 리스트-->
-			<div class="listCont backColorWhite">
+			<div class="listCont backColorWhite w100P">
 				<ul style="max-height: 300px; overflow: scroll">
 					<li
 						ref="serviceList"
@@ -102,6 +103,9 @@ export default Vue.extend({
 		selectedItem: [],
 	}),
 	computed: {
+		inputWidth() {
+			return `width: ${this.width}px`;
+		},
 		joinData(): any {
 			return this.$store.state.ApplicationFormCreationModule.formData.join
 				.openingTelecomCodeId;
@@ -116,7 +120,8 @@ export default Vue.extend({
 		itemText: { type: String, default: 'name' },
 		itemValue: { type: String, default: 'value' },
 		width: {
-			type: String,
+			type: Number,
+			default: 670,
 		},
 		border: {
 			type: String,

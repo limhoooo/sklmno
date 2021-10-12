@@ -34,6 +34,13 @@
 #BtnCont button { margin-left: 10px; }
 #BtnCont button:nth-child(1) { margin-left: 0 }
 
+/* scroll arrow */
+.scrollArrow {font-size: 40px;position: absolute;color: rgba(149, 168, 184, 0.75);}
+.arrowUp {animation: arrowUp 0.3s linear alternate infinite;}
+@keyframes arrowUp { from {transform: translateY(0);} to {transform: translateY(-3px);} }
+.arrowDown {animation: arrowDown 0.3s linear alternate infinite;}
+@keyframes arrowDown { from {transform: translateY(0);} to {transform: translateY(3px);} }
+
 /* Modal Popup CSS */
 /*.v-btn__content { color: #000 !important; }*/
 .v-application--wrap { min-height: 27px !important; }
@@ -80,7 +87,9 @@
 .w320 {width: 320px;}
 .w370 {width: 370px;}
 .w680 {width: 680px;}
+.w760 {width: 760px;}
 .w800 {width: 800px;}
+.wm680 {max-width: 680px;}
 .w10P {width: 10%;}
 .w20P {width: 20%;}
 .w30P {width: 30%;}
@@ -354,7 +363,7 @@ section .signForm td { padding: 5px 10px; line-height: 30px; }
 .groupBtnCont input[type="radio"] {display: none;}
 .groupBtnCont input[type="radio"]:checked + label {color: #17a5ae;}
 .memoArea1 { height: 213px; overflow: auto }
-.middleSearchBar { max-height: 200px; overflow: auto }
+.middleSearchBar { max-height: 260px; overflow: auto }
 .btnPlus { position: relative }
 .btnPlus button { position: absolute; right: 0; top: 0; background-color: #003a53; color: #fff; padding: 3px 10px; display: inline-block }
 
@@ -368,7 +377,7 @@ section .signForm td { padding: 5px 10px; line-height: 30px; }
 .formCont1 select {background-color: #fff;}
 .AppFormCont input[type="text"],
 .AppFormCont select {border: 1px solid #989898; width: 200px;padding: 0 10px;color: #003a53 !important;font-weight: bold; font-size: 14px; line-height: 32px;}
-.groupBtnCont1 span {line-height: 32px; font-size: 12px; font-weight: bold; color: #0037a1;width: 45px;}
+.groupBtnCont1 span {line-height: 32px; font-size: 12px; font-weight: bold; color: #0037a1;width: 32px;}
 .groupBtnCont1 select {border-radius: 4px; width: 100px !important;background-color: #fff;}
 .quickOpenInput span { color: #7397a4 }
 .quickOpenInput input {padding: 0 10px!important;color: #003a53 !important;font-weight: bold;line-height: 30px;}
@@ -463,7 +472,7 @@ section .signForm td { padding: 5px 10px; line-height: 30px; }
 .postContAdd3 {margin-left: 382px;}
 .costStyle1 {position: relative;}
 .costStyle1 input {text-align: right;padding-right: 30px !important;}
-.costStyle1 span {position: absolute;top: 9px;right: 10px;color: #666666;}
+.costStyle1 span {position: absolute;top: 9px;right: 16px;color: #666666;}
 .costStyle1 p {position: absolute;top: 30px;right: 0px; font-size: 12px; width: auto; color: red !important;}
 .goodsStyle1 {margin-left: 142px;}
 .goodsStyle2 {width: 620px !important;}
@@ -566,6 +575,7 @@ section .signForm td { padding: 5px 10px; line-height: 30px; }
 }
 .disabledNum {
     background-color: rgba(0,0,0, 0.1);
+    border-radius: 4px;
 }
 
 .uploadCustom > div > div > .leftBox { display: none; }
@@ -596,7 +606,6 @@ section .signForm td { padding: 5px 10px; line-height: 30px; }
     background-color: #003a53;
     color: #fff;
     padding: 3px;
-    top: 1px;
     right: -70px !important;
 }
 /*
@@ -637,7 +646,7 @@ section .signForm td { padding: 5px 10px; line-height: 30px; }
 }
 .roundBorder {
     border: 1px solid #989898;
-    border-radius: 3px;
+    border-radius: 4px;
 }
 .paymentInput {
     width: 680px;

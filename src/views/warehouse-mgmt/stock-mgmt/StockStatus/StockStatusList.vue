@@ -10,6 +10,7 @@
 					v-model.trim="perPageCnt"
 					@change="selectPerPageCnt($event.target.value)"
 				>
+					<option value="2">20개씩</option>
 					<option value="20">20개씩</option>
 					<option value="50">50개씩</option>
 					<option value="100">100개씩</option>
@@ -126,7 +127,7 @@
 									><span>{{ item.nextStockName }}</span>
 								</div>
 							</td>
-							<td>{{ item.statusStr }}</td>
+							<td>{{ item.statusStr }}<br />({{ item.stockTypeMsg }})</td>
 							<td>{{ item.makerName }}</td>
 							<td>{{ item.goodsName }}<br />({{ item.modelName }})</td>
 							<td>

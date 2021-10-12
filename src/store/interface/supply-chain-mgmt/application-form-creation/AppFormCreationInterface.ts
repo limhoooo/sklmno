@@ -30,12 +30,14 @@ export interface codeListData {
 	installmentsPeriodTypeItems: Object; // 할부기간 items
 	courierCodeItems: Object; // 택배사코드 items
 	goodsItems: Object; // 기기명 items
+	goodsItemsCopy: Object; // 기기명 items
 	capacityItems: Object; // 용량 items
 	colorItems: Object; // 색상 items
 	saleStoreItems: Object; // 영업점 items
 	openingStoreItems: Object; // 개통점 items
 	telecomAddServiceItems: Object; //부가서비스 items
 	telecomChargeItems: Object; // 요금제 items
+	telecomChargeItemsCopy: Object; // 요금제 items
 	existTelecomItems: any; // 기존통신사 items
 	thriftyPhoneItems: Object; // 알뜰폰 items
 	storeMemberItems: Object; // 등록자 items
@@ -47,6 +49,7 @@ export interface codeListData {
 	detailList: Object; // 블랙리스트
 	counselorItems: any; // 상담원 Items
 	DeliveryType: any; // 배송구분
+	networkCodeItems: any; // 통신망
 }
 
 export interface dialogData {
@@ -55,9 +58,17 @@ export interface dialogData {
 }
 
 export interface basicFormData extends commonFormData_1 {
+	creditInquireYn?: any; // 신조매칭
+	creditInquireId?: any; // 신조 아이디
 	applType: string; // 기기유심타입
 	openingDate: null | string; // 개통일자
+	openingTime: null | string; // 개통시간
 	cancelDate: null | string; // 철회일자0
+	cancelTime: null | string; // 철회시간
+	exchangeDate: string; // 교품날짜
+	exchangeTime: string; // 교품시간
+	beforeReserveYn: null | string; //사전예약여부
+	reserveNum: null | string; // 예약번호
 	beforeOpeningType: null | string; // 개통유형
 	saleStoreId: null | number; // 영업점
 	openingStoreId: any; // 개통점
@@ -131,7 +142,7 @@ export interface customerFormData extends commonFormData_1 {
 
 export interface paymentFormData extends commonFormData_1 {
 	paymentType?: null | string | boolean; // 납부방법
-	billType?: string; // 청구서종류
+	billType?: null | string; // 청구서종류
 	bankCode?: null | string; // 은행정보
 	accountNum?: null | string; // 계좌번호
 	accountHolderName?: null | string; // 예금주
@@ -150,6 +161,7 @@ export interface paymentFormData extends commonFormData_1 {
 	giroZipCode?: null | string; // 우편번호
 	giroAddr?: null | string; // 기본주소
 	giroAddrDetail?: null | string; // 상세주소
+	paymentIdentifiedYn: string | boolean; //명의자 동일
 }
 
 export interface joinFormData extends commonFormData_1 {
@@ -196,6 +208,7 @@ export interface joinFormData extends commonFormData_1 {
 	usimMatchingType: null | string; // 유심 매칭타입
 	openingDate: null | string; // 개통일자
 	cancelDate: null | string; // 철회일자
+	networkId: null | string; // 통신망
 }
 
 export interface deliveryFormData extends commonFormData_1 {

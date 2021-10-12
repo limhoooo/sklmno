@@ -3,11 +3,13 @@
 /*font*/
 .titleFontS {font-size: 20px}
 .mainFontS {font-size: 16px !important}
-.subFontS {font-size: 14px}
+.subFontS {font-size: 14px !important}
 .subFontS11 {font-size: 11px !important;}
 .subFontS12 {font-size: 12px !important;}
 .signFont1 {font-size: 36px !important;}
 .boldWt {font-weight: bold}
+.normalWt {font-weight: normal !important;}
+.txUnL {text-decoration: underline}
 
 /*cursor*/
 .cur_p {cursor: pointer}
@@ -18,23 +20,33 @@
 .w40 {width: 40px}
 .w50 {width: 50px}
 .w70 {width: 70px}
-.w80 {width: 80px}
+.w80 {width: 80px !important;}
+.w85 {width: 85px}
+.w90 {width: 90px}
+.w110 {width: 110px}
 .w120 {width: 120px}
 .w140 {width: 140px}
+.w160 {width: 160px}
 .w170 {width: 170px}
 .w180 {width: 180px}
 .w200 {width: 200px}
+.w210 {width: 210px}
 .w220 {width: 220px}
 .w230 {width: 230px}
 .w240 {width: 240px !important;}
 .w250 {width: 250px}
+.w260 {width: 260px}
+.w260 {width: 260px}
 .w280 {width: 280px}
 .w290 {width: 290px}
+.w300 {width: 300px}
 .w325 {width: 325px !important;}
 .w330 {width: 330px !important;}
 .w350 {width: 350px !important;}
 .w380 {width: 380px !important;}
+.w400 {width: 400px !important;}
 .w420 {width: 420px !important;}
+.w500 {width: 500px !important;}
 .w650 {width: 650px !important;}
 .w800 {width: 800px !important;}
 .w950 {width: 950px !important;}
@@ -60,36 +72,46 @@
 .h55 {height: 55px !important;}
 .h60 {height: 60px}
 .h75 {height: 75px}
+.h85 {height: 85px}
 .h90 {height: 90px}
+.h147 {height: 147px}
 .h200 {height: 200px}
 .h300 {height: 300px}
+.h400 {height: 400px}
+.h546 {height: 546px}
 .h100P {height: 100%}
 .h50P {height: 50%}
 
 /*padding*/
-.pad0 {padding:0}
+.pad0 {padding:0 !important;}
+.padW5 {padding: 0 5px !important}
 .padW10 {padding: 0 10px !important}
 .padW20 {padding: 0 20px !important}
 .padB20 {padding-bottom: 20px !important;}
+.pad10 {padding: 10px !important;}
+.pad20 {padding: 20px !important;}
 .pad30 {padding: 30px !important;}
 .popPad1 {padding: 15px 30px !important}
 .padBtn1 {padding: 7px 15px !important}
 .textAreaPad {padding: 10px 10px 40px 10px !important;}
 .padRightReset {padding-right: 0 !important}
+.mainContPad1 {padding: 20px 40px;}
 
 /*line-height*/
 .lh20 {line-height: 20px}
 .lh26 {line-height: 26px}
 .lh30 {line-height: 30px}
+.lh32 {line-height: 32px}
 .lh36 {line-height: 36px}
 .lh40 {line-height: 40px !important}
 .lh45 {line-height: 45px}
 .lh55 {line-height: 55px !important;}
+.lh96 {line-height: 96px !important;}
 
 /*text-align*/
 .txAnR {text-align: right}
 .txAnC {text-align: center}
-.txAnL {text-align: left}
+.txAnL {text-align: left !important}
 
 /*display*/
 .disIn {display: inline-block}
@@ -122,10 +144,14 @@
 .backColorBlue1 {background-color: #E1EFFC !important;}
 .backColorBlue2 {background-color: #007EF2 !important;}
 .backColorBlue3 {background-color: #0037A1 !important;}
+.backColorBlue4 {background-color: #EBF3FF !important;}
 .backColorMint1 {background-color: #00AAC1 !important;}
 .backColorGray1 {background-color: #bebebe !important;}
 .backColorGray2 {background-color: #95A8B8 !important;}
+.backColorGray3 {background-color: #fbfbfb !important;}
+.backColorGray4 {background-color: #F5F5F5 !important;}
 .backColorWhite {background-color: #fff !important;}
+.backColorWhite1 {background-color: #fff;}
 .backColorRed {background-color: #FF2E00 !important;}
 
 /*active-router-background*/
@@ -143,17 +169,24 @@
 .borderContColor2 {border: 1px solid #E0E0E0}
 .borderContColor3 {border: 1px solid #999999}
 .borderSubColor1 {border: 1px solid #B3CCE2}
+.borderSubColor2 {border: 1px solid #BFDAF3}
+.borderSubColor3 {border: 1px solid #D8D8D8}
 .borderSubRoute1 {border-top: 1px solid #B3CCE2; border-left: 1px solid #B3CCE2; border-right: 1px solid #B3CCE2}
 .borderBottomColor1 {border-bottom: 1px solid #eeeeee}
+.borderBottomColor2 {border-bottom: 1px solid #007EF2}
 
 /*border-radius*/
 .borderRadi3Px {border-radius: 3px !important}
+.borderRadi4Px {border-radius: 4px !important}
 .borderRadi5Px {border-radius: 5px !important}
 .borderRadi3PxTop {border-top-left-radius: 3px; border-top-right-radius: 3px; }
+.borderRadi5PxTop {border-top-left-radius: 9px; border-top-right-radius: 9px; }
+.borderRadi50px { border-radius: 50px }
 
 /*margin*/
 .mj0 {margin: 0 !important}
 .ml5 {margin-left: 5px}
+.ml8 {margin-left: 8px}
 .ml10 {margin-left: 10px}
 .ml20 {margin-left: 20px}
 .ml30 {margin-left: 30px}
@@ -165,12 +198,15 @@
 .mb10 {margin-bottom: 10px}
 .mb20 {margin-bottom: 20px}
 .mb30 {margin-bottom: 30px}
+.mb45 {margin-bottom: 45px}
 .mb100 {margin-bottom: 100px}
 .mt5 {margin-top: 5px}
+.mt10 {margin-top: 10px}
 .mt15 {margin-top: 15px}
 .mt20 {margin-top: 20px}
-.mt40 {margin-top: 40px}
 .mt30 {margin-top: 30px}
+.mt40 {margin-top: 40px}
+.mt50 {margin-top: 50px}
 .mW10 {margin: 0 10px}
 
 /*radioStyle*/
@@ -194,6 +230,11 @@
 .radioStyleCommon input[type='radio']:checked + label {color: #000}
 .radioStyleCommon label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_02.png');width: 8px;height: 8px;top: 9px; left: -20px}
 .radioStyleCommon input[type='radio']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_01.png');width: 8px;height: 8px;top: 9px;left: -20px;}
+.radioStyleCredit {position: relative}
+.radioStyleCredit input[type='radio'] {display: none}
+.radioStyleCredit input[type='radio']:checked + label {color: #000}
+.radioStyleCredit label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_02.png');width: 8px;height: 8px;top: 7px;left: -20px}
+.radioStyleCredit input[type='radio']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/Radio Button_01.png');width: 8px;height: 8px;top: 7px;left: -20px;}
 
 /*checkStyle*/
 .checkStyleCont1 {position: relative}
@@ -217,7 +258,7 @@
 .checkStyleCont4 {position: relative}
 .checkStyle {display: none}
 .checkStyleCont4 input[type='checkbox']:checked + label {color: #000}
-.checkStyleCont4 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 5px;left: -22px}
+.checkStyleCont4 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 4px;left: -22px}
 .checkStyleCont4 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 5px;left: -22px;}
 
 .checkStyleCont5 {position: relative}
@@ -225,6 +266,21 @@
 .checkStyleCont5 input[type='checkbox']:checked + label {color: #000}
 .checkStyleCont5 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 7px;left: -22px}
 .checkStyleCont5 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 7px;left: -22px;}
+
+
+.checkStyleCont8 {position: absolute; left: 735px}
+.checkStyle {display: none}
+.checkStyleCont8 input[type='checkbox']:checked + label {color: #000;}
+.checkStyleCont8 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px; top:3px;left: -16px}
+.checkStyleCont8 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 3px;left: -16px;}
+
+
+.checkStyleCont9 {position: relative}
+.checkStyle {display: none}
+.checkStyleCont9 input[type='checkbox']:checked + label {color: #000}
+.checkStyleCont9 label:before {position: absolute;display: block;content: url('../../assets/img/check Box_02.png');width: 8px;height: 8px;top: 2px;left: -22px}
+.checkStyleCont9 input[type='checkbox']:checked + label:before {position: absolute;display: block;content: url('../../assets/img/check Box_01.png');width: 8px;height: 8px;top: 2px;left: -22px;}
+
 
 /*placeholder*/
 input::-webkit-input-placeholder {font-size: 13px}
@@ -249,7 +305,8 @@ input::placeholder {font-size: 13px}
 .newSelectInput1 {width: 100%; padding: 10px; border: 1px solid #9e9e9e; border-radius: 3px; color: #333333}
 .newSelectBtn {position: relative}
 .newSelectBtn label {right: 10px; top: 16px;position: absolute; background-image: url("../../assets/img/down_arrow1.png"); width: 10px; height: 6px;}
-.closeBtn1 {background-image: url("../../assets/img/colose_Btn1.png"); width: 14px; height: 14px; display: inline-block}
+.closeBtn1 {background-image: url("../img/close_Btn1.png"); width: 14px; height: 14px; display: inline-block}
+.closeBtn2 {background-image: url("../img/close_Btn2.png"); width: 14px; height: 14px; display: inline-block}
 
 /*table*/
 .newTableStyle {font-size: 12px}

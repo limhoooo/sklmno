@@ -1,16 +1,44 @@
 <template>
 	<div class="quick-bg">
 		<!-- 특별관리 -->
+		<div style="z-index: 2" class="checkStyleCont8">
+			<input
+				type="checkbox"
+				class="checkStyle"
+				v-model="formData.basic.beforeReserveYn"
+				id="preOrder1"
+				:disabled="!modifyState"
+				:true-value="'Y'"
+				:false-value="'N'"
+				@change="toggleReserveNum"
+			/>
+			<label class="font-btn-color ml-2 cur_p" for="preOrder1">사전예약</label>
+			<input
+				type="text"
+				ref="preOrderNumInput"
+				style="z-index: 2"
+				class="preOrderInput"
+				placeholder="예약번호 ex)1234"
+				autocomplete="off"
+				:disabled="!modifyState || formData.basic.beforeReserveYn === 'N'"
+				v-model.trim="formData.basic.reserveNum"
+				@input="regExpReserveNum($event.target.value)"
+			/>
+		</div>
 		<special-care></special-care>
 		<!-- 빠른개통 작성 -->
 		<div class="new_popTable1 mt15">
-			<p v-if="beforeAdmin" class="mainRed" style="font-weight: bold">
+			<p
+				v-if="beforeAdmin"
+				class="mainRed"
+				style="font-weight: bold; line-height: 10px"
+			>
 				※ 구전산 신청서입니다.
 			</p>
 			<table class="w100P">
 				<tr>
 					<td class="w140">영업점</td>
-					<td class="w230">
+					<td class="w240">
 						<div>
 							<span class="ml5">{{ formData.basic.saleStoreIdString }}</span>
 							<!--							<input-select-->
@@ -24,19 +52,19 @@
 							<!--									[{name:formData.basic.saleStoreIdString,value:formData.basic.saleStoreId}]-->
 							<!--								"-->
 							<!--								:disableYN="true"-->
-							<!--								necessary-->
+
 							<!--								formatType="Number"-->
 							<!--							></input-select>-->
 						</div>
 					</td>
 					<td class="w140">개통점<span class="redfont">*</span></td>
-					<td class="w230" colspan="3">
+					<td class="w240" colspan="3">
 						<div class="w240">
 							<select
-								class="newInput1 lh36"
+								class="newInput1 lh32 w240"
 								v-model.trim="openStoreObject"
 								:disabled="!modifyState"
-								@input="setOpeningStoreRelatedInputs"
+								@change="setOpeningStoreRelatedInputs"
 							>
 								<option
 									disabled
@@ -68,30 +96,32 @@
 							@input="setNewData"
 							:optionList="optionList.customerTypeItems"
 							disableYN
-							necessary
+							width="240"
 						>
 						</input-select>
 					</td>
 				</tr>
 				<template v-if="formData.customer.cusType === 'MINORS'">
 					<tr>
-						<td class="w140">법정대리인 성명<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w140">
+							법정대리인<br />성명<span class="redfont">*</span>
+						</td>
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="w220 borderContColor2 borderRadi3Px lh36"
+								class="240 borderContColor2 borderRadi4Px lh32"
 								v-model.trim="customer.courtProctorName"
 							/>
 						</td>
 						<td class="w140">
 							법정대리인<br />주민등록번호<span class="redfont">*</span>
 						</td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="w220 borderContColor2 borderRadi3Px lh36"
+								class="w240 borderContColor2 borderRadi4Px lh32"
 								@input="
 									regiNumSplitFnc(
 										$event.target.value,
@@ -104,13 +134,13 @@
 							/>
 						</td>
 						<td class="w140">
-							법정대리인 연락처<span class="redfont">*</span>
+							법정대리인<br />연락처<span class="redfont">*</span>
 						</td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="borderContColor2 borderRadi3Px lh36 w230"
+								class="borderContColor2 borderRadi4Px lh32 w240"
 								@input="
 									phoneNumSplitFnc(
 										$event.target.value,
@@ -125,11 +155,11 @@
 					</tr>
 					<tr>
 						<td class="w140">관계<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="borderContColor2 borderRadi3Px lh36 w230"
+								class="borderContColor2 borderRadi4Px lh32 w240"
 								v-model.trim="customer.courtProctorRelation"
 							/>
 						</td>
@@ -138,24 +168,24 @@
 				<template v-if="formData.customer.cusType === 'CORP'">
 					<tr>
 						<td class="w140">법인명<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<div>
 								<input-text
 									title="법인명"
 									:data="{ name: 'bizName', value: formData.customer.bizName }"
 									@input="setNewData"
 									:disableYN="!modifyState"
-									necessary
+									width="240"
 								>
 								</input-text>
 							</div>
 						</td>
 						<td class="w140">사업자번호<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="borderContColor1 borderRadi3Px lh36 w230"
+								class="borderContColor1 borderRadi4Px lh32 w240"
 								@input="
 									bizNumSplitFnc($event.target.value, 'bizNum', 'customer')
 								"
@@ -164,11 +194,11 @@
 							/>
 						</td>
 						<td class="w140">연락처<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="borderContColor2 borderRadi3Px lh36 w230"
+								class="borderContColor2 borderRadi4Px lh32 w240"
 								@input="
 									phoneNumSplitFnc($event.target.value, 'cusPhone', 'customer')
 								"
@@ -181,11 +211,11 @@
 				<tr>
 					<template v-if="formData.customer.cusType === 'CORP'">
 						<td class="w140">법인등록번호<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="borderContColor1 borderRadi3Px lh36 w230"
+								class="borderContColor1 borderRadi4Px lh32 w240"
 								@input="
 									regiNumSplitFnc($event.target.value, 'bizRegiNum', 'customer')
 								"
@@ -195,15 +225,15 @@
 						</td>
 					</template>
 					<td class="w140">고객명<span class="redfont">*</span></td>
-					<td class="w230">
+					<td class="w240">
 						<div>
 							<input-text
 								title="고객명"
 								:data="{ name: 'cusName', value: formData.customer.cusName }"
 								@input="setNewData"
 								:disableYN="!modifyState"
-								necessary
 								placeholder=" "
+								width="240"
 							>
 							</input-text>
 						</div>
@@ -217,11 +247,11 @@
 						"
 					>
 						<td class="w140">주민등록번호<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="w220 borderContColor2 borderRadi3Px lh36"
+								class="w240 borderContColor2 borderRadi4Px lh32"
 								@input="
 									regiNumSplitFnc($event.target.value, 'cusRegiNum', 'customer')
 								"
@@ -232,11 +262,11 @@
 					</template>
 					<template v-if="formData.customer.cusType === 'FOREIGN'">
 						<td class="w140">외국인등록번호<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="w220 borderContColor2 borderRadi3Px lh36"
+								class="w240 borderContColor2 borderRadi4Px lh32"
 								@input="
 									regiNumSplitFnc($event.target.value, 'licenseNum', 'customer')
 								"
@@ -247,11 +277,11 @@
 					</template>
 					<template v-if="formData.customer.cusType !== 'CORP'">
 						<td class="w140">휴대폰번호<span class="redfont">*</span></td>
-						<td class="w230">
+						<td class="w240">
 							<input
 								type="text"
 								:disabled="!modifyState"
-								class="borderContColor2 borderRadi3Px lh36 w230"
+								class="borderContColor2 borderRadi4Px lh32 w240"
 								@input="
 									phoneNumSplitFnc($event.target.value, 'cusPhone', 'customer')
 								"
@@ -264,9 +294,9 @@
 				<tr>
 					<td>주소</td>
 					<td colspan="5">
-						<div class="disFx" style="width: 647px">
+						<div class="disFx" style="width: 668px">
 							<input
-								class="w680 borderContColor1 lh36 borderRadi3Px"
+								class="w680 borderContColor1 lh32 borderRadi4Px"
 								type="text"
 								disabled
 								:value="`${formData.customer.cusZipCode} / ${formData.customer.cusAddr} / ${formData.customer.cusAddrDetail}`"
@@ -286,7 +316,7 @@
 							@input="setNewData"
 							:optionList="optionList.chargeReductTypeItems"
 							:disableYN="!modifyState"
-							necessary
+							width="240"
 						>
 						</input-select>
 					</td>
@@ -297,13 +327,14 @@
 							:data="{
 								name: 'blackType',
 								value: blackList.blackTypeMsg
-									? `${blackList.blackTypeMsg} ${formatBlackRegiData}`
+									? `${blackList.blackTypeMsg}`
 									: '',
 							}"
 							:customerData="this.formData.customer"
 							disableYN
-							placeholder="조회 없음"
+							placeholder="조회된 결과가 없습니다"
 							@input="setNewData"
+							width="174"
 						>
 							<template v-slot:slot="{ getBlackListFnc }">
 								<button @click="getBlackListFnc" :disabled="!modifyState">
@@ -347,6 +378,7 @@
 							}"
 							disableYN
 							placeholder="정보 없음"
+							width="240"
 						>
 						</input-text>
 					</td>
@@ -354,81 +386,108 @@
 				<tr>
 					<td>개통일자</td>
 					<td>
-						<div class="datePickerStyle1 w240 posR">
-							<v-menu
-								v-model.trim="menu1"
-								:close-on-content-click="false"
-								:nudge-right="40"
-								transition="scale-transition"
-								offset-y
-								:attach="true"
-							>
-								<template v-slot:activator="{ on, attrs }">
-									<v-text-field
-										:disabled="
-											!modifyState ||
-											!formData.basic.openingDate ||
-											storeVal === 'StoreGrade_S'
-										"
-										outlined
+						<div class="datePickerStyle1 w240 posR disFX">
+							<span style="display: flex; margin-right: 4px; width: 136px">
+								<v-menu
+									v-model.trim="menu1"
+									:close-on-content-click="false"
+									:nudge-right="40"
+									transition="scale-transition"
+									offset-y
+									:attach="true"
+								>
+									<template v-slot:activator="{ on, attrs }">
+										<v-text-field
+											placeholder="YY:mm:dd"
+											:disabled="
+												!modifyState ||
+												!formData.basic.openingDate ||
+												storeVal === 'StoreGrade_S'
+											"
+											outlined
+											v-model.trim="formData.basic.openingDate"
+											v-bind="attrs"
+											v-on="on"
+											append-icon="mdi-calendar"
+											readonly
+											class="w140"
+										></v-text-field>
+									</template>
+									<v-date-picker
+										:disabled="!modifyState"
 										v-model.trim="formData.basic.openingDate"
-										v-bind="attrs"
-										v-on="on"
-										append-icon="mdi-calendar"
-										readonly
-									></v-text-field>
-								</template>
-								<v-date-picker
-									:disabled="!modifyState"
-									v-model.trim="formData.basic.openingDate"
-									@input="menu1 = false"
-									locale="ko-KR"
-								></v-date-picker>
-							</v-menu>
-							<!--							<button-->
-							<!--								v-if="formData.basic.openingDate"-->
-							<!--								class="resetBtn"-->
-							<!--                :disabled="!modifyState || !formData.basic.openingDate"-->
-							<!--                @click="resetDate('openingDate')"-->
-							<!--							>-->
-							<!--								x-->
-							<!--							</button>-->
+										@input="menu1 = false"
+										locale="ko-KR"
+									></v-date-picker>
+								</v-menu>
+								<!--							<button-->
+								<!--								v-if="formData.basic.openingDate"-->
+								<!--								class="resetBtn"-->
+								<!--                :disabled="!modifyState || !formData.basic.openingDate"-->
+								<!--                @click="resetDate('openingDate')"-->
+								<!--							>-->
+								<!--								x-->
+								<!--							</button>-->
+							</span>
+							<span>
+								<vue-timepicker
+									:disabled="
+										!modifyState ||
+										!formData.basic.openingTime ||
+										storeVal === 'StoreGrade_S'
+									"
+									v-model.trim="formData.basic.openingTime"
+								></vue-timepicker>
+							</span>
 						</div>
 					</td>
 					<td>철회일자</td>
-					<td colspan="3">
-						<div class="datePickerStyle1 w240 posR">
-							<v-menu
-								v-model.trim="menu2"
-								:close-on-content-click="false"
-								:nudge-right="40"
-								transition="scale-transition"
-								offset-y
-								:attach="true"
-							>
-								<template v-slot:activator="{ on, attrs }">
-									<v-text-field
-										class="text"
-										outlined
+					<td>
+						<div class="datePickerStyle1 w240 posR disFX">
+							<span style="display: flex; margin-right: 4px; width: 136px">
+								<v-menu
+									v-model.trim="menu2"
+									:close-on-content-click="false"
+									:nudge-right="40"
+									transition="scale-transition"
+									offset-y
+									:attach="true"
+								>
+									<template v-slot:activator="{ on, attrs }">
+										<v-text-field
+											class="text w140"
+											outlined
+											placeholder="YY:mm:dd"
+											v-model.trim="formData.basic.cancelDate"
+											v-bind="attrs"
+											v-on="on"
+											append-icon="mdi-calendar"
+											readonly
+											:disabled="
+												!modifyState ||
+												!formData.basic.cancelDate ||
+												storeVal === 'StoreGrade_S'
+											"
+										></v-text-field>
+									</template>
+									<v-date-picker
 										v-model.trim="formData.basic.cancelDate"
-										v-bind="attrs"
-										v-on="on"
-										append-icon="mdi-calendar"
-										readonly
-										:disabled="
-											!modifyState ||
-											!formData.basic.cancelDate ||
-											storeVal === 'StoreGrade_S'
-										"
-									></v-text-field>
-								</template>
-								<v-date-picker
-									v-model.trim="formData.basic.cancelDate"
-									@input="menu2 = false"
-									locale="ko-KR"
-									:disabled="!modifyState"
-								></v-date-picker>
-							</v-menu>
+										@input="menu2 = false"
+										locale="ko-KR"
+										:disabled="!modifyState"
+									></v-date-picker>
+								</v-menu>
+							</span>
+							<span>
+								<vue-timepicker
+									:disabled="
+										!modifyState ||
+										!formData.basic.cancelTime ||
+										storeVal === 'StoreGrade_S'
+									"
+									v-model.trim="formData.basic.cancelTime"
+								></vue-timepicker>
+							</span>
 							<!--							<button-->
 							<!--								v-if="formData.basic.cancelDate"-->
 							<!--								class="resetBtn"-->
@@ -439,6 +498,60 @@
 							<!--							</button>-->
 						</div>
 					</td>
+					<template v-if="ApplExchangeFlag">
+						<td class="w140">교품일시</td>
+						<td
+							class="datePickerStyle1 posR"
+							style="display: flex; border: 0; width: 272px"
+						>
+							<span style="display: flex; margin-right: 4px; width: 136px">
+								<v-menu
+									v-model.trim="menu3"
+									:close-on-content-click="false"
+									:nudge-right="40"
+									transition="scale-transition"
+									offset-y
+									:attach="true"
+								>
+									<template v-slot:activator="{ on, attrs }">
+										<v-text-field
+											placeholder="YY:mm:dd"
+											class="w120"
+											style="font-size: 12px"
+											outlined
+											readonly
+											v-bind="attrs"
+											v-on="on"
+											append-icon="mdi-calendar"
+											:disabled="!modifyState"
+											v-model.trim="formData.basic.exchangeDate"
+										></v-text-field>
+									</template>
+									<v-date-picker
+										@input="menu3 = false"
+										locale="ko-KR"
+										v-model.trim="formData.basic.exchangeDate"
+									></v-date-picker>
+								</v-menu>
+							</span>
+							<span>
+								<!--         type 지정이 안돼있는 model 연결시 obj형태로 리턴       -->
+								<vue-timepicker
+									:disabled="!modifyState"
+									:value="formData.basic.exchangeTime"
+									@input="timepickerFnc($event, 'exchangeTime')"
+								></vue-timepicker>
+							</span>
+							<!--            <button-->
+							<!--                v-if="basicData.openingDate"-->
+							<!--                class="resetBtn"-->
+							<!--                :disabled="!basicData.openingDate"-->
+							<!--                @click="resetDate('openingDate')"-->
+							<!--            >-->
+							<!--              x-->
+							<!--            </button>-->
+						</td>
+					</template>
 				</tr>
 				<tr>
 					<td>가입유형<span class="redfont">*</span></td>
@@ -452,7 +565,7 @@
 							@input="setNewData"
 							:option-list="optionList.joinTypeItems"
 							:disableYN="!modifyState"
-							necessary
+							width="240"
 						></input-select>
 					</td>
 					<td>기존통신사</td>
@@ -473,6 +586,7 @@
 							"
 							formatType="Number"
 							disableYN
+							width="240"
 						>
 						</input-select>
 					</td>
@@ -491,7 +605,7 @@
 										'후개통'),
 							}"
 							disableYN
-							necessary
+							width="240"
 						>
 						</input-text>
 					</td>
@@ -508,7 +622,7 @@
 									(formData.basic.applType === undefined && '정보없음'),
 							}"
 							disableYN
-							necessary
+							width="240"
 						>
 						</input-text>
 					</td>
@@ -525,7 +639,7 @@
 						<input
 							type="text"
 							:disabled="!modifyState"
-							class="borderRadi3Px borderContColor1 w230 lh36"
+							class="borderRadi4Px borderContColor1 w240 lh32"
 							@input="
 								phoneNumSplitFnc($event.target.value, 'openingPhone', 'join')
 							"
@@ -537,24 +651,24 @@
 						개통희망번호<span class="redfont">*</span>
 					</td>
 					<td colspan="3" v-if="this.formData.join.joinType === 'NEW'">
-						<div class="disFx w250">
+						<div class="disFx w250 hopeNumInput">
 							<input
 								type="text"
 								maxlength="3"
 								disabled
-								class="disabledNum w70 lh36 borderContColor1"
+								class="disabledNum lh32 borderContColor1"
 							/>
-							<span class="lh36">-</span>
+							<span class="lh32" style="margin: 0 2px">-</span>
 							<input
 								type="text"
 								maxlength="4"
 								disabled
-								class="disabledNum w70 borderContColor1"
+								class="disabledNum borderContColor1"
 							/>
-							<span class="lh36">-</span>
+							<span class="lh32" style="margin: 0 2px">-</span>
 							<input
 								type="text"
-								class="w70 roundBorder"
+								class="roundBorder"
 								v-model.trim="formData.join.openingHopeNum"
 								maxlength="4"
 								oninput="this.value = this.value.replace(/[^0-9]/g, '');"
@@ -575,7 +689,7 @@
 							@input="setNewData"
 							:optionList="optionList.numChangeAuthTypeItems"
 							:disableYN="!modifyState"
-							necessary
+							width="240"
 						></input-select>
 					</td>
 					<td>
@@ -586,7 +700,7 @@
 						>
 					</td>
 					<td colspan="3">
-						<div class="w240">
+						<div class="w250">
 							<input-text
 								title="인증번호"
 								type="number"
@@ -597,7 +711,7 @@
 								@input="setNewData"
 								:disableYN="!modifyState"
 								placeholder=" "
-								:necessary="this.formData.join.numChangeAuthType !== 'GIRO'"
+								width="240"
 							></input-text>
 						</div>
 					</td>
@@ -607,6 +721,7 @@
 					<td>
 						<div class="datePickerStyle1">
 							<v-autocomplete
+								class="w240 dvcFontBox"
 								attach
 								@input="initRelatedInput('goodsId')"
 								:items="optionList.goodsItems"
@@ -629,6 +744,7 @@
 							@input="setNewData"
 							:option-list="capacityItems"
 							:disableYN="!modifyState"
+							width="240"
 						></input-select>
 					</td>
 					<td>색상<span v-if="!beforeAdmin" class="redfont">*</span></td>
@@ -639,6 +755,7 @@
 							@input="setNewData"
 							:optionList="colorItems"
 							:disableYN="!modifyState"
+							width="240"
 						></input-select>
 					</td>
 				</tr>
@@ -665,6 +782,7 @@
 							@input="setNewData"
 							:optionList="UsimPaymentTypeList"
 							:disableYN="!modifyState"
+							width="240"
 						></input-select>
 					</td>
 					<td>유심종류</td>
@@ -681,13 +799,14 @@
 								{ name: '마이크로', value: 'MICRO_USIM' },
 							]"
 							:disableYN="!modifyState"
+							width="240"
 						></input-select>
 					</td>
 				</tr>
 				<tr>
 					<td>유심일련번호</td>
 					<td colspan="5">
-						<div class="w240">
+						<div class="w250">
 							<matchingInput
 								:formData="formData"
 								:propsDeviceType="'USIM'"
@@ -712,10 +831,15 @@
 							@input="setNewData"
 							:optionList="optionList.AgreementTypeItems"
 							:disableYN="!modifyState"
-							necessary
 						></input-radio>
 					</td>
-					<td class="boldWt">할부기간<span class="redfont">*</span></td>
+					<td class="boldWt">
+						할부기간<span
+							v-if="this.formData.basic.beforeOpeningType === 'BEFORE_OPENING'"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td>
 						<input-select
 							title="할부기간"
@@ -726,11 +850,17 @@
 							@input="setNewData"
 							:optionList="optionList.installmentsPeriodTypeItems"
 							:disableYN="!modifyState"
-							necessary
+							width="240"
 						>
 						</input-select>
 					</td>
-					<td class="boldWt">약정기간<span class="redfont">*</span></td>
+					<td class="boldWt">
+						약정기간<span
+							v-if="this.formData.basic.beforeOpeningType === 'BEFORE_OPENING'"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td>
 						<input-select
 							title="약정기간"
@@ -741,19 +871,26 @@
 							@input="setNewData"
 							:optionList="optionList.agreementPeriodTypeItems"
 							:disableYN="!modifyState"
-							necessary
+							width="240"
 						>
 						</input-select>
 					</td>
 				</tr>
 				<tr>
-					<td class="boldWt">요금제<span class="redfont">*</span></td>
+					<td class="boldWt">
+						요금제<span
+							v-if="this.formData.basic.beforeOpeningType === 'BEFORE_OPENING'"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td colspan="5">
 						<div
 							class="datePickerStyle1 w240"
 							style="font-size: 12px !important"
 						>
 							<v-autocomplete
+								class="dvcFontBox"
 								attach
 								@click="alertFnc"
 								@input="initRelatedInput('chargeId')"
@@ -770,7 +907,7 @@
 				<tr>
 					<td>부가서비스</td>
 					<td colspan="5">
-						<div class="disFx" style="width: 680px">
+						<div class="disFx" style="width: 670px">
 							<add-service
 								:data="{
 									name: 'addServiceList',
@@ -778,7 +915,7 @@
 								}"
 								:telecomId="this.formData.join.openingTelecomCodeId"
 								:optionList="optionList.addServiceList"
-								width="680"
+								:width="670"
 								:disableYN="!modifyState"
 								:addServiceData="this.formData.join.addServiceList"
 								@setNewAddSvcList="setNewAddSvcList"
@@ -816,7 +953,6 @@
 							}"
 							@input="setNewData"
 							:disableYN="!modifyState"
-							:necessary="this.formData.join.agreementType === 'PUBNOTI_SUPAMT'"
 						></input-money>
 					</td>
 					<td>추가지원금</td>
@@ -902,7 +1038,6 @@
 								{ name: '아니오', value: 'N' },
 							]"
 							:disableYN="!modifyState"
-							necessary
 						></input-radio>
 					</td>
 				</tr>
@@ -951,6 +1086,7 @@
 							:disableYN="
 								this.formData.delivery.couriorMatchingYn === 'Y' || !modifyState
 							"
+							width="240"
 						></input-select>
 					</td>
 					<td
@@ -1003,6 +1139,11 @@
 				</tr>
 			</table>
 		</div>
+		<BlackListTablePop
+			v-if="blackListTablePop"
+			:blackListData="blackList"
+			@closeDialog="blackCloseDialog"
+		></BlackListTablePop>
 	</div>
 </template>
 
@@ -1017,6 +1158,9 @@ import numberSplit from '../../../../../common/numberSplit';
 import { getFormatDate, setNewDataFnc } from '../../../../../common/common';
 import matchingInput from '../../../../../components/matchingInput';
 import SpecialCare from '@/views/supply-chain-mgmt/sell-mgmt/popup/QuickOpeningPop/SpecialCare';
+//https://phoenixwong.github.io/vue2-timepicker/
+import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue';
+import BlackListTablePop from '@/views/supply-chain-mgmt/black-list/popup/BlackListTablePop';
 
 export default {
 	namespaced: true,
@@ -1027,6 +1171,7 @@ export default {
 	},
 	mixins: [numberSplit],
 	components: {
+		BlackListTablePop,
 		SpecialCare,
 		InputSelect,
 		InputText,
@@ -1035,11 +1180,14 @@ export default {
 		AddService,
 		FileUpload,
 		matchingInput,
+		VueTimepicker,
 	},
 	data: () => ({
 		menu1: false,
 		menu2: false,
+		menu3: false,
 		barcodeYn: { deviceYn: 'N', usimYn: 'N' },
+		openingStoreTelecomCopy: '',
 	}),
 	computed: {
 		beforeAdmin() {
@@ -1105,6 +1253,13 @@ export default {
 			}
 			return optionList;
 		},
+		paymentIdentify() {
+			if (this.formData.payment.paymentIdentifiedYn === 'Y') {
+				return '명의자 동일 : O';
+			} else {
+				return '명의자 동일 : X';
+			}
+		},
 		modelPayment() {
 			if (this.formData.payment.paymentType !== 'EXIST_SAME') {
 				if (this.formData.payment.paymentType === 'ACC_TRNS') {
@@ -1112,7 +1267,9 @@ export default {
 						this.formData.payment.accountNum
 					}  ${this.formData.payment.accountHolderName} · ${
 						this.formData.payment.accountHolderRelation
-					} · ${this.formData.payment.accountHolderBirth || ''}`;
+					} · ${this.formData.payment.accountHolderBirth || ''}  (${
+						this.paymentIdentify
+					})`;
 				} else if (this.formData.payment.paymentType === 'CARD_PAY') {
 					return `${this.formData.payment.cardCompanyCodeMsg}  ${
 						this.formData.payment.cardNum1 || ''
@@ -1124,11 +1281,13 @@ export default {
 						this.formData.payment.cardHolderRegiNum2 || ''
 					} ·	${this.formData.payment.cardValidityMm || ''}/${
 						this.formData.payment.cardValidityYy || ''
-					}`;
+					}  (${this.paymentIdentify})`;
 				} else if (this.formData.payment.paymentType === 'GIRO') {
 					return `${this.formData.payment.giroZipCode || ''} / ${
 						this.formData.payment.giroAddr || ''
-					} / ${this.formData.payment.giroAddrDetail || ''}`;
+					} / ${this.formData.payment.giroAddrDetail || ''}  (${
+						this.paymentIdentify
+					})`;
 				} else {
 					return '납부정보가 없습니다.';
 				}
@@ -1224,8 +1383,32 @@ export default {
 				this.$store.state.QuickOpeningPopModule.usimChange = newValue;
 			},
 		},
+		blackListTablePop: {
+			get() {
+				return this.$store.state.QuickOpeningPopModule.blackListTablePop;
+			},
+			set(newValue) {
+				this.$store.state.QuickOpeningPopModule.blackListTablePop = newValue;
+			},
+		},
+
+		ApplExchangeFlag() {
+			return this.$store.state.QuickOpeningPopModule.ApplExchangeFlag;
+		},
 	},
 	methods: {
+		regExpReserveNum(value) {
+			this.formData.join.openingTelecomCodeId === 7
+				? (this.formData.basic.reserveNum = value.replace(/[^a-zA-Z0-9]/gi, ''))
+				: (this.formData.basic.reserveNum = value.replace(/[^0-9]/g, ''));
+		},
+		toggleReserveNum() {
+			if (this.formData.basic.beforeReserveYn === 'N') {
+				this.formData.basic.reserveNum = '';
+			} else {
+				this.$nextTick(() => this.$refs.preOrderNumInput.focus());
+			}
+		},
 		setNewAddSvcList(itemList) {
 			for (let i = 0; i < this.formData.join.addServiceList.length; i++) {
 				if (
@@ -1288,6 +1471,14 @@ export default {
 		async setOpeningStoreRelatedInputs() {
 			this.formData.basic.openingStoreId = this.openStoreObject.openingStoreId;
 			this.formData.join.openingTelecomCodeId = this.openStoreObject.openingTelecomCodeId;
+			// 개통점 변경시 같은 통신사일때 no reset
+			if (
+				this.openingStoreTelecomCopy ===
+				this.openStoreObject.openingTelecomCodeId
+			)
+				return;
+			this.openingStoreTelecomCopy = this.openStoreObject.openingTelecomCodeId;
+			this.formData.basic.reserveNum = ''; //사전예약번호 초기화
 			this.initOpeningStoreRelatedInputs();
 			await this.$store.dispatch('QuickOpeningPopModule/getGoodsSelectList'); //휴대폰 목록 조회
 			await this.exTelFnc(); // 가입유형 선택
@@ -1433,6 +1624,17 @@ export default {
 		usimChangeFnc(value) {
 			this.usimChange = value;
 		},
+
+		timepickerFnc(value, type) {
+			if (typeof value === 'string') {
+				this.formData.basic[type] = value;
+			} else {
+				this.formData.basic[type] = `${value.HH}:${value.mm}`;
+			}
+		},
+		blackCloseDialog(value) {
+			this.blackListTablePop = value;
+		},
 	},
 	async created() {
 		await this.$store.commit(
@@ -1440,11 +1642,24 @@ export default {
 			this.quickOpeningApplId,
 		);
 	},
+	updated() {
+		// 개통점 변경시 이전 개통점과 바뀐 개통점 비교하기위한 copy data
+		this.openingStoreTelecomCopy = this.formData.join.openingTelecomCodeId;
+	},
 };
 </script>
 <style scoped>
 input {
 	padding: 0 10px;
+}
+input[type='text']:disabled {
+	color: #000 !important;
+}
+select:disabled {
+	color: #000 !important;
+}
+[disabled] {
+	color: #000 !important;
 }
 .quick-bg select {
 	cursor: pointer;
@@ -1466,5 +1681,17 @@ input {
 	right: 140px;
 	padding: 6px;
 	color: #17a5ae;
+}
+.hopeNumInput input {
+	width: 74px;
+}
+.preOrderInput {
+	position: absolute;
+	left: 65px;
+	border: 1px solid #e0e0e0;
+	border-radius: 3px;
+	width: 140px;
+	margin-left: 8px;
+	padding: 2px 10px;
 }
 </style>

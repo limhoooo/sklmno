@@ -617,6 +617,16 @@ export const getToday = () => {
 
 	return year + '-' + month + '-' + day;
 };
+// HH:MM 시간 포맷
+// SS 추가 필요시 분기처리후 추가
+export const getTime = () => {
+	let today = new Date();
+	let hours = ('0' + today.getHours()).slice(-2);
+	let minutes = ('0' + today.getMinutes()).slice(-2);
+	//let seconds = ('0' + today.getSeconds()).slice(-2);
+	let timeString = hours + ':' + minutes;
+	return `${timeString}`;
+};
 // 용량 중복체크
 export const findCapacity = (text) => {
 	return !(

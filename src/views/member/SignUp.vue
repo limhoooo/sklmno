@@ -1,9 +1,9 @@
 <template>
 	<div>
-		<header>
-			<h1 :class="process === 'production' ? '' : 'localBgColor'" class="logo">
+		<header style="background-color: #0037a1">
+			<h1 :class="process === 'production' ? '' : 'localBgColor'" class="logo header ">
 				<a href="/login" style="color: #003a53">
-					<span v-if="process === 'production'">SKLMNO</span>
+					<span v-if="process === 'production'" class="logoWhite" style="margin-top: -7px"></span>
 					<span v-else>테스트</span>
 				</a>
 			</h1>
@@ -123,6 +123,7 @@
 											@postapi="addressData"
 											:postDialog="postDialog"
 											@closeDialog="dialogClose"
+                      class="post-api-comp"
 										></post-api>
 										<input
 											type="text"
@@ -436,7 +437,7 @@
                         </tr>
                     </table>
                 </div> -->
-				<div class="btnCont disFx justify-end">
+				<div class="btnCont disFx justify-center">
 					<button
 						class="w180 h60 backColorBlue2 mainWhite boldWt borderRadi3Px mt30 mb100"
 						@click="submit"
@@ -444,15 +445,50 @@
 						회원가입
 					</button>
 				</div>
-			</div>
+        <div id="copyRight" style="height: auto !important;">
+          <div class="copyRightCont disFx">
+            <div class="copyLogoCont"></div>
+            <div class="ml30">
+              <!--					<div>
+                <span class="fakeLine2"
+                  ><a class="subFontS12 mainBlack2">이용약관</a></span
+                ><a class="subFontS12 mainBlack2 ml30">개인정보취급방침</a>
+              </div>-->
+              <div class="subFontS11 mainBlack3 mt15 lh20">
+                <div>
+                  <span>상호 : 주식회사 대마</span>
+                  <span class="ml10">사업자 등록번호: 264-81-51441</span>
+                  <span class="ml10">
+								통신판매업 신고번호 : 제2020-경기시흥-2777호
+							</span>
+                </div>
+                <div>
+							<span>
+								주소 : 경기도 시흥시 서울대학로278번길 19-14 배곧프라자 706호
+							</span>
+                  <span class="ml10">대표이사 : 송대호</span>
+                </div>
+                <div class="boldWt">
+                  <span>TEL : 1833-9413</span>
+                  <span class="ml10">FAX : 070-8680-9413</span>
+                </div>
+              </div>
+              <div class="boldWt subFontS11 mt15">
+                Copyright © DAEMA. All rights reserved
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
 		</section>
 	</div>
 </template>
 
 <script>
 import PostApi from '../../components/PostApi.vue';
-import { existsData, signUp, signUpStore } from '../../api/member/login';
-import { nullValidation, validateEmail } from '../../common/common';
+import {existsData, signUp, signUpStore} from '../../api/member/login';
+import {nullValidation, validateEmail} from '../../common/common';
 
 export default {
 	components: {
@@ -801,5 +837,26 @@ section .signForm td {
 	box-shadow: none;
 	border: 0;
 	background-color: #0037a1 !important;
+}
+#copyRight {
+  position: absolute;
+  background-color: #f6f6f6;
+  padding: 5px;
+  width: 100%;
+  left: 0;
+}
+.copyRightCont {
+  width: 650px;
+  margin: 30px auto;
+  height: 110px;
+}
+.copyLogoCont {
+  width: 100px;
+  height: 17px;
+  margin: auto 0;
+  background-image: url('../../assets/img/SKLMNO_gray1.png');
+}
+.post-api-comp .post-Api-Btn {
+  color: white;
 }
 </style>

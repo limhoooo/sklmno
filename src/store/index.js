@@ -69,6 +69,8 @@ import MgmtTargetDeviceModule from '@/store/modules/warehouse-mgmt/stock-mgmt/Mg
 import UsimInStockModule from '@/store/modules/warehouse-mgmt/device-mgmt/UsimInStockModule';
 import UsimStatusModule from '@/store/modules/warehouse-mgmt/device-mgmt/UsimStatusModule';
 import ApplicationMatchingModule from './modules/supply-chain-mgmt/application-matching/ApplicationMatchingModule';
+import StatsMgmtModule from '@/store/modules/supply-chain-mgmt/stats-mgmt/StatsMgmtModule';
+import CreditCheckModule from '@/store/modules/credit-check-mgmt/credit-check/CreditCheckModule';
 
 Vue.use(Vuex);
 
@@ -288,5 +290,7 @@ export default new Vuex.Store({
 		BlackListModule: BlackListModule, // 블랙리스트관리
 		TaskHistoryModule: TaskHistoryModule, // 업무 이력
 		ApplicationMatchingModule: ApplicationMatchingModule, // 신청서매칭
+		StatsMgmtModule: StatsMgmtModule, // 통계현황
+		CreditCheckModule: CreditCheckModule, // 신용조회
 	},
 });

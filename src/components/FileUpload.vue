@@ -1,101 +1,107 @@
 <template>
-	<div class="commonInput">
+	<div class="commonInput wm680">
 		<!--		<div class="display_in leftBox" :style="`width: ${titleWidth}px`">
 			<span> 첨부파일 </span>
 			<span v-if="necessary" class="font-red"> *</span>
 		</div>-->
-		<div class="display_in" :style="`width: calc(100% - ${titleWidth}px)`">
-			<div class="mb10">
-				<input
-					id="fileInput"
-					type="file"
-					multiple
-					style="display: none"
-					:disabled="disableYN"
-					@change="handleFileChange"
-				/>
-				<label class="uploadBtn" for="fileInput">파일 추가</label>
-			</div>
-			<div class="fileListBox">
-				<div v-for="item in propsFileList" :key="item.id" class="alignBox">
-					<div class="left cur_p">
-						<span>
-							{{ item.regiDatetime | moment('YYYY-MM-DD HH:mm:ss') }}
-						</span>
-					</div>
-					<div class="right">
-						<span
-							class="ellipsisH display_in w130"
-							style="padding-top: 0; text-align: right"
-						>
-							{{ item.attachName }}.{{ item.attachExt }}
-						</span>
-						<span
-							class="display_in"
-							style="vertical-align: super; padding-top: 0"
-						>
-							<span
-								v-if="item.attachExt !== 'pdf' && !beforeAdmin"
-								@click="filePreview(item)"
-								style="margin: 0 5px"
-							>
-								<v-icon style="color: #7e7e7e; font-size: 12px; cursor: pointer"
-									>fas fa-search</v-icon
-								>
-							</span>
-							<v-icon
-								style="
-									color: #7e7e7e;
-									background: none;
-									margin: 0 5px;
-									font-size: 12px;
-									padding: 0;
-								"
-								@click="fileDownload(item)"
-								>fas fa-download</v-icon
-							>
-							<v-icon
-								v-if="modifyState"
-								style="
-									color: #7e7e7e;
-									background: none;
-									margin: 0 5px;
-									font-size: 12px;
-									padding: 0;
-								"
-								@click="deleteAttach(item)"
-								>fas fa-trash</v-icon
-							>
-						</span>
-					</div>
+		<div>
+			<input
+				id="fileInput"
+				type="file"
+				multiple
+				style="display: none"
+				:disabled="disableYN"
+				@change="handleFileChange"
+			/>
+			<label
+				class="uploadBtn disIN"
+				style="width: 80px; height: 30px; line-height: 30px"
+				for="fileInput"
+				>파일 추가</label
+			>
+		</div>
+		<div
+			v-if="propsFileList.length !== 0 || fileData.length !== 0"
+			class="fileListBox mt-1"
+		>
+			<div v-for="item in propsFileList" :key="item.id" class="alignBox">
+				<div class="left cur_p">
+					<span>
+						{{ item.regiDatetime | moment('YYYY-MM-DD HH:mm:ss') }}
+					</span>
 				</div>
-				<div v-for="item in fileData" :key="item.id" class="alignBox">
-					<div class="left">
-						<span>
-							{{ todayDate() | moment('YYYY-MM-DD HH:mm:ss') }}
-						</span>
-					</div>
-					<div class="right">
-						<span class="ellipsisH display_in w130" style="padding-top: 0">
-							{{ item.name }}
-						</span>
+				<div class="right">
+					<span
+						class="ellipsisH display_in w130"
+						style="padding-top: 0; text-align: right"
+					>
+						{{ item.attachName }}.{{ item.attachExt }}
+					</span>
+					<span
+						class="display_in"
+						style="vertical-align: super; padding-top: 0"
+					>
 						<span
-							class="display_in"
-							style="vertical-align: super; padding-top: 0"
+							v-if="item.attachExt !== 'pdf' && !beforeAdmin"
+							@click="filePreview(item)"
+							style="margin: 0 5px"
 						>
-							<v-icon
-								style="
-									color: #7e7e7e;
-									background: none;
-									margin: 0 5px;
-									font-size: 12px;
-									padding: 0;
-								"
-								@click="deleteFile(item.name, item.size)"
-								>fas fa-trash</v-icon
+							<v-icon style="color: #7e7e7e; font-size: 12px; cursor: pointer"
+								>fas fa-search</v-icon
 							>
 						</span>
-					</div>
+						<v-icon
+							style="
+								color: #7e7e7e;
+								background: none;
+								margin: 0 5px;
+								font-size: 12px;
+								padding: 0;
+							"
+							@click="fileDownload(item)"
+							>fas fa-download</v-icon
+						>
+						<v-icon
+							v-if="modifyState"
+							style="
+								color: #7e7e7e;
+								background: none;
+								margin: 0 5px;
+								font-size: 12px;
+								padding: 0;
+							"
+							@click="deleteAttach(item)"
+							>fas fa-trash</v-icon
+						>
+					</span>
+				</div>
+			</div>
+			<div v-for="item in fileData" :key="item.id" class="alignBox">
+				<div class="left">
+					<span>
+						{{ todayDate() | moment('YYYY-MM-DD HH:mm:ss') }}
+					</span>
+				</div>
+				<div class="right">
+					<span class="ellipsisH display_in w130" style="padding-top: 0">
+						{{ item.name }}
+					</span>
+					<span
+						class="display_in"
+						style="vertical-align: super; padding-top: 0"
+					>
+						<v-icon
+							style="
+								color: #7e7e7e;
+								background: none;
+								margin: 0 5px;
+								font-size: 12px;
+								padding: 0;
+							"
+							@click="deleteFile(item.name, item.size)"
+							>fas fa-trash</v-icon
+						>
+					</span>
 				</div>
 			</div>
 		</div>
@@ -134,11 +140,11 @@ export default Vue.extend({
 		propsFileList: [],
 		url: '',
 	}),
-  computed: {
-	  beforeAdmin(){
-	    return this.applId <= 28177;
-    }
-  },
+	computed: {
+		beforeAdmin() {
+			return this.applId <= 28177;
+		},
+	},
 	methods: {
 		filePreview(item) {
 			let url = `${this.url}download/file/application/${this.applId}/${item.applAttachId}`;
@@ -303,11 +309,10 @@ export default Vue.extend({
 .uploadBtn {
 	background-color: #0037a1;
 	color: #fff;
-	padding: 8px 13px;
 	border-radius: 3px;
+	text-align: center;
 	font-size: 12px;
 	cursor: pointer;
-	width: 20%;
 }
 
 .ml5 {

@@ -7,33 +7,159 @@
 					id="statsRadio1"
 					name="statsRadioCategory"
 					checked
+					value=""
+					v-model.trim="storeId"
 				/>
 				<label for="statsRadio1">전체</label>
-				<input type="radio" id="statsRadio2" name="statsRadioCategory" />
+				<input
+					type="radio"
+					id="statsRadio2"
+					name="statsRadioCategory"
+					value="1"
+					v-model.trim="storeId"
+				/>
 				<label for="statsRadio2" class="ml5">개통점</label>
-				<input type="radio" id="statsRadio3" name="statsRadioCategory" />
+				<input
+					type="radio"
+					id="statsRadio3"
+					name="statsRadioCategory"
+					value="2"
+					v-model.trim="storeId"
+				/>
 				<label for="statsRadio3" class="ml5">영업점</label>
 			</div>
 			<div class="disFx statsRadioCont1 ml30">
-				<input type="radio" id="statsRadio4" name="statsRadioTelecom" checked />
-				<label for="statsRadio4">KT</label>
-				<input type="radio" id="statsRadio5" name="statsRadioTelecom" />
-				<label for="statsRadio5" class="ml5">SK</label>
-				<input type="radio" id="statsRadio6" name="statsRadioTelecom" />
-				<label for="statsRadio6" class="ml5">LGU</label>
+				<input
+					type="radio"
+					id="statsRadio7"
+					name="statsRadioTelecom"
+					checked
+					v-model.trim="formData.telecomId"
+					value=""
+				/>
+				<label for="statsRadio7" @click="getStatisticsList('')">전체</label>
+				<input
+					type="radio"
+					id="statsRadio5"
+					name="statsRadioTelecom"
+					v-model.trim="formData.telecomId"
+					value="5"
+				/>
+				<label for="statsRadio5" class="ml5" @click="getStatisticsList(5)"
+					>SK</label
+				>
+				<input
+					type="radio"
+					id="statsRadio4"
+					name="statsRadioTelecom"
+					v-model.trim="formData.telecomId"
+					value="6"
+				/>
+				<label for="statsRadio4" class="ml5" @click="getStatisticsList(6)"
+					>KT</label
+				>
+				<input
+					type="radio"
+					id="statsRadio6"
+					name="statsRadioTelecom"
+					v-model.trim="formData.telecomId"
+					value="7"
+				/>
+				<label for="statsRadio6" class="ml5" @click="getStatisticsList(7)"
+					>LGU</label
+				>
 			</div>
 		</div>
 		<div class="mt10" style="padding-right: 4%">
-			<ul class="statsListCont1" style="overflow-y: scroll; height: 110px">
-				<li class="mt5" v-for="index in 5" :key="index">
-					<span>주식회사 대마</span>
-					<span>접수완료(<span>00</span>)</span>
-					<span>개통요청(<span>00</span>)</span>
-					<span>개통중(<span>00</span>)</span>
-					<span>개통완료(<span>00</span>)</span>
-					<span>개통취소(<span>00</span>)</span>
-					<span>신조요청(<span>00</span>)</span>
-					<span>신조완료(<span>00</span>)</span>
+			<ul class="statsListCont1">
+				<li
+					class="mt5"
+					v-for="item in openStoreList"
+					:key="item.index"
+					v-if="storeId === '' || storeId === '1'"
+				>
+					<span class="w120 mainBlue2">{{ item.storeName }}</span>
+					<span class="w85"
+						>접수완료(<span>{{
+							item.consultCompl.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w80"
+						>개통요청(<span>{{
+							item.openingDmnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w80"
+						>개통중(<span>{{
+							item.openingProg.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w90"
+						>개통완료(<span>{{
+							item.openingCompl.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w85"
+						>개통취소(<span>{{
+							item.openingCancel
+								.toString()
+								.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<!--					<span>신조요청(<span>00</span>)</span>
+					<span>신조완료(<span>00</span>)</span>-->
+				</li>
+				<li
+					v-if="storeId === ''"
+					class="mt10 mb10"
+					style="background-color: #eeeeee"
+				></li>
+				<li
+					class="mt5"
+					v-for="(item, index) in saleStoreList"
+					:key="index"
+					v-if="storeId === '' || storeId === '2'"
+				>
+					<span class="w120">{{ item.storeName }}</span>
+					<span class="w85"
+						>접수완료(<span>{{
+							item.consultCompl.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w80"
+						>개통요청(<span>{{
+							item.openingDmnd.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w80"
+						>개통중(<span>{{
+							item.openingProg.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w90"
+						>개통완료(<span>{{
+							item.openingCompl.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<span class="w85"
+						>개통취소(<span>{{
+							item.openingCancel
+								.toString()
+								.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
+						}}</span
+						>)</span
+					>
+					<!--					<span>신조요청(<span>00</span>)</span>
+					<span>신조완료(<span>00</span>)</span>-->
 				</li>
 			</ul>
 		</div>
@@ -43,6 +169,52 @@
 <script>
 export default {
 	name: 'StatsList',
+	computed: {
+		formData: {
+			get() {
+				return this.$store.state.StatsMgmtModule.formData;
+			},
+			set(newValue) {
+				return (this.$store.state.StatsMgmtModule.formData = newValue);
+			},
+		},
+		storeId: {
+			get() {
+				return this.$store.state.StatsMgmtModule.storeId;
+			},
+			set(newValue) {
+				return (this.$store.state.StatsMgmtModule.storeId = newValue);
+			},
+		},
+		totalList() {
+			return this.$store.state.StatsMgmtModule.totalList;
+		},
+		openStoreList() {
+			return this.$store.state.StatsMgmtModule.openStoreList;
+		},
+		saleStoreList() {
+			return this.$store.state.StatsMgmtModule.saleStoreList;
+		},
+	},
+	methods: {
+		getStatisticsList(item) {
+			if (!item) {
+				item = '';
+			}
+			let data = {
+				srhStartDate: this.formData.srhStartDate,
+				srhEndDate: this.formData.srhEndDate,
+				telecomId: item,
+			};
+			this.$store.dispatch('StatsMgmtModule/getStatisticsList', data);
+		},
+	},
+	async created() {
+		await this.getStatisticsList();
+		this.formData.telecomId = '';
+		this.formData.srhStartDate = '';
+		this.formData.srhEndDate = '';
+	},
 };
 </script>
 

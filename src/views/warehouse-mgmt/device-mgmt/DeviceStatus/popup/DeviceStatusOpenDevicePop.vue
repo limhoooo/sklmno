@@ -184,6 +184,7 @@ export default {
 			openingStoreId: 0,
 			parentHierarchy: '',
 			parentSaleStoreId: 0,
+			deliveryId: 0,
 		},
 		saleStoreList: [],
 		openingStoreList: [],
@@ -261,6 +262,7 @@ export default {
 	async created() {
 		await this.getSaleStoreListFnc();
 		this.formData.dvcId = this.openDeviceDialogData.dvcId;
+		this.formData.deliveryId = this.openDeviceDialogData.deliveryId;
 		this.dialog = this.openDeviceDialog;
 	},
 };

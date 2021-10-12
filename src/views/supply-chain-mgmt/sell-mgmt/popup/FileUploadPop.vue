@@ -22,7 +22,6 @@
 									<td>
 										<div class="disIN w100P mt10">
 											<FileUpload
-												:title-width="0"
 												:applId="applId"
 												:modifyState="modifyState"
 												@fileValueFnc="fileValueFnc"
@@ -60,7 +59,7 @@
 						</div>
 					</v-card-text>
 
-<!--					<v-card-text>
+					<!--					<v-card-text>
 						<div
 							class="infoCont pdLR30 popUpCustomSt1"
 							style="background-color: #fff; padding-top: 20px"
@@ -265,14 +264,14 @@ export default Vue.extend({
 </script>
 
 <style scoped>
-.uploadBtn {
-	background-color: #003a53;
-	color: #fff;
-	padding: 10px 15px;
-	border-radius: 5px;
-	font-size: 12px;
-	cursor: pointer;
-}
+/*.uploadBtn {*/
+/*	background-color: #003a53;*/
+/*	color: #fff;*/
+/*	padding: 10px 15px;*/
+/*	border-radius: 5px;*/
+/*	font-size: 12px;*/
+/*	cursor: pointer;*/
+/*}*/
 .ml5 {
 	margin-left: 5px;
 }

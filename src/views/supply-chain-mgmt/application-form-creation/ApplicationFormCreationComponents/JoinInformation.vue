@@ -5,9 +5,9 @@
 		<div class="new_popTable1 mt20">
 			<table class="w100P">
 				<tr v-if="AppFormCreFlag !== undefined">
-					<td class="w140">개통일자</td>
-					<td class="w240 datePickerStyle1 clearBtn">
-						<div class="posR w220">
+					<td class="w180">개통일시</td>
+					<td class="datePickerStyle1 clearBtn posR disFX w260 borderReset">
+						<span style="display: flex; margin-right: 4px; width: 120px">
 							<v-menu
 								v-model.trim="menu1"
 								:close-on-content-click="false"
@@ -18,7 +18,8 @@
 							>
 								<template v-slot:activator="{ on, attrs }">
 									<v-text-field
-										class="w220"
+										placeholder="YY:mm:dd"
+										class="w120"
 										style="font-size: 12px"
 										outlined
 										readonly
@@ -37,19 +38,27 @@
 									v-model.trim="basicData.openingDate"
 								></v-date-picker>
 							</v-menu>
-							<!--            <button-->
-							<!--                v-if="basicData.openingDate"-->
-							<!--                class="resetBtn"-->
-							<!--                :disabled="!basicData.openingDate"-->
-							<!--                @click="resetDate('openingDate')"-->
-							<!--            >-->
-							<!--              x-->
-							<!--            </button>-->
-						</div>
+						</span>
+						<span style="display: flex; width: 60px">
+							<vue-timepicker
+								:disabled="
+									!basicData.openingTime || storeVal === 'StoreGrade_S'
+								"
+								v-model.trim="basicData.openingTime"
+							></vue-timepicker>
+						</span>
+						<!--            <button-->
+						<!--                v-if="basicData.openingDate"-->
+						<!--                class="resetBtn"-->
+						<!--                :disabled="!basicData.openingDate"-->
+						<!--                @click="resetDate('openingDate')"-->
+						<!--            >-->
+						<!--              x-->
+						<!--            </button>-->
 					</td>
-					<td class="w140">철회일자</td>
-					<td class="datePickerStyle1 w240 clearBtn" colspan="3">
-						<div class="posR w220">
+					<td class="w180">철회일시</td>
+					<td class="datePickerStyle1 clearBtn posR disFX w260 borderReset">
+						<span style="display: flex; margin-right: 4px; width: 120px">
 							<v-menu
 								v-model.trim="menu2"
 								:close-on-content-click="false"
@@ -60,6 +69,7 @@
 							>
 								<template v-slot:activator="{ on, attrs }">
 									<v-text-field
+										placeholder="YY:mm:dd"
 										style="font-size: 12px"
 										outlined
 										readonly
@@ -70,7 +80,7 @@
 											!basicData.cancelDate || storeVal === 'StoreGrade_S'
 										"
 										v-model.trim="basicData.cancelDate"
-										class="w220"
+										class="w120"
 									></v-text-field>
 								</template>
 								<v-date-picker
@@ -79,20 +89,77 @@
 									v-model.trim="basicData.cancelDate"
 								></v-date-picker>
 							</v-menu>
-							<!--            <button-->
-							<!--                v-if="basicData.cancelDate"-->
-							<!--                class="resetBtn"-->
-							<!--                :disabled="!basicData.cancelDate"-->
-							<!--                @click="resetDate('cancelDate')"-->
-							<!--            >-->
-							<!--              x-->
-							<!--            </button>-->
-						</div>
+						</span>
+						<span style="display: inline-block">
+							<vue-timepicker
+								:disabled="!basicData.cancelTime || storeVal === 'StoreGrade_S'"
+								v-model.trim="basicData.cancelTime"
+							></vue-timepicker>
+						</span>
+						<!--            <button-->
+						<!--                v-if="basicData.cancelDate"-->
+						<!--                class="resetBtn"-->
+						<!--                :disabled="!basicData.cancelDate"-->
+						<!--                @click="resetDate('cancelDate')"-->
+						<!--            >-->
+						<!--              x-->
+						<!--            </button>-->
 					</td>
+					<template v-if="ApplExchangeFlag">
+						<td class="w180">교품일시</td>
+						<td class="datePickerStyle1 clearBtn">
+							<div class="posR">
+								<span style="display: inline-block">
+									<v-menu
+										v-model.trim="menu3"
+										:close-on-content-click="false"
+										:nudge-right="40"
+										transition="scale-transition"
+										offset-y
+										:attach="true"
+									>
+										<template v-slot:activator="{ on, attrs }">
+											<v-text-field
+												placeholder="YY:mm:dd"
+												class="w120"
+												style="font-size: 12px"
+												outlined
+												readonly
+												v-bind="attrs"
+												v-on="on"
+												append-icon="mdi-calendar"
+												v-model.trim="basicData.exchangeDate"
+											></v-text-field>
+										</template>
+										<v-date-picker
+											@input="menu3 = false"
+											locale="ko-KR"
+											v-model.trim="basicData.exchangeDate"
+										></v-date-picker>
+									</v-menu>
+								</span>
+								<span style="display: inline-block">
+									<!--         type 지정이 안돼있는 model 연결시 obj형태로 리턴       -->
+									<vue-timepicker
+										:value="basicData.exchangeTime"
+										@input="timepickerFnc($event, 'exchangeTime')"
+									></vue-timepicker>
+								</span>
+								<!--            <button-->
+								<!--                v-if="basicData.openingDate"-->
+								<!--                class="resetBtn"-->
+								<!--                :disabled="!basicData.openingDate"-->
+								<!--                @click="resetDate('openingDate')"-->
+								<!--            >-->
+								<!--              x-->
+								<!--            </button>-->
+							</div>
+						</td>
+					</template>
 				</tr>
 				<tr>
-					<td>개통유형<span class="redfont">*</span></td>
-					<td>
+					<td class="w180">개통유형<span class="redfont">*</span></td>
+					<td class="w240">
 						<div class="disFx">
 							<div class="radioStyle ml20 h36 lh36">
 								<input
@@ -101,7 +168,7 @@
 									name="radioS24"
 									value="BEFORE_OPENING"
 									v-model.trim="basicData.beforeOpeningType"
-								/><label class="ml-1" for="radio111">선개통</label>
+								/><label class="ml-1 cur_p" for="radio111">선개통</label>
 							</div>
 							<div class="radioStyle ml30 h36 lh36">
 								<input
@@ -111,11 +178,11 @@
 									value="AFTER_OPENING"
 									class="ml10"
 									v-model.trim="basicData.beforeOpeningType"
-								/><label class="ml-1" for="radio122">후개통</label>
+								/><label class="ml-1 cur_p" for="radio122">후개통</label>
 							</div>
 						</div>
 					</td>
-					<td>개통종류<span class="redfont">*</span></td>
+					<td class="w180">개통종류<span class="redfont">*</span></td>
 					<td colspan="3">
 						<div class="disFx">
 							<div class="radioStyle ml20 h36 lh36">
@@ -126,7 +193,7 @@
 									value="DVC_USIM"
 									:checked="basicData.applType === 'DVC_USIM'"
 									@click="applTypeFnc($event, 'DVC_USIM')"
-								/><label class="ml-1" for="radio112">기기+유심</label>
+								/><label class="ml-1 cur_p" for="radio112">기기+유심</label>
 							</div>
 							<div class="radioStyle ml30 h36 lh36">
 								<input
@@ -137,7 +204,7 @@
 									class="ml10"
 									:checked="basicData.applType === 'DVC'"
 									@click="applTypeFnc($event, 'DVC')"
-								/><label class="ml-1" for="radio124">기기</label>
+								/><label class="ml-1 cur_p" for="radio124">기기</label>
 							</div>
 							<div class="radioStyle ml30 h36 lh36">
 								<input
@@ -148,14 +215,14 @@
 									class="ml10"
 									:checked="basicData.applType === 'USIM'"
 									@click="applTypeFnc($event, 'USIM')"
-								/><label class="ml-1" for="radio125">유심</label>
+								/><label class="ml-1 cur_p" for="radio125">유심</label>
 							</div>
 						</div>
 					</td>
 				</tr>
 				<tr>
 					<td>
-						개통 휴대폰번호<span
+						개통<br />휴대폰번호<span
 							class="redfont"
 							v-if="joinData.joinType !== 'NEW'"
 							>*</span
@@ -183,29 +250,32 @@
 								v-model.trim="phoneNumDialog"
 								@change="phoneNumFnc"
 							/>
-							<label class="ml-1" for="check3">기존과 동일</label>
+							<label class="ml-1 cur_p" for="check3">기존과 동일</label>
 						</div>
 					</td>
-					<td class="w140" v-if="joinData.joinType === 'NEW'">
-						개통 희망번호<span class="redfont">*</span>
+					<td v-if="joinData.joinType === 'NEW'">
+						개통<br />희망번호<span class="redfont">*</span>
 					</td>
 					<td class="w240" v-if="joinData.joinType === 'NEW'">
 						<input
+							style="width: 68px"
 							type="text"
 							maxlength="3"
 							disabled
-							class="disabledNum borderRadi3Px borderContColor2 w60 h36 padW10 floatL"
+							class="disabledNum borderRadi3Px borderContColor2 h36 padW10 floatL"
 						/>
-						<span class="floatL lh36">-</span>
+						<span class="floatL lh36" style="margin: 0 2px">-</span>
 						<input
+							style="width: 68px"
 							type="text"
 							maxlength="4"
 							disabled
-							class="disabledNum borderRadi3Px borderContColor2 w60 h36 padW10 floatL"
+							class="disabledNum borderRadi3Px borderContColor2 h36 padW10 floatL"
 						/>
-						<span class="floatL lh36">-</span>
+						<span class="floatL lh36" style="margin: 0 2px">-</span>
 						<input
-							class="borderRadi3Px borderContColor2 w60 h36 padW10 floatL"
+							style="width: 68px"
+							class="borderRadi3Px borderContColor2 h36 padW10 floatL"
 							type="text"
 							v-model.trim="joinData.openingHopeNum"
 							maxlength="4"
@@ -241,14 +311,14 @@
 										v-model.trim="joinData.existTelecomCodeId"
 										@change="exTelFnc"
 									/>
-									<label class="ml-1" :for="`exist${item.orderNum}`">{{
+									<label class="ml-1 cur_p" :for="`exist${item.orderNum}`">{{
 										item.codeNm
 									}}</label>
 								</div>
 							</div>
 							<div class="w220 ml30">
 								<select
-									class="borderRadi3Px borderContColor2 w220 h36 padW10 disabled"
+									class="borderRadi3Px borderContColor2 w260 h36 padW10 disabled"
 									v-model.trim="thriftyPhone"
 									:disabled="
 										joinData.existTelecomCodeId === 42 ||
@@ -278,6 +348,10 @@
 							v-model.trim="joinData.joinType"
 							@change="resetJoinTypeFnc"
 						>
+							<!--   기존 통신사와 개통 통신사가 같을시에만 기기변경 노출        -->
+							<!--     저장된 joinType 이 item 과 같거나         -->
+							<!--     저장된 joinType 이 기기변경 이면서 item 이 전환신규 이면서 기존 통신사가 kt 인경우       -->
+							<!--     저장된 joinType 이 전환신규 이면서 item 이 기기변경 이면서 기존 통신사가 kt 인경우       -->
 							<option
 								v-for="(item, index) in joinTypeItems"
 								:key="index"
@@ -285,9 +359,11 @@
 								v-if="
 									joinData.joinType === item.value ||
 									(joinData.joinType === 'DVC_CHANGE' &&
-										item.value === 'TRADE_NEW') ||
+										item.value === 'TRADE_NEW' &&
+										joinData.existTelecomCodeId === 43) ||
 									(joinData.joinType === 'TRADE_NEW' &&
-										item.value === 'DVC_CHANGE')
+										item.value === 'DVC_CHANGE' &&
+										joinData.existTelecomCodeId === 43)
 								"
 							>
 								{{ item.name }}
@@ -295,8 +371,8 @@
 						</select>
 					</td>
 					<template v-if="joinData.joinType === 'NUM_CHANGE'">
-						<td>인증방식<span class="redfont">*</span></td>
-						<td>
+						<td class="w180">인증방식<span class="redfont">*</span></td>
+						<td class="w260">
 							<select
 								class="borderRadi3Px borderContColor2 w220 h36 padW10"
 								@change="numChangeAuthTypeFnc"
@@ -313,7 +389,7 @@
 							</select>
 						</td>
 						<template v-if="joinData.numChangeAuthType !== 'GIRO'">
-							<td class="w140">인증번호<span class="redfont">*</span></td>
+							<td>인증번호<span class="redfont">*</span></td>
 							<td class="w240">
 								<input
 									class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -326,11 +402,31 @@
 					</template>
 				</tr>
 				<tr>
-					<td class="w140">기기명<span class="redfont">*</span></td>
+					<td>통신망</td>
+					<td>
+						<select
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							v-model.trim="joinData.networkId"
+							@change="networkChangeFnc"
+						>
+							<option :value="null">전체</option>
+							<option
+								v-for="(item, index) in networkCodeItems"
+								:key="index"
+								:value="item.codeSeq"
+							>
+								{{ item.codeNm }}
+							</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>기기명<span class="redfont">*</span></td>
 					<td class="w240">
-						<div class="datePickerStyle1 w210">
+						<div class="datePickerStyle1 dvcFontBox">
 							<v-autocomplete
-								style="font-size: 12px"
+                class="dvcFontBox"
+								style="font-size: 12px; width: 220px"
 								:items="goodsItems"
 								item-text="goodsName"
 								item-value="goodsId"
@@ -343,9 +439,9 @@
 							></v-autocomplete>
 						</div>
 					</td>
-					<td class="w140">
+					<td>
 						용량<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="this.AppFlag > prevApplId || !this.AppFlag"
 							class="redfont"
 							>*</span
 						>
@@ -367,14 +463,14 @@
 							</option>
 						</select>
 					</td>
-					<td class="w140">
+					<td class="w180">
 						색상<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="this.AppFlag > prevApplId || !this.AppFlag"
 							class="redfont"
 							>*</span
 						>
 					</td>
-					<td class="w240">
+					<td class="w260">
 						<select
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
 							v-model.trim="joinData.color"
@@ -394,13 +490,13 @@
 				<tr>
 					<td>기기일련번호</td>
 					<td>
-						<matchingInput
-							:formData="formData"
-							:propsDeviceType="'DVC'"
-							:AppFormCreFlag="AppFormCreFlagChk"
-							:componentType="'SELL'"
-							@deviceChange="deviceChangeFnc"
-						></matchingInput>
+            <matchingInput
+                :formData="formData"
+                :propsDeviceType="'DVC'"
+                :AppFormCreFlag="AppFormCreFlagChk"
+                :componentType="'SELL'"
+                @deviceChange="deviceChangeFnc"
+            ></matchingInput>
 					</td>
 					<td>유심<span class="redfont">*</span></td>
 					<td>
@@ -437,17 +533,26 @@
 				<tr>
 					<td>유심일련번호</td>
 					<td colspan="5">
-						<matchingInput
-							:formData="formData"
-							:propsDeviceType="'USIM'"
-							:AppFormCreFlag="AppFormCreFlagChk"
-							:componentType="'SELL'"
-							@usimChange="usimChangeFnc"
-						></matchingInput>
+            <matchingInput
+                :formData="formData"
+                :propsDeviceType="'USIM'"
+                :AppFormCreFlag="AppFormCreFlagChk"
+                :componentType="'SELL'"
+                @usimChange="usimChangeFnc"
+            ></matchingInput>
 					</td>
 				</tr>
 				<tr>
-					<td>약정유형<span class="redfont">*</span></td>
+					<td>
+						약정유형<span
+							v-if="
+								!this.AppFlag &&
+								basicData.beforeOpeningType === 'BEFORE_OPENING'
+							"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td>
 						<div class="disFx">
 							<div class="radioStylePop ml30 lh36">
@@ -459,7 +564,7 @@
 									v-model.number="joinData.agreementType"
 									@input="agreementPeriodTypeFnc"
 								/>
-								<label class="ml-1" for="radio9">선택약정</label>
+								<label class="ml-1 cur_p" for="radio9">선택약정</label>
 							</div>
 							<div class="radioStylePop ml30 lh36">
 								<input
@@ -471,11 +576,17 @@
 									v-model.number="joinData.agreementType"
 									@input="agreementPeriodTypeFnc"
 								/>
-								<label class="ml-1" for="radio10">공시지원금</label>
+								<label class="ml-1 cur_p" for="radio10">공시지원금</label>
 							</div>
 						</div>
 					</td>
-					<td>할부기간<span class="redfont">*</span></td>
+					<td>
+						할부기간<span
+							v-if="basicData.beforeOpeningType === 'BEFORE_OPENING'"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td>
 						<select
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -492,7 +603,13 @@
 							</option>
 						</select>
 					</td>
-					<td>약정기간<span class="redfont">*</span></td>
+					<td>
+						약정기간<span
+							v-if="basicData.beforeOpeningType === 'BEFORE_OPENING'"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td>
 						<select
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
@@ -510,11 +627,17 @@
 					</td>
 				</tr>
 				<tr>
-					<td>요금제<span class="redfont">*</span></td>
+					<td>
+						요금제<span
+							v-if="basicData.beforeOpeningType === 'BEFORE_OPENING'"
+							class="redfont"
+							>*</span
+						>
+					</td>
 					<td colspan="5">
-						<div class="datePickerStyle1" @click="chargeIdFnc">
+						<div class="datePickerStyle1 w220" @click="chargeIdFnc">
 							<v-autocomplete
-								style="font-size: 12px"
+								style="font-size: 12px; width: 220px"
 								:disabled="this.joinData.instlPeriodType === ''"
 								:items="telecomChargeItems"
 								item-text="chargeName"
@@ -524,7 +647,7 @@
 								@change="telecomChargeItemsData"
 								:attach="true"
 								placeholder="검색해주세요."
-								class="w420"
+								class="w420 dvcFontBox"
 							></v-autocomplete>
 						</div>
 					</td>
@@ -540,7 +663,7 @@
 							}"
 							:telecomId="this.joinData.openingTelecomCodeId"
 							:optionList="telecomAddServiceItems"
-							width="220"
+							:width="600"
 							:addServiceData="this.joinData.addServiceList"
 							@setNewAddSvcList="setNewAddSvcList"
 							@minusAddSvcList="minusAddSvcList"
@@ -550,7 +673,11 @@
 				<tr>
 					<td>
 						출고가<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -641,7 +768,7 @@
 					<td>
 						월기기금액
 						<!--						<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="this.AppFlag > prevApplId || !this.AppFlag"
 							class="redfont"
 							>*</span
 						>-->
@@ -665,7 +792,7 @@
 					<td>
 						월기본료
 						<!--						<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="this.AppFlag > prevApplId || !this.AppFlag"
 							class="redfont"
 							>*</span
 						>-->
@@ -684,7 +811,7 @@
 					<td>
 						월납부금액
 						<!--						<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="this.AppFlag > prevApplId || !this.AppFlag"
 							class="redfont"
 							>*</span
 						>-->
@@ -723,20 +850,20 @@
 								<input
 									type="radio"
 									id="radio11"
-									name="radioS4"
+									name="radioS5"
 									value="Y"
 									v-model.trim="joinData.depositYn"
-								/><label class="ml-1" for="radio11">예</label>
+								/><label class="ml-1 cur_p" for="radio11">예</label>
 							</div>
 							<div class="radioStylePop ml40 lh36">
 								<input
 									type="radio"
 									id="radio12"
-									name="radioS4"
+									name="radioS5"
 									value="N"
 									clas1s="ml10"
 									v-model.trim="joinData.depositYn"
-								/><label class="ml-1" for="radio12">아니오</label>
+								/><label class="ml-1 cur_p" for="radio12">아니오</label>
 							</div>
 						</div>
 					</td>
@@ -760,12 +887,17 @@ import addService from '../../../../components/addService.vue';
 import deviceEnumMixin from '../../../../common/deviceEnumMixin.js';
 import numberSplit from '../../../../common/numberSplit';
 import matchingInput from '../../../../components/matchingInput.vue';
+//https://phoenixwong.github.io/vue2-timepicker/
+import VueTimepicker from 'vue2-timepicker/src/vue-timepicker.vue';
+import {objectClone} from '../../../../common/common';
 
 interface dataType {
+	prevApplId: number;
 	phoneNumDialog: boolean;
 	Interest: number;
 	menu1: boolean;
 	menu2: boolean;
+	menu3: boolean;
 	instData: number;
 	textDialog: boolean;
 }
@@ -773,12 +905,14 @@ interface dataType {
 export default Vue.extend({
 	name: 'JoinInformation',
 	mixins: [deviceEnumMixin, numberSplit],
-	components: { addService, matchingInput },
+	components: { addService, matchingInput, VueTimepicker },
 	data: (): dataType => ({
+		prevApplId: 28177,
 		phoneNumDialog: false,
 		Interest: 0.059, //이자 - 이자 변경시 이거 수정하면됩니다.
 		menu1: false,
 		menu2: false,
+		menu3: false,
 		instData: 0,
 		textDialog: false,
 	}),
@@ -894,6 +1028,10 @@ export default Vue.extend({
 			return this.$store.state.ApplicationFormCreationModule.codeList
 				.joinTypeItems;
 		},
+		networkCodeItems(): Object {
+			return this.$store.state.ApplicationFormCreationModule.codeList
+				.networkCodeItems;
+		},
 		numChangeAuthTypeItems(): Object {
 			return this.$store.state.ApplicationFormCreationModule.codeList
 				.numChangeAuthTypeItems;
@@ -927,12 +1065,21 @@ export default Vue.extend({
 			},
 		},
 		goodsItems: {
-			get(): Object {
+			get(): any {
 				return this.$store.state.ApplicationFormCreationModule.codeList
 					.goodsItems;
 			},
-			set(newValue: Object) {
+			set(newValue: any) {
 				this.$store.state.ApplicationFormCreationModule.codeList.goodsItems = newValue;
+			},
+		},
+		goodsItemsCopy: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.codeList
+					.goodsItemsCopy;
+			},
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.codeList.goodsItemsCopy = newValue;
 			},
 		},
 		capacityItems: {
@@ -957,9 +1104,23 @@ export default Vue.extend({
 			return this.$store.state.ApplicationFormCreationModule.codeList
 				.telecomAddServiceItems;
 		},
-		telecomChargeItems(): Object {
-			return this.$store.state.ApplicationFormCreationModule.codeList
-				.telecomChargeItems;
+		telecomChargeItems: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.codeList
+					.telecomChargeItems;
+			},
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.codeList.telecomChargeItems = newValue;
+			},
+		},
+		telecomChargeItemsCopy: {
+			get(): any {
+				return this.$store.state.ApplicationFormCreationModule.codeList
+					.telecomChargeItemsCopy;
+			},
+			set(newValue: any) {
+				this.$store.state.ApplicationFormCreationModule.codeList.telecomChargeItemsCopy = newValue;
+			},
 		},
 		existTelecomItems: {
 			get(): any {
@@ -973,6 +1134,9 @@ export default Vue.extend({
 		thriftyPhoneItems(): Object {
 			return this.$store.state.ApplicationFormCreationModule.codeList
 				.thriftyPhoneItems;
+		},
+		ApplExchangeFlag(): Object {
+			return this.$store.state.ApplicationFormCreationModule.ApplExchangeFlag;
 		},
 	},
 	methods: {
@@ -1038,9 +1202,9 @@ export default Vue.extend({
 			if (this.joinData.agreementType !== 'CHOICE_AGRMN') {
 				this.joinData.pubNotiSupportAmt = 0;
 			}
-			if (this.joinData.goodsId === null || this.joinData.chargeId === null) {
-				return;
-			}
+      if (this.joinData.goodsId === null || this.joinData.chargeId === null) {
+        return;
+      }
 			let data = {
 				chargeId: this.joinData.chargeId,
 				goodsId: this.joinData.goodsId,
@@ -1048,7 +1212,7 @@ export default Vue.extend({
 			await this.getPubNotiInfo(data);
 			await this.actualSellAmtFnc();
 		},
-		async telecomChargeItemsData(value: number) {
+		async telecomChargeItemsData(value: null | number) {
 			this.joinData.releaseAmt = 0;
 			this.joinData.releaseAmtDate = null;
 			this.joinData.pubNotiSupportAmt = 0;
@@ -1164,7 +1328,7 @@ export default Vue.extend({
 			this.joinData.monthBasicAmt = 0; // 월기본료
 			this.joinData.monthPaymentAmt = 0; // 월납부금액
 			this.joinData.depositAmt = 0; // 입금받을금액
-			this.joinData.chargeId = null; // 요금제
+			// this.joinData.chargeId = null; // 요금제
 		},
 		setNewAddSvcList(itemList: any) {
 			for (let i = 0; i < this.joinData.addServiceList.length; i++) {
@@ -1189,23 +1353,13 @@ export default Vue.extend({
 			}
 		},
 		applTypeFnc(e: any, value: string) {
-			if (
-				this.joinData.deviceMatchingType !== null ||
-				this.joinData.usimMatchingType !== null
-			) {
-				alert(
-					'기기 또는 유심 매칭이 되어있는경우\n개통종류를 변경하실 수 없습니다.',
-				);
-				e.preventDefault();
-				return false;
-			}
 			this.basicData.applType = value;
 			this.joinData.usimPaymentType = null;
 			if (this.basicData.applType === 'DVC') {
-				//this.joinData.usimRawBarcode = null;
-				//this.joinData.usimType = null;
+				this.joinData.usimRawBarcode = null;
+				this.joinData.usimType = null;
 			} else if (this.basicData.applType === 'USIM') {
-				//this.joinData.deviceRawBarcode = null;
+				this.joinData.deviceRawBarcode = null;
 				this.joinData.usimType = 'NANO_USIM';
 			} else {
 				this.joinData.usimType = 'NANO_USIM';
@@ -1217,9 +1371,73 @@ export default Vue.extend({
 		usimChangeFnc(value: boolean) {
 			this.usimChange = value;
 		},
+		async networkChangeFnc() {
+			let goodsItemsCopy = [];
+			let telecomChargeItemsCopy = [];
+			if (this.joinData.networkId === null) {
+				this.goodsItems = objectClone(this.goodsItemsCopy);
+				this.telecomChargeItems = objectClone(this.telecomChargeItemsCopy);
+			} else {
+				let goodsChk = false;
+				let chargeChk = false;
+				goodsItemsCopy = this.goodsItemsCopy
+					.filter(
+						// @ts-ignore
+						i => i.network === this.joinData.networkId && i.goodsType === 'DVC',
+					)
+					// @ts-ignore
+					.map(i => {
+						// checked 처리
+						if (i.goodsId === this.joinData.goodsId) {
+							goodsChk = true;
+						}
+						return i;
+					});
+				// @ts-ignore
+				telecomChargeItemsCopy = this.telecomChargeItemsCopy
+					// @ts-ignore
+					.filter(i => i.network === this.joinData.networkId)
+					// @ts-ignore
+					.map(i => {
+						// checked 처리
+						if (i.chargeId === this.joinData.chargeId) {
+							chargeChk = true;
+						}
+						return i;
+					});
+				this.goodsItems = goodsItemsCopy;
+				this.telecomChargeItems = telecomChargeItemsCopy;
+				// filter 한 데이터에 기존데이터가 없을시 reset
+				if (!goodsChk) {
+					this.joinData.goodsId = null;
+					this.joinData.capacity = null;
+					this.capacityItems = [];
+					this.joinData.color = null;
+					this.colorItems = [];
+				}
+				// filter 한 데이터에 기존데이터가 없을시 reset
+				if (!chargeChk) {
+					this.resetPriceFnc();
+				}
+			}
+		},
+		timepickerFnc(value: any, type: string) {
+			if (typeof value === 'string') {
+				// @ts-ignore
+				this.basicData[type] = value;
+			} else {
+				// @ts-ignore
+				this.basicData[type] = `${value.HH}:${value.mm}`;
+			}
+		},
 	},
-	created() {
+	async created() {
 		this.thriftyPhone = 0;
+		if (this.AppFormCreFlag) {
+			setTimeout(() => {
+				this.networkChangeFnc();
+			}, 500);
+		}
 	},
 });
 </script>

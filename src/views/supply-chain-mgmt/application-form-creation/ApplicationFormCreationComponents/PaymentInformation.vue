@@ -1,9 +1,9 @@
 <template>
-	<div class="sideBtnCont1">
-		<div class="disFx mb20">
-			<h2 class="disIn lh36">납부정보</h2>
-			<span class="ml40">
-				<div class="checkStyleCont4 ml40 floatL lh36">
+	<div>
+		<div class="disFx">
+			<h2 class="lh20">납부정보</h2>
+			<div class="ml40">
+				<div class="checkStyleCont9 ml40 floatL lh20">
 					<input
 						class="checkStyle"
 						@change="paymentTypeFnc"
@@ -15,16 +15,20 @@
 							this.joinData.joinType === 'NUM_CHANGE'
 						"
 						:checked="this.paymentData.paymentType === 'EXIST_SAME'"
-					/><label for="check1">기존과 동일</label>
+					/><label for="check1" class="font-size-12">기존과 동일</label>
 				</div>
-			</span>
+			</div>
 		</div>
-		<div class="new_popTable1">
+		<div class="new_popTable1 mt20">
 			<table class="w100P">
 				<tr>
 					<td class="w140">
 						납부방법<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -40,7 +44,7 @@
 									v-model.trim="paymentData.paymentType"
 									@click="paymentCheckType = false"
 									@change="resetPaymentTypeFnc"
-								/><label class="ml-1" for="radio1">계좌이체</label>
+								/><label class="ml-1 cur_p" for="radio1">계좌이체</label>
 							</div>
 							<div class="radioStyle h36 lh36 ml30">
 								<input
@@ -52,7 +56,7 @@
 									v-model.trim="paymentData.paymentType"
 									@click="paymentCheckType = false"
 									@change="resetPaymentTypeFnc"
-								/><label class="ml-1" for="radio2">카드</label>
+								/><label class="ml-1 cur_p" for="radio2">카드</label>
 							</div>
 							<div class="radioStyle h36 lh36 ml30">
 								<input
@@ -64,18 +68,47 @@
 									v-model.trim="paymentData.paymentType"
 									@click="paymentCheckType = false"
 									@change="resetPaymentTypeFnc"
-								/><label class="ml-1" for="radio3">지로</label>
+								/><label class="ml-1 cur_p" for="radio3">지로</label>
+							</div>
+						</div>
+					</td>
+					<td class="w140">명의자 동일</td>
+					<td class="w240">
+						<div class="disFx">
+							<div></div>
+							<div class="radioStylePop ml20 lh36">
+								<input
+									type="radio"
+									id="radio13"
+									name="radioS4"
+									value="Y"
+									v-model.trim="paymentData.paymentIdentifiedYn"
+								/><label class="ml-1 cur_p" for="radio13">예</label>
+							</div>
+							<div class="radioStylePop ml40 lh36">
+								<input
+									type="radio"
+									id="radio14"
+									name="radioS4"
+									value="N"
+									class="ml10"
+									v-model.trim="paymentData.paymentIdentifiedYn"
+								/><label class="ml-1 cur_p" for="radio14">아니오</label>
 							</div>
 						</div>
 					</td>
 					<td class="w140">
 						청구서종류<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
 					</td>
-					<td colspan="20">
+					<td colspan="5" class="w240">
 						<select
 							class="borderRadi3Px borderContColor2 w220 h36 padW10 disGray"
 							:disabled="paymentData.paymentType === 'EXIST_SAME'"
@@ -93,9 +126,13 @@
 					</td>
 				</tr>
 				<tr v-if="paymentData.paymentType === 'ACC_TRNS'">
-					<td>
+					<td class="w140">
 						은행정보<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -115,14 +152,18 @@
 							</option>
 						</select>
 					</td>
-					<td>
+					<td class="w140">
 						계좌번호<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
 					</td>
-					<td>
+					<td class="w240">
 						<input
 							class="borderRadi3Px borderContColor2 w220 h36 padW10"
 							type="text"
@@ -131,9 +172,13 @@
 							oninput="javascript: this.value = this.value.replace(/[^0-9]/g, '');"
 						/>
 					</td>
-					<td>
+					<td class="w140">
 						예금주<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -149,48 +194,56 @@
 				<tr v-if="paymentData.paymentType === 'ACC_TRNS'">
 					<td>
 						생년월일<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
 					</td>
 					<td class="datePickerStyle1 w220">
-            <input
-                class="borderRadi3Px borderContColor2 w220 h36 padW10"
-                type="text"
-                v-model.trim="paymentData.accountHolderBirth"
-                maxlength='13'
-            />
-<!--						<v-menu-->
-<!--							v-model.trim="menu1"-->
-<!--							:close-on-content-click="false"-->
-<!--							:nudge-right="40"-->
-<!--							transition="scale-transition"-->
-<!--							offset-y-->
-<!--							:attach="true"-->
-<!--						>-->
-<!--							<template v-slot:activator="{ on, attrs }">-->
-<!--								<v-text-field-->
-<!--									style="font-size: 12px"-->
-<!--									class="w220"-->
-<!--									outlined-->
-<!--									readonly-->
-<!--									v-model.trim="paymentData.accountHolderBirth"-->
-<!--									v-bind="attrs"-->
-<!--									v-on="on"-->
-<!--									append-icon="mdi-calendar"-->
-<!--								></v-text-field>-->
-<!--							</template>-->
-<!--							<v-date-picker-->
-<!--								v-model.trim="paymentData.accountHolderBirth"-->
-<!--								@input="menu1 = false"-->
-<!--								locale="ko-KR"-->
-<!--							></v-date-picker>-->
-<!--						</v-menu>-->
+						<input
+							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							type="text"
+							v-model.trim="paymentData.accountHolderBirth"
+							maxlength="13"
+						/>
+						<!--						<v-menu-->
+						<!--							v-model.trim="menu1"-->
+						<!--							:close-on-content-click="false"-->
+						<!--							:nudge-right="40"-->
+						<!--							transition="scale-transition"-->
+						<!--							offset-y-->
+						<!--							:attach="true"-->
+						<!--						>-->
+						<!--							<template v-slot:activator="{ on, attrs }">-->
+						<!--								<v-text-field-->
+						<!--									style="font-size: 12px"-->
+						<!--									class="w220"-->
+						<!--									outlined-->
+						<!--									readonly-->
+						<!--									v-model.trim="paymentData.accountHolderBirth"-->
+						<!--									v-bind="attrs"-->
+						<!--									v-on="on"-->
+						<!--									append-icon="mdi-calendar"-->
+						<!--								></v-text-field>-->
+						<!--							</template>-->
+						<!--							<v-date-picker-->
+						<!--								v-model.trim="paymentData.accountHolderBirth"-->
+						<!--								@input="menu1 = false"-->
+						<!--								locale="ko-KR"-->
+						<!--							></v-date-picker>-->
+						<!--						</v-menu>-->
 					</td>
-					<td>
+					<td class="w140">
 						관계<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -204,16 +257,20 @@
 					</td>
 				</tr>
 				<tr v-if="paymentData.paymentType === 'CARD_PAY'">
-					<td>
+					<td class="w140">
 						카드정보<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
 					</td>
-					<td>
+					<td class="w240">
 						<select
-							class="borderRadi3Px borderContColor2 w220 h36 padW10"
+							class="borderRadi3Px borderContColor2 w200 h36 padW10"
 							v-model.number="paymentData.cardCompanyCode"
 						>
 							<option disabled>카드정보를 선택해주세요.</option>
@@ -228,7 +285,11 @@
 					</td>
 					<td>
 						카드번호<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -270,7 +331,11 @@
 					</td>
 					<td>
 						카드주<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -284,14 +349,18 @@
 					</td>
 				</tr>
 				<tr v-if="paymentData.paymentType === 'CARD_PAY'">
-					<td>
+					<td class="w140">
 						주민등록번호<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
 					</td>
-					<td>
+					<td class="w240">
 						<div class="residentStyle1">
 							<input
 								class="borderRadi3Px borderContColor2 h36 padW10"
@@ -312,7 +381,11 @@
 					</td>
 					<td>
 						유효기간<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
@@ -341,13 +414,17 @@
 				<tr v-if="paymentData.paymentType === 'GIRO'">
 					<td>
 						주소<span
-							v-if="this.AppFlag > 28177 || !this.AppFlag"
+							v-if="
+								this.AppFlag > prevApplId ||
+								(!this.AppFlag &&
+									basicData.beforeOpeningType === 'BEFORE_OPENING')
+							"
 							class="redfont"
 							>*</span
 						>
 					</td>
-					<td colspan="20">
-						<div class="btnPlus1 w290 floatL">
+					<td colspan="5">
+						<div class="btnPlus1 floatL disIN" style="width: 295px">
 							<input
 								class="borderRadi3Px borderContColor2 w220 h36 padW10"
 								placeholder="우편번호"
@@ -362,14 +439,14 @@
 							></post-api>
 						</div>
 						<input
-							class="borderRadi3Px borderContColor2 w220 h36 padW10 ml20 w325 floatL"
+							class="borderRadi3Px borderContColor2 w220 h36 padW10 ml5 w325"
 							type="text"
 							placeholder="기본주소"
 							readonly
 							@click="postDialog = true"
 							v-model.trim="paymentData.giroAddr"
 						/>
-						<div class="checkStyleCont4 ml40 floatL lh36">
+						<div class="checkStyleCont4 ml40 disIN lh36">
 							<input
 								class="checkStyle"
 								type="checkbox"
@@ -380,7 +457,7 @@
 							<label class="ml-1" for="check2">고객 주소와 동일 </label>
 						</div>
 						<input
-							class="borderRadi3Px borderContColor2 w220 h36 padW10 w100P mt10"
+							class="borderRadi3Px borderContColor2 w220 h36 padW10 w100P mt5"
 							type="text"
 							placeholder="상세주소"
 							v-model.trim="paymentData.giroAddrDetail"
@@ -693,12 +770,13 @@
 import Vue from 'vue';
 import PostApi from '../../../../components/PostApi.vue';
 import {
-  customerFormData,
-  joinFormData,
-  paymentFormData,
+	customerFormData,
+	joinFormData,
+	paymentFormData,
 } from '../../../../store/interface/supply-chain-mgmt/application-form-creation/AppFormCreationInterface';
 
 interface dataType {
+	prevApplId: number;
 	postDialog: boolean;
 	menu1: boolean;
 }
@@ -707,6 +785,7 @@ export default Vue.extend({
 	name: 'PaymentInformation',
 	components: { PostApi },
 	data: (): dataType => ({
+		prevApplId: 28177,
 		postDialog: false,
 		menu1: false,
 	}),
@@ -736,6 +815,14 @@ export default Vue.extend({
 			},
 		},
 		basicData: {
+			get(): customerFormData {
+				return this.$store.state.ApplicationFormCreationModule.formData.basic;
+			},
+			set(newValue: customerFormData) {
+				this.$store.state.ApplicationFormCreationModule.formData.basic = newValue;
+			},
+		},
+		customerData: {
 			get(): customerFormData {
 				return this.$store.state.ApplicationFormCreationModule.formData
 					.customer;
@@ -784,9 +871,9 @@ export default Vue.extend({
 		},
 		addressFnc() {
 			if (this.addrDialog) {
-				this.paymentData.giroZipCode = this.basicData.cusZipCode;
-				this.paymentData.giroAddr = this.basicData.cusAddr;
-				this.paymentData.giroAddrDetail = this.basicData.cusAddrDetail;
+				this.paymentData.giroZipCode = this.customerData.cusZipCode;
+				this.paymentData.giroAddr = this.customerData.cusAddr;
+				this.paymentData.giroAddrDetail = this.customerData.cusAddrDetail;
 			} else {
 				this.paymentData.giroZipCode = '';
 				this.paymentData.giroAddr = '';

@@ -56,9 +56,10 @@ const StockStatusModule = {
 	mutations: {
 		filterInit(state) {
 			for (let data in state.filterData) {
-				if ('stockTab' !== data) {
-					state.filterData[data] = '';
-				}
+				// if ('stockTab' !== data) {
+				// 	state.filterData[data] = '';
+				// }
+				state.filterData[data] = '';
 			}
 			state.filterData.perPageCnt = 20;
 			state.filterData.goodsName = '전체';

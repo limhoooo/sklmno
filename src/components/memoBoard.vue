@@ -5,13 +5,14 @@
 		:class="{ quickOpenForm: quickOpen }"
 	>
 		<div
-			class="posFix sideMenuBar pd10 font-btn-color"
+			class="posFix narrowScroll sideMenuBar pd10 font-btn-color"
+			style="overflow-y: scroll"
 			:class="{ posFix1: quickOpen }"
 		>
 			<div>
 				<!--v-if="this.applId !== 0"-->
 				<TaskHistory :applId="applId"></TaskHistory>
-				<Memo :applId="applId"></Memo>
+				<Memo :applId="applId" :maxHeight="310"></Memo>
 			</div>
 			<!--			&lt;!&ndash; 신규 작성 시, 메모 &ndash;&gt;-->
 			<!--			<div v-if="this.applId === 0" class="mt-3 w100P">-->

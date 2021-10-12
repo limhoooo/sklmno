@@ -34,7 +34,17 @@ function excelInstance() {
 	});
 }
 
+function jsonInstance() {
+	return axios.create({
+		baseURL: process.env['VUE_APP_SERVER'],
+		headers: {
+			'Content-Type': 'application/json',
+		},
+	});
+}
+
 export const instanceAuth = createInstanceAuth();
 export const instance = createInstance();
 export const instanceAuthNone = createInstanceAuthNone();
 export const instanceExcel = excelInstance();
+export const instanceJson = jsonInstance();

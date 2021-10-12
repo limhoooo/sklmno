@@ -2,6 +2,7 @@ const dataCodeName = Object.freeze({
 	consultTaskStatus: '상담-업무진행상태',
 	openingTaskStatus: '개통-업무진행상태',
 	logisticsTaskStatus: '물류-업무진행상태',
+	reserveNum: '사전 예약번호',
 	docTargetYn: '서류심사대상',
 	openingPriorityTargetYn: '우선순위대상(빠른개통)',
 	openStoreName: '개통점명',
@@ -126,6 +127,7 @@ const dataCodeName = Object.freeze({
 	courtProctorRelation: '법정대리인 관계',
 	licenseAuthType: '신분증진위',
 	bizName: '사업자명 or 법인명',
+	bizNum: '사업자번호',
 	bizNum1: '사업자번호',
 	bizNum2: '사업자번호',
 	bizNum3: '사업자번호',
@@ -260,4 +262,5 @@ let greenStatus = Object.freeze({
 	USIM_CHANGE_DMND_CONSULT: '유심변경요청(상담)',
 	DLVR_PREV_PROG: '집하전(송장등록완료)',
 });
+
 export { dataCodeName, redStatus, blueStatus, greenStatus };

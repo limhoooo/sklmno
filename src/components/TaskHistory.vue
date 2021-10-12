@@ -1,10 +1,20 @@
 <template>
 	<div>
-		<h2 class="mainBlack2">업무/수정</h2>
-		<div class="topSearchBar mt-4">
+		<h2 class="mainBlack2 disIN">업무/수정</h2>
+		<button
+			:class="{ active: activeAccordion }"
+			style="padding: 2px 4px; margin-left: 4px; float: right"
+			@click="activeAccordion = !activeAccordion"
+		>
+			{{ !activeAccordion ? '입력' : '닫기' }}
+		</button>
+		<div
+			:class="{ openAccord: !activeAccordion }"
+			class="mt-1 closeAccord posRe"
+		>
 			<div>
 				<select
-					class="w100P cur_p lh36 pl-3 backColorWhite borderRadi5Px borderContColor1"
+					class="w100P cur_p lh32 pl-3 backColorWhite borderRadi5Px borderContColor1"
 					v-model.trim="formData.taskStatus"
 				>
 					<option selected value="">선택</option>
@@ -18,7 +28,7 @@
 			</div>
 			<div class="new-btnA1">
 				<textarea
-					class="w100P mt-1 lh36 pl-3 backColorWhite borderRadi5Px borderContColor1 outLineNone"
+					class="w100P mt-1 lh32 pl-3 backColorWhite borderRadi5Px borderContColor1 outLineNone"
 					type="text"
 					placeholder="사유 입력"
 					v-model.trim="formData.memoContents"
@@ -27,7 +37,32 @@
 				<button @click="insertTask">확인</button>
 			</div>
 		</div>
-		<div class="middleSearchBar w100P mt-1 borderRadi3Px borderContColor1 mb-1">
+		<div
+			id="taskArea"
+			class="middleSearchBar invisibleScroll w100P mt-1 borderRadi3Px borderContColor1 mb-1"
+			@mouseover="ableToScroll = true"
+			@mouseleave="ableToScroll = false"
+			@scroll="taskScroll"
+		>
+			<!--			fas fa-chevron-down-->
+			<div
+				v-if="ableToScroll"
+				style="position: absolute; top: 48px"
+				:class="{ top180: activeAccordion }"
+			>
+				<i
+					v-if="scrollUp"
+					class="fas fa-sort-up arrowUp scrollArrow"
+					aria-hidden="true"
+					style="top: 5px; left: 150px"
+				></i>
+				<i
+					v-if="scrollDown"
+					class="fas fa-sort-down arrowDown scrollArrow"
+					aria-hidden="true"
+					style="top: 210px; left: 150px"
+				></i>
+			</div>
 			<div v-if="taskHistoryList.length === 0">
 				<div
 					style="
@@ -97,7 +132,12 @@
 </template>
 
 <script>
-import {compareTime, nullValidation2, statusColor, unescapeHtml,} from '../common/common';
+import {
+	compareTime,
+	nullValidation2,
+	statusColor,
+	unescapeHtml,
+} from '../common/common';
 
 export default {
 	props: {
@@ -111,6 +151,9 @@ export default {
 			memoContents: '',
 			taskStatus: '',
 		},
+		ableToScroll: false,
+		scrollUp: false,
+		scrollDown: false,
 	}),
 	computed: {
 		taskHistoryList() {
@@ -119,8 +162,23 @@ export default {
 		statusList() {
 			return this.$store.state.TaskHistoryModule.statusList;
 		},
+		activeAccordion: {
+			get() {
+				return this.$store.state.TaskHistoryModule.activeAccordion;
+			},
+			set(newValue) {
+				this.$store.state.TaskHistoryModule.activeAccordion = newValue;
+			},
+		},
 	},
 	methods: {
+		taskScroll() {
+			let taskArea = document.getElementById('taskArea');
+			taskArea.scrollTop > 0 ? (this.scrollUp = true) : (this.scrollUp = false);
+			taskArea.scrollHeight - taskArea.scrollTop - 1 <= taskArea.clientHeight
+				? (this.scrollDown = false)
+				: (this.scrollDown = true);
+		},
 		htmlParse(html) {
 			return unescapeHtml(html);
 		},
@@ -152,6 +210,7 @@ export default {
 			);
 			if (result) {
 				alert('등록되었습니다.');
+				this.activeAccordion = false;
 				this.formData.taskStatus = '';
 				this.formData.memoContents = '';
 				await this.getHistoryList();
@@ -165,6 +224,7 @@ export default {
 		},
 	},
 	created() {
+		this.activeAccordion = false;
 		this.formData.applId = this.applId;
 		this.getHistoryList();
 		this.filterInit();
@@ -173,12 +233,28 @@ export default {
 </script>
 
 <style>
+.openAccord {
+	max-height: 0 !important;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+}
+.closeAccord {
+	max-height: 120px;
+	overflow: hidden;
+	transition: max-height 0.2s ease-out;
+}
 .memoHtmlBox p {
-  margin-bottom: 0 !important;
-  width: 100% !important;
-  font-size: 11px;
+	margin-bottom: 0 !important;
+	width: 100% !important;
+	font-size: 11px;
 }
 .memoHtmlBox p:first-child {
-  margin-top: 10px;
+	margin-top: 10px;
+}
+.active {
+	color: #17a5ae;
+}
+.top180 {
+	top: 170px !important;
 }
 </style>

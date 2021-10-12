@@ -189,9 +189,6 @@
     font-size: 12px;
     padding: 8px 0;
 }
-.datePickerStyle1 {
-
-}
 .datePickerStyle1 .v-input__slot {
     min-height: 36px !important;
 }
@@ -222,7 +219,7 @@
     right: 0;
     top: 5px;
     width: 60px;
-    line-height: 73px;
+    line-height: 65px;
     background-color: #95A8B8;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
@@ -234,21 +231,371 @@
 .v-select.v-text-field--outlined:not(.v-text-field--single-line) .v-select__selections {
     padding: 0 5px !important;
 }
-
+.tableSticky thead th {
+    width: 120px !important;
+}
 .tableSticky table thead tr:first-child th {
     position: sticky;
-    top: 0;
+    top: -1px;
     z-index: 2;
 }
 
 .tableSticky table thead tr:first-child th:first-child {
     position: sticky;
-    top: 0;
+    top: -1px;
 }
 
 .tableSticky table tbody tr th:first-child {
     position: sticky;
-    left: 0;
+    left: -1px;
     padding: 0 10px;
     z-index: 1;
+}
+.fakeLine5 { position: relative }
+.fakeLine5:before {
+    position: absolute;
+    right: -16px;
+    top: 9px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #bebebe;
+}
+.fakeLine6 { position: relative }
+.fakeLine6:before {
+    position: absolute;
+    right: -11px;
+    top: 4px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #dddddd;
+}
+.fakeLine7 { position: relative }
+.fakeLine7:before {
+    position: absolute;
+    right: -11px;
+    top: 4px;
+    display: block;
+    content: "";
+    width: 1px;
+    height: 10px;
+    background-color: #aeaeae;
+}
+.tableFlagLine1 {
+    height: 1px; width: 100%; background-color: #eeeeee;
+}
+.tableFlagLine2 {
+    height: 1px; width: 100%; background-color: rgba(255,255,255,0.2);
+}
+.cr_input_zone1 {
+    width: 400px;
+    background-color: #fff;
+    border: 2px solid #007EF2;
+    border-radius: 9px;
+}
+.cr_input_zone2 {
+    width: 300px;
+    background-color: #fff;
+    border: 2px solid #007EF2;
+    border-radius: 9px;
+}
+.cr_top_select1 {
+    padding: 15px 0;
+    border-bottom: 2px solid #007EF2;
+}
+.cr_top_select2 {
+    padding: 15px 10px;
+    border-bottom: 2px solid #007EF2;
+}
+.cr_middle_textZone1 {
+    width: 158px;
+    height: 400px;
+    resize: none;
+    box-sizing: border-box;
+    padding: 10px;
+}
+.cr_middle_textZone1:focus {
+    outline: none;
+}
+.cr_bottom_cont1 {
+    border-top: 1px solid #DDE7F5;
+    padding: 15px;
+}
+.cr_middle_table1 {
+    font-size: 11px;
+    width: 100%;
+    border-left: 1px solid #DDE7F5;
+}
+.cr_middle_table1 input {
+    font-size: 12px;
+}
+.cr_middle_table1 tr {
+    border-bottom: 1px solid #DDE7F5;
+}
+.cr_middle_table1 tr:last-child {
+    border-bottom: 0;
+}
+.cr_middle_table1 tr td:nth-child(1) {
+    background-color: #F0F6FF;
+    padding: 2px;
+    color: #0037A1;
+    border-right: 1px solid #DDE7F5;
+    width: 100px!important;
+}
+.cr_middle_table1 tr td:nth-child(2) {
+    padding-left: 6px;
+    max-width: 140px!important;
+}
+.cr_middle_table1 .menuable__content__active {
+    top: 40px!important;
+    left: 331px!important;
+}
+
+.cr_guide_box1 {
+    border-radius: 9px;
+    box-shadow: 2px 1px 9px 1px gray;
+}
+.cr_guide_box1 li {
+    line-height: 32px;
+    padding-left: 12px;
+    border-bottom: 1px solid rgba(255,255,255, 0.2);
+}
+.cr_guide_box1 li:last-child {
+    border-bottom: 0;
+}
+.tagCont1 {
+    padding: 6px 40px;
+    margin-bottom: 4px;
+}
+.tagCont1 input[type="radio"]:checked + label {
+    background-color: #007EF2;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #fff;
+    font-weight: bold;
+}
+.tagArea1 {
+    min-height: 34px;
+    display: flex;
+    flex-flow: wrap
+}
+.tagBtnStyle1 {
+    background-color: #EBF3FF;
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 50px;
+    color: #007EF2;
+    font-weight: bold;
+}
+.tagBtnStyle2 {
+    background-color: #F3F3F3;
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 30px;
+    color: #007EF2;
+    font-size: 12px;
+    font-weight: bold;
+    margin: 0 4px 6px 0;
+}
+.tagBtnStyle2:first-child{
+    margin-left: 6px;
+}
+.tagBtnStyle2 > button {
+    margin-left: 2px;
+    padding: 2px 3px;
+    color: #ff4e26;
+    font-weight: bold;
+    font-size: 10px;
+    transform: translateY(-1px);
+}
+.cr_card_cont1 > div:first-child {
+    margin-left: 0;
+}
+.cr_card_cont1::-webkit-scrollbar {
+    height: 10px;
+    width: 20px;
+}
+.cr_card_cont1::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.cr_card_cont1::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background-color: #c4c4c4;
+}
+.cr_card_cont1::-webkit-scrollbar-button {
+    width: 10px;
+    height: 0;
+}
+.cr_card_cont2 li {
+    border-bottom:  1px solid #DDE7F5;
+    line-height: 31px;
+}
+.cr_card_cont2 li:last-child {
+    border-bottom: 0;
+}
+.cr_card_cont2 li input[type='text'] {
+    width: 100%;
+    padding: 0 10px;
+}
+.cr_card_cont2 li input[type='text']:focus {
+    outline: none;
+}
+.cr_memo1 {
+    border-top: 1px solid #dde7f5;
+    width: 100%;
+    resize: none;
+    height: 168px;
+    outline: none;
+}
+
+.cr_memo2 {
+    border-top: 1px solid #dde7f5;
+    width: 100%;
+    resize: none;
+    height: 80px !important;
+    outline: none;
+}
+
+.cr_memo1::-webkit-scrollbar,
+.cr_memo2::-webkit-scrollbar,
+.cr_memo3::-webkit-scrollbar {
+    height: 10px;
+    width: 10px;
+}
+.cr_memo1::-webkit-scrollbar-track,
+.cr_memo2::-webkit-scrollbar-track,
+.cr_memo3::-webkit-scrollbar-track {
+    background-color: transparent;
+}
+.cr_memo1::-webkit-scrollbar-thumb,
+.cr_memo2::-webkit-scrollbar-thumb,
+.cr_memo3::-webkit-scrollbar-thumb {
+    border-radius: 50px;
+    background-color: #c4c4c4;
+}
+.cr_memo1::-webkit-scrollbar-button,
+.cr_memo2::-webkit-scrollbar-button,
+.cr_memo3::-webkit-scrollbar-button {
+    width: 10px;
+    height: 0;
+}
+.cr_sale_info_form1 {
+    border: 2px solid #007EF2;
+    border-radius: 9px;
+    background-color: #fff;
+    font-size: 12px;
+    padding: 20px 25px;
+}
+.cr_sale_info_form1 .infoTable1 > tr,
+.cr_sale_info_form1 .infoTable1 > tr > td {
+    border: 1px solid #dde7f5;
+    height: 40px;
+}
+.cr_sale_info_form1 .infoTable1 > tr > td {
+    padding: 0 10px;
+}
+.cr_sale_info_form1 .infoTable1 > tr > td:nth-child(odd) {
+    background-color: #EBF3FF;
+    color: #0037A1;
+    width: 120px;
+}
+.cr_sale_info_form1 .infoTable1 > tr > td:nth-child(even) {
+    width: 200px;
+}
+
+.infoTable1 .v-input__slot {
+    min-height: 32px !important;
+    margin-top: 4px;
+}
+.infoTable1 .v-input,
+.infoTable1 .v-input__control,
+.infoTable1 .v-select__selections,
+.infoTable1 .v-input input {
+    height: 32px !important;
+}
+.infoTable1 .v-label {
+    top: 11px !important;
+    font-size: 13px;
+}
+.infoTable1 .v-label--active {
+    top: 17px !important;
+}
+.infoTable1 .v-select__selection {
+    font-size: 13px;
+}
+.infoTable1 .v-select__slot > input div {
+    font-size: 13px !important;
+}
+.cr_sale_info_form2 {
+    border: 2px solid #007EF2;
+    border-radius: 9px;
+    background-color: #fff;
+    font-size: 12px;
+}
+.cr_select_cont1 {
+    padding: 15px 20px;
+    border-bottom: 1px solid #DDE7F5;
+}
+
+.cr_memo3 {
+    width: 100%;
+    height: 150px;
+    resize: none;
+    padding: 10px;
+}
+.cr_memo3:focus {
+    outline: none;
+}
+.cr_btn_cont1 {
+    border-top: 1px solid #dde7f5;
+}
+.change_his_mark1 {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background-image: url('../img/rectangle_1.png');
+    right: 0;
+    top: 0;
+}
+
+.templateUpBtn1 {
+    position: absolute;
+    top: -40px;
+    right: 0;
+    background-color: #007EF2;
+    border-radius: 3px;
+    color: #fff;
+    font-weight: bold;
+    line-height: 30px;
+    padding: 0 15px;
+}
+
+.v_select_cont1 .v-input__slot {
+    min-height: 40px !important;
+}
+.v_select_cont1 .v-input,
+.v_select_cont1 .v-input__control,
+.v_select_cont1 .v-select__selections,
+.v_select_cont1 .v-input input {
+    height: 40px;
+}
+.v_select_cont1 .v-label {
+    top: 11px !important;
+    font-size: 13px;
+}
+.v_select_cont1 .v-label--active {
+    top: 17px !important;
+}
+.v_select_cont1 .v-select__selection {
+    font-size: 13px;
+}
+.v_select_cont1 .v-input__append-inner {
+    margin-top: 8px !important;
+}
+.v_select_cont1 .v-select__slot > input div {
+    font-size: 13px !important;
 }
