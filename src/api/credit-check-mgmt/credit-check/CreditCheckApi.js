@@ -98,6 +98,8 @@ const insertCreditTemplate = async data => {
 	return response;
 };
 
+
+
 // 템플릿 삭제
 const deleteCreditTemplate = async data => {
 	const response = await instance.post(

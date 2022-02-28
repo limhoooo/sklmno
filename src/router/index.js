@@ -459,11 +459,11 @@ router.onError(error => {
 // 라우터 네이게이션 가드
 // // 라우터에 설정해놓은 meta.auth 와 로그인한 정보가 없을시 login page 로 이동
 router.beforeEach((to, from, next) => {
-	if (!to.meta.auth && !store.getters.isLogin) {
-		console.log('인증이 필요합니다');
-		next('/login');
-		return;
-	}
+	// if (!to.meta.auth && !store.getters.isLogin) {
+	// 	console.log('인증이 필요합니다');
+	// 	next('/login');
+	// 	return;
+	// }
 	// 로그인 한 정보가 있을시 /login url 이동하면 logout 기능요청 후 /login 으로 리다이렉트
 	if (to.path === '/login' && store.getters.isLogin) {
 		store.dispatch('LOGOUT', 'Y');

@@ -61,7 +61,7 @@ function lnb(data, st) {
 			],
 		},
 	];
-	if (data === 'CW' || data === 'CWS') {
+	if (true) {
 		let obj = {
 			title: '기기관리',
 			icon: 'fas fa-tablet-alt',
@@ -107,7 +107,7 @@ function lnb(data, st) {
 				},
 			],
 		};
-		if (data === 'CWS') {
+		if (true) {
 			obj.child.push({
 				title: '신청서매칭',
 				href: '/application-matching',
@@ -155,7 +155,7 @@ function lnb(data, st) {
 			],
 		});
 	}
-	if (data === 'CS' || data === 'CWS') {
+	if (true) {
 		menu.push({
 			title: '판매관리',
 			icon: 'fas fa-coins',
