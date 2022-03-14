@@ -12,8 +12,6 @@ const dataCodeName = Object.freeze({
 	chargerPhone: '담당자 연락처',
 	returnZipCode: '우편번호',
 	returnAddr: '기본주소',
-
-
 	returnAddrDetail: '상세주소',
 	username: '계정명',
 	password: '비밀번호',
